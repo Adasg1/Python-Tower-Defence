@@ -1,48 +1,24 @@
 import sys
+from turtledemo.paint import switchupdown
+
 import pygame
-
-class TowerSpot:
-    def __init__(self, x, y , width, height):
-        self.rect = pygame.Rect(x, y, width, height)
-        self.occupied = False
-        self.tower = None
-        self.image = pygame.Surface((width, height))
-
-class Tower(pygame.sprite.Sprite):
-    def __init__(self, x, y):
-        super().__init__()  # Zamiast pygame.sprite.Sprite.__init__(self), używamy super().
-        self.image = pygame.image.load('assets/images/tower_place.png')
-        self.image = pygame.transform.scale(self.image, (130, 60))
-        self.rect = self.image.get_rect()
-        self.rect.topleft = (x, y)
-    def place_tower(self, x, y):
-        self.image = pygame.image.load('assets/images/towers/tower1.png').convert_alpha()
-        self.image = pygame.transform.scale(self.image, (100,  100))
-        self.rect = self.image.get_rect()
-        self.rect.topleft = (x, y)
-
-
-towers = pygame.sprite.Group()
-
-tower_spots = [  TowerSpot(44, 108, 100, 50),
-    TowerSpot(450, 160, 100, 50),
-    TowerSpot(712, 140, 100, 50),
-    TowerSpot(942, 160, 100, 50),
-    TowerSpot(157, 440, 100, 50),
-    TowerSpot(607, 368, 100, 50),
-    TowerSpot(915, 370, 100, 50),
-    TowerSpot(262, 640, 100, 50),
-    TowerSpot(490, 635, 100, 50),
-    TowerSpot(800, 575, 100, 50)]
+import Mechanic.TowerSpot as ts
+from Sprites.TowerSprite import TowerSprite
+import Mechanic.GameStats as stats
+from Enum.TowerType import TowerType
 
 pygame.init()
+game_stats = stats.GameStats()
+towers = pygame.sprite.Group()
 screen = pygame.display.set_mode((1280, 720))
 pygame.display.set_caption("Last Bastion - Tower Defence")
 clock = pygame.time.Clock()
 background = pygame.image.load('assets/images/game_background.png').convert_alpha()
 background = pygame.transform.scale(background, (1280, 720))
-for spot in tower_spots:
-    spot.tower = Tower(spot.rect.x, spot.rect.y)
+game_stats.draw(screen)
+
+for spot in ts.tower_spots:
+    spot.tower = TowerSprite(spot.rect.x, spot.rect.y)
     towers.add(spot.tower)
 
 while True:
@@ -52,14 +28,67 @@ while True:
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
-                    mause_pos = pygame.mouse.get_pos()
-                    for spot in tower_spots:
-                        if spot.rect.collidepoint(mause_pos) and not spot.occupied:
-                            spot.occupied = True
-                            spot.tower.place_tower(spot.rect.x+20, spot.rect.y-40)
+                    mouse_pos = pygame.mouse.get_pos()
+                    for spot in ts.tower_spots:
+                        if not spot.occupied:
+                            if spot.rect.collidepoint(mouse_pos) and not spot.tower.showed_options:
+                                spot.tower.show_options()
+                            elif spot.tower.showed_options:
+                                options_rect = pygame.Rect(
+                                    spot.tower.rect.x,
+                                    spot.tower.rect.y,
+                                    200,
+                                    200
+                                )
+
+                                if options_rect.collidepoint(mouse_pos):
+                                    rel_x = mouse_pos[0] - options_rect.x
+                                    rel_y = mouse_pos[1] - options_rect.y
+
+
+                                    if 70 < rel_x < 120 and 10 < rel_y < 60:
+                                        print("Option 1 selected")
+                                        spot.tower.hide_options()
+                                        spot.tower.place_tower(spot.rect.x+17, spot.rect.y-32, TowerType.ARCHER)
+                                        towers.add(spot.tower)
+                                        spot.occupied = True
+
+                                    elif 8 < rel_x < 58 and 60 < rel_y < 110:
+                                        print("Option 2 selected")
+                                        spot.tower.hide_options()
+                                        spot.tower.place_tower(spot.rect.x+17, spot.rect.y-32, TowerType.ICE)
+                                        towers.add(spot.tower)
+                                        spot.occupied = True
+
+                                    elif 135 < rel_x < 185 and 60 < rel_y < 110:
+                                        print("Option 3 selected")
+                                        spot.tower.hide_options()
+                                        spot.tower.place_tower(spot.rect.x+17, spot.rect.y-32, TowerType.BOMBER)
+                                        towers.add(spot.tower)
+                                        spot.occupied = True
+
+                                    elif 32 < rel_x < 82 and 128 < rel_y < 178:
+                                        print("Option 4 selected")
+                                        spot.tower.hide_options()
+                                        spot.tower.place_tower(spot.rect.x+17, spot.rect.y-32, TowerType.BANK)
+                                        towers.add(spot.tower)
+                                        spot.occupied = True
+
+                                    elif 110 < rel_x < 160 and 128 < rel_y < 178:
+                                        print("Option 5 selected")
+                                        spot.tower.hide_options()
+                                        spot.tower.place_tower(spot.rect.x+17, spot.rect.y-32, TowerType.EXECUTOR)
+                                        towers.add(spot.tower)
+                                        spot.occupied = True
+
+                                else:
+                                    spot.tower.hide_options()
+
+
 
 
     screen.blit(background, (0, 0))
+    game_stats.draw(screen)
     towers.draw(screen)
 
     pygame.display.update()
