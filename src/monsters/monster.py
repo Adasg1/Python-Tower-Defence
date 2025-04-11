@@ -15,10 +15,10 @@ class Monster(pygame.sprite.Sprite):
         self.direction = pygame.Vector2(1, 0)
         self.facing_right = True
 
-    def load_frames(self, frame_count, size):
+    def load_frames(self, type, frame_count, size):
         self.frames = []
         for i in range(frame_count):
-            path = f'assets/images/monsters/{self.monster_type}/walk_{i:03d}.png'
+            path = f'assets/images/monsters/{self.monster_type}/{type}_{i:03d}.png'
             frame = pygame.image.load(path).convert_alpha()
             frame = pygame.transform.scale(frame, (size, size))
             self.frames.append(frame)
