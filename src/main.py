@@ -2,9 +2,9 @@ import sys
 from turtledemo.paint import switchupdown
 
 import pygame
-import Mechanic.TowerSpot as ts
+import Mechanics.TowerSpot as ts
 from Sprites.TowerSprite import TowerSprite
-import Mechanic.GameStats as stats
+import Mechanics.GameStats as stats
 from Enum.TowerType import TowerType
 from src.monsters.basic import BasicMonster
 from src.monsters.tank import TankMonster
@@ -65,37 +65,32 @@ while True:
 
 
                                     if 70 < rel_x < 120 and 10 < rel_y < 60:
-                                        print("Option 1 selected")
                                         spot.tower.hide_options()
-                                        spot.tower.place_tower(spot.rect.x+17, spot.rect.y-32, TowerType.ARCHER)
+                                        spot.tower.place_tower(spot.rect.x+67, spot.rect.y+18, TowerType.ARCHER)
                                         towers.add(spot.tower)
                                         spot.occupied = True
 
                                     elif 8 < rel_x < 58 and 60 < rel_y < 110:
-                                        print("Option 2 selected")
                                         spot.tower.hide_options()
-                                        spot.tower.place_tower(spot.rect.x+17, spot.rect.y-32, TowerType.ICE)
+                                        spot.tower.place_tower(spot.rect.x+67, spot.rect.y+18, TowerType.ICE)
                                         towers.add(spot.tower)
                                         spot.occupied = True
 
                                     elif 135 < rel_x < 185 and 60 < rel_y < 110:
-                                        print("Option 3 selected")
                                         spot.tower.hide_options()
-                                        spot.tower.place_tower(spot.rect.x+17, spot.rect.y-32, TowerType.BOMBER)
+                                        spot.tower.place_tower(spot.rect.x+67, spot.rect.y+18, TowerType.BOMBER)
                                         towers.add(spot.tower)
                                         spot.occupied = True
 
                                     elif 32 < rel_x < 82 and 128 < rel_y < 178:
-                                        print("Option 4 selected")
                                         spot.tower.hide_options()
-                                        spot.tower.place_tower(spot.rect.x+17, spot.rect.y-32, TowerType.BANK)
+                                        spot.tower.place_tower(spot.rect.x+75, spot.rect.y, TowerType.BANK)
                                         towers.add(spot.tower)
                                         spot.occupied = True
 
                                     elif 110 < rel_x < 160 and 128 < rel_y < 178:
-                                        print("Option 5 selected")
                                         spot.tower.hide_options()
-                                        spot.tower.place_tower(spot.rect.x+17, spot.rect.y-32, TowerType.EXECUTOR)
+                                        spot.tower.place_tower(spot.rect.x+67, spot.rect.y+18, TowerType.EXECUTOR)
                                         towers.add(spot.tower)
                                         spot.occupied = True
 
@@ -115,10 +110,11 @@ while True:
         monsters.add(monster)
         index = (index + 1) % len(monster_classes)
 
+    towers.update()
     monsters.update()
     game_stats.draw(screen)
-    towers.draw(screen)
     monsters.draw(screen)
+    towers.draw(screen)
     pygame.display.update()
     clock.tick(60)
 
