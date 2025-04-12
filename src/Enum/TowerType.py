@@ -8,3 +8,4 @@ class TowerType(Enum):
     BANK = auto()
 
 
+    def __str__(self): return f"{self.name}".lower()
