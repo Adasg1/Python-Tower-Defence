@@ -1,9 +1,14 @@
 import sys
-from turtledemo.paint import switchupdown
 
 import pygame
 import Mechanics.TowerSpot as ts
-from Sprites.TowerSprite import TowerSprite
+from src.Towers.Archer import Archer
+from src.Towers.Ice import Ice
+from src.Towers.Stone import Stone
+from src.Towers.Bank import Bank
+from src.Towers.Executor import Executor
+
+from src.Towers.TowerSprite import TowerSprite
 import Mechanics.GameStats as stats
 from Enum.TowerType import TowerType
 from src.monsters.basic import BasicMonster
@@ -12,10 +17,67 @@ from src.monsters.flying import FlyingMonster
 from src.monsters.healer import HealerMonster
 from src.monsters.quick import QuickMonster
 
-pygame.init()
+def place_tower(rel_x, rel_y):
 
+    if 70 < rel_x < 120 and 10 < rel_y < 60:
+        spot.tower.hide_options()
+        towers.remove(spot.tower)
+        spot.tower = Archer(spot.rect.x, spot.rect.y)
+        spot.tower.place_tower(spot.rect.x, spot.rect.y)
+        towers.add(spot.tower)
+        spot.occupied = True
+
+    elif 8 < rel_x < 58 and 60 < rel_y < 110:
+        spot.tower.hide_options()
+        towers.remove(spot.tower)
+        spot.tower = Ice(spot.rect.x, spot.rect.y)
+        spot.tower.place_tower(spot.rect.x, spot.rect.y)
+        towers.add(spot.tower)
+        spot.occupied = True
+
+    elif 135 < rel_x < 185 and 60 < rel_y < 110:
+        spot.tower.hide_options()
+        towers.remove(spot.tower)
+        spot.tower = Stone(spot.rect.x, spot.rect.y)
+        spot.tower.place_tower(spot.rect.x, spot.rect.y)
+        towers.add(spot.tower)
+        spot.occupied = True
+
+    elif 32 < rel_x < 82 and 128 < rel_y < 178:
+        spot.tower.hide_options()
+        towers.remove(spot.tower)
+        spot.tower = Bank(spot.rect.x, spot.rect.y)
+        spot.tower.place_tower(spot.rect.x, spot.rect.y)
+        towers.add(spot.tower)
+        spot.occupied = True
+
+    elif 110 < rel_x < 160 and 128 < rel_y < 178:
+        spot.tower.hide_options()
+        towers.remove(spot.tower)
+        spot.tower = Executor(spot.rect.x, spot.rect.y)
+        spot.tower.place_tower(spot.rect.x, spot.rect.y)
+        towers.add(spot.tower)
+        spot.occupied = True
+
+def upgrade_sell_tower(spot, rel_x, rel_y):
+    if 70 < rel_x < 120 and 10 < rel_y < 60:
+        spot.tower.hide_options()
+        print("Ulepszono :D")
+        spot.tower.upgrade()
+
+    if 70 < rel_x < 120 and 140 < rel_y < 190:
+        spot.tower.hide_options()
+        print("Sprzedano :C")
+        game_stats.earn(spot.tower.cost // 2)
+        spot.tower.sell()
+        spot.tower = TowerSprite(spot.rect.x, spot.rect.y, None)
+        towers.add(spot.tower)
+        spot.occupied = False
+
+
+pygame.init()
 screen = pygame.display.set_mode((1280, 720))
-pygame.display.set_caption("Last Bastion - Tower Defence")
+pygame.display.set_caption("Last Bastion - TowerStats Defence")
 clock = pygame.time.Clock()
 background = pygame.image.load('assets/images/game_background.png').convert_alpha()
 background = pygame.transform.scale(background, (1280, 720))
@@ -25,7 +87,7 @@ towers = pygame.sprite.Group()
 game_stats.draw(screen)
 
 for spot in ts.tower_spots:
-    spot.tower = TowerSprite(spot.rect.x, spot.rect.y)
+    spot.tower = TowerSprite(spot.rect.x, spot.rect.y, None)
     towers.add(spot.tower)
 
 path = [(0, 255), (190, 255), (265, 310), (566, 310), (600, 292), (630, 280), (675, 200), (675, 150), (705, 114), (725, 95), (767, 83),
@@ -53,8 +115,8 @@ while True:
                                 spot.tower.show_options()
                             elif spot.tower.showed_options:
                                 options_rect = pygame.Rect(
-                                    spot.tower.rect.x,
-                                    spot.tower.rect.y,
+                                    spot.tower.rect.x-30,
+                                    spot.tower.rect.y-60,
                                     200,
                                     200
                                 )
@@ -62,38 +124,26 @@ while True:
                                 if options_rect.collidepoint(mouse_pos):
                                     rel_x = mouse_pos[0] - options_rect.x
                                     rel_y = mouse_pos[1] - options_rect.y
+                                    place_tower(rel_x, rel_y)
+                                else:
+                                    spot.tower.hide_options()
+                        else:
+                            if spot.rect.collidepoint(mouse_pos) and not spot.tower.showed_options:
+                                spot.tower.show_options()
+                            elif spot.tower.showed_options:
+                                options_rect = pygame.Rect(
+                                    0,
+                                    0,
+                                    200,
+                                    200
+                                )
+                                options_rect.midbottom = spot.tower.rect.midbottom
+                                options_rect.y += 50
 
-
-                                    if 70 < rel_x < 120 and 10 < rel_y < 60:
-                                        spot.tower.hide_options()
-                                        spot.tower.place_tower(spot.rect.x+67, spot.rect.y+18, TowerType.ARCHER)
-                                        towers.add(spot.tower)
-                                        spot.occupied = True
-
-                                    elif 8 < rel_x < 58 and 60 < rel_y < 110:
-                                        spot.tower.hide_options()
-                                        spot.tower.place_tower(spot.rect.x+67, spot.rect.y+18, TowerType.ICE)
-                                        towers.add(spot.tower)
-                                        spot.occupied = True
-
-                                    elif 135 < rel_x < 185 and 60 < rel_y < 110:
-                                        spot.tower.hide_options()
-                                        spot.tower.place_tower(spot.rect.x+67, spot.rect.y+18, TowerType.BOMBER)
-                                        towers.add(spot.tower)
-                                        spot.occupied = True
-
-                                    elif 32 < rel_x < 82 and 128 < rel_y < 178:
-                                        spot.tower.hide_options()
-                                        spot.tower.place_tower(spot.rect.x+75, spot.rect.y, TowerType.BANK)
-                                        towers.add(spot.tower)
-                                        spot.occupied = True
-
-                                    elif 110 < rel_x < 160 and 128 < rel_y < 178:
-                                        spot.tower.hide_options()
-                                        spot.tower.place_tower(spot.rect.x+67, spot.rect.y+18, TowerType.EXECUTOR)
-                                        towers.add(spot.tower)
-                                        spot.occupied = True
-
+                                if options_rect.collidepoint(mouse_pos):
+                                    rel_x = mouse_pos[0] - options_rect.x
+                                    rel_y = mouse_pos[1] - options_rect.y
+                                    upgrade_sell_tower(spot, rel_x, rel_y)
                                 else:
                                     spot.tower.hide_options()
 
@@ -110,11 +160,11 @@ while True:
         monsters.add(monster)
         index = (index + 1) % len(monster_classes)
 
-    towers.update()
     monsters.update()
     game_stats.draw(screen)
     monsters.draw(screen)
     towers.draw(screen)
+    towers.update(screen)
     pygame.display.update()
     clock.tick(60)
 
