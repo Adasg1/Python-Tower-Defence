@@ -11,11 +11,13 @@ from src.Towers.Executor import Executor
 from src.Towers.TowerSprite import TowerSprite
 import Mechanics.GameStats as stats
 from Enum.TowerType import TowerType
-from src.monsters.basic import BasicMonster
-from src.monsters.tank import TankMonster
-from src.monsters.flying import FlyingMonster
-from src.monsters.healer import HealerMonster
-from src.monsters.quick import QuickMonster
+from src.Monsters.basic import BasicMonster
+from src.Monsters.tank import TankMonster
+from src.Monsters.flying import FlyingMonster
+from src.Monsters.healer import HealerMonster
+from src.Monsters.quick import QuickMonster
+from src.assets.AssetManager import AssetManager
+
 
 def place_tower(rel_x, rel_y):
 
@@ -82,6 +84,7 @@ clock = pygame.time.Clock()
 background = pygame.image.load('assets/images/game_background.png').convert_alpha()
 background = pygame.transform.scale(background, (1280, 720))
 
+AssetManager.load_assets()
 game_stats = stats.GameStats()
 towers = pygame.sprite.Group()
 game_stats.draw(screen)
@@ -90,10 +93,7 @@ for spot in ts.tower_spots:
     spot.tower = TowerSprite(spot.rect.x, spot.rect.y, None)
     towers.add(spot.tower)
 
-path = [(0, 255), (190, 255), (265, 310), (566, 310), (600, 292), (630, 280), (675, 200), (675, 150), (705, 114), (725, 95), (767, 83),
-        (817, 90), (888, 136), (900, 249), (927, 281), (964, 303), (1020, 310), (1058, 322), (1083, 347), (1103, 372), (1113, 400),
-        (1106, 451), (1094, 485), (1062, 518), (1014, 534), (806, 534), (757, 577), (705, 590), (200, 590), (154, 575), (125, 545),
-        (100, 510), (92, 447), (61, 397), (31, 377), (0, 370)]
+path = AssetManager.get_csv("map/path")
 
 monster_classes = [BasicMonster, TankMonster, FlyingMonster, HealerMonster, QuickMonster]
 monsters = pygame.sprite.Group()
