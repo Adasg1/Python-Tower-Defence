@@ -38,9 +38,9 @@ class TowerSprite(pygame.sprite.Sprite):
 
     def update(self, screen):
             if self.counter != 0:
-                if self.showed_options and self.counter <= 5:
+                if self.showed_options and self.counter <= 7:
                     self.counter += 0.5
-                elif not self.showed_options and self.counter <= 5:
+                elif not self.showed_options and self.counter <= 7:
                     self.counter -= 0.5
                 if self.counter <= 0:
                     self.counter = 0
