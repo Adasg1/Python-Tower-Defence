@@ -5,8 +5,8 @@ from src.Towers.TowerStats import TowerStats
 from src.Enum.TowerType import TowerType as tt
 
 class Tower(TowerSprite, TowerStats):
-    def __init__(self, x, y, tower_type, cost):
-        TowerStats.__init__(self, 10, 100, 2, cost)
+    def __init__(self, x, y, tower_type, damage, range, firerate, cost):
+        TowerStats.__init__(self, damage, range, firerate, cost)
         TowerSprite.__init__(self, x, y, tower_type)
 
     def upgrade(self):
@@ -15,9 +15,9 @@ class Tower(TowerSprite, TowerStats):
 
     def update(self, screen):
         if self.counter != 0:
-            if self.showed_options and self.counter <= 5:
+            if self.showed_options and self.counter <= 7:
                 self.counter += 0.5
-            elif not self.showed_options and self.counter <= 5:
+            elif not self.showed_options and self.counter <= 7:
                 self.counter -= 0.5
             if self.counter <= 0:
                 self.counter = 0
