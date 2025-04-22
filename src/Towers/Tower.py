@@ -8,10 +8,19 @@ class Tower(TowerSprite, TowerStats):
     def __init__(self, x, y, tower_type, damage, range, firerate, cost):
         TowerStats.__init__(self, damage, range, firerate, cost)
         TowerSprite.__init__(self, x, y, tower_type)
+        self.cooldown = 0
 
     def upgrade(self):
         super().upgrade_stats()
         super().upgrade_image(self.level)
+
+    def in_range(self, x, y):
+        pass
+        #sprawdzanie czy jest w zasiegu
+
+    def use(self):
+        pass
+        #uzywanie wiezyczek
 
     def update(self, screen):
         if self.counter != 0:
@@ -26,6 +35,7 @@ class Tower(TowerSprite, TowerStats):
                 options_image = pygame.image.load(f'assets/images/towers_options/upgrade_sell.png')
                 options_image = pygame.transform.smoothscale(options_image, (200, 200))
                 self.draw_tower_options(options_image, screen)
+        self.use()
 
     def sell(self):
         self.kill()

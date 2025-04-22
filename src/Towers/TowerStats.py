@@ -9,3 +9,4 @@ class TowerStats:
 
     def upgrade_stats(self):
         self.level += 1
+        #Logika ulepszania wiez, byc moze musi byc w konkretnych typach wiez
