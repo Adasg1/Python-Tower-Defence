@@ -11,11 +11,11 @@ from src.Towers.Executor import Executor
 from src.Towers.TowerSprite import TowerSprite
 import Mechanics.GameStats as stats
 from Enum.TowerType import TowerType
-from src.Monsters.basic import BasicMonster
-from src.Monsters.tank import TankMonster
-from src.Monsters.flying import FlyingMonster
-from src.Monsters.healer import HealerMonster
-from src.Monsters.quick import QuickMonster
+from src.Monsters.Basic import BasicMonster
+from src.Monsters.Tank import TankMonster
+from src.Monsters.Flying import FlyingMonster
+from src.Monsters.Healer import HealerMonster
+from src.Monsters.Quick import QuickMonster
 from src.assets.AssetManager import AssetManager
 
 
@@ -99,7 +99,7 @@ monster_classes = [BasicMonster, TankMonster, FlyingMonster, HealerMonster, Quic
 monsters = pygame.sprite.Group()
 index = 0
 spawn_timer = 0
-spawn_interval = 120
+spawn_interval = 30
 
 while True:
     for event in pygame.event.get():
@@ -157,7 +157,7 @@ while True:
         spawn_timer = 0
         Monsterclass = monster_classes[index]
         monster = Monsterclass(path)
-        monsters.add(monster)
+        monsters.add(monster.sprite)
         index = (index + 1) % len(monster_classes)
 
     monsters.update()
