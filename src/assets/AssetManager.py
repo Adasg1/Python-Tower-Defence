@@ -20,6 +20,8 @@ class AssetManager:
             "images/monsters/healer": (64, 64),
             "images/monsters/quick": (50, 50),
             "images/monsters/tank": (110, 110),
+            "images/tower_options": (200, 200),
+            "images/towers/elems": (24, 40),
         }
 
         for root, dirs, files in os.walk(base_folder):
@@ -39,6 +41,12 @@ class AssetManager:
                     image = pygame.image.load(full_path).convert_alpha()
                     if scale:
                         image = pygame.transform.smoothscale(image, scale)
+                    else:
+                        scale = image.get_size()
+                        m = 2/3
+                        image = pygame.transform.smoothscale(image, (scale[0]*m, scale[1]*m))
+
+
 
                     cls._images[key] = image
                     print(f"Załadowano obraz: {key}")

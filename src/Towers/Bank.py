@@ -3,7 +3,7 @@ from src.Enum.TowerType import TowerType
 
 class Bank(Tower):
     def __init__(self, x, y):
-        super().__init__(x, y, TowerType.BANK,None, None, None, 200)
+        super().__init__(x, y, TowerType.BANK,None, None, 2, 200)
         self.cooldown = 0
         self.earnings = 10
 
