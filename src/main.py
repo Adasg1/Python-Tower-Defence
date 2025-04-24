@@ -1,7 +1,7 @@
 import sys
 
 import pygame
-import Mechanics.TowerSpot as ts
+from Mechanics.TowerSpot import TowerSpot
 from src.Towers.Archer import Archer
 from src.Towers.Ice import Ice
 from src.Towers.Stone import Stone
@@ -89,9 +89,15 @@ game_stats = stats.GameStats()
 towers = pygame.sprite.Group()
 game_stats.draw(screen)
 
-for spot in ts.tower_spots:
-    spot.tower = TowerSprite(spot.rect.x, spot.rect.y, None)
-    towers.add(spot.tower)
+spot_coords = AssetManager.get_csv("map/tower_spots")
+tower_spots = []
+
+for coords in spot_coords:
+    tower_spots.append(TowerSpot(coords[0], coords[1]))
+    tower_spots[-1].tower = TowerSprite(coords[0], coords[1], None)
+    towers.add(tower_spots[-1].tower)
+
+print(tower_spots)
 
 path = AssetManager.get_csv("map/path")
 
@@ -109,7 +115,7 @@ while True:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     mouse_pos = pygame.mouse.get_pos()
-                    for spot in ts.tower_spots:
+                    for spot in tower_spots:
                         if not spot.occupied:
                             if spot.rect.collidepoint(mouse_pos) and not spot.tower.showed_options:
                                 spot.tower.show_options()

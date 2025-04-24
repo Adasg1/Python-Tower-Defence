@@ -3,6 +3,8 @@ import pygame
 from src.Towers.TowerSprite import TowerSprite
 from src.Towers.TowerStats import TowerStats
 from src.Enum.TowerType import TowerType as tt
+from src.assets.AssetManager import AssetManager
+
 
 class Tower(TowerSprite, TowerStats):
     def __init__(self, x, y, tower_type, damage, range, firerate, cost):
@@ -32,8 +34,7 @@ class Tower(TowerSprite, TowerStats):
                 self.counter = 0
             else:
                 print(f"{self.counter}")
-                options_image = pygame.image.load(f'assets/images/towers_options/upgrade_sell.png')
-                options_image = pygame.transform.smoothscale(options_image, (200, 200))
+                options_image = AssetManager.get_image("images/tower_options/upgrade_sell")
                 self.draw_tower_options(options_image, screen)
         self.use()
 
