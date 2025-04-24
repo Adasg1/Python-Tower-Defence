@@ -4,6 +4,5 @@ from src.Monsters.MonsterSprite import MonsterSprite
 
 class QuickMonster(Monster):
     def __init__(self, path_points):
-        super().__init__(path_points, monster_type = MonsterType.QUICK, health = 10, speed = 6.8)
-        self.sprite.animation_delay = 2
-        self.speed = 6.8
+        super().__init__(path_points, monster_type = MonsterType.QUICK, health = 100, speed = 1.6)
+

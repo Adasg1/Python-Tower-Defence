@@ -18,7 +18,9 @@ class MonsterSprite(pygame.sprite.Sprite):
         self.facing_right = True
         self.image = None
         self.rect = None
-        self.animation_delay = 5
+        self.bar_width = 50
+        self.bar_height = 5
+        self.animation_delay = 4
         self.load_animation("walk", self.walkframe_count)
         self.load_animation("die", self.dieframe_count)
         self.set_animation("walk")
@@ -36,6 +38,12 @@ class MonsterSprite(pygame.sprite.Sprite):
 
     def handle_animation(self):
         if self.time_since_last_animation >= self.animation_delay:
+            if self.monster.is_dead and self.current_frame == len(self.animation_keys[self.current_animation]) - 1:
+                if self.time_since_last_animation<self.animation_delay*15:
+                    self.time_since_last_animation+=1
+                    return
+                else:
+                    self.kill()
             self.current_frame = (self.current_frame + 1) % len(self.animation_keys[self.current_animation])
             key = self.animation_keys[self.current_animation][self.current_frame]
             self.image = AssetManager.get_image(key)
@@ -53,7 +61,17 @@ class MonsterSprite(pygame.sprite.Sprite):
             new_keys.append(new_key)
         self.animation_keys[self.current_animation] = new_keys
 
-    def update(self):
+    def draw_health_bar(self, surface):
+        if self.monster.health > 0:
+            x = self.rect.centerx - self.bar_width / 2 - 10
+            y = self.rect.top - self.bar_height - 5
+
+            health_ratio = self.monster.health / self.monster.max_health
+            pygame.draw.rect(surface, (255, 0, 0), (x, y, self.bar_width, self.bar_height))
+
+            pygame.draw.rect(surface, (0, 255, 0), (x, y, int(self.bar_width * health_ratio), self.bar_height))
+
+    def update(self, surface):
         self.handle_animation()
         self.rect.midbottom = self.monster.pos
         self.monster.update()
@@ -63,6 +81,9 @@ class MonsterSprite(pygame.sprite.Sprite):
         elif self.monster.direction.x > 0 and not self.facing_right:
             self.flip_frames()
 
+        self.draw_health_bar(surface)
+
     def die(self):
         self.set_animation("die")
+        self.monster.is_dead = True
         self.rect.midbottom = self.monster.pos

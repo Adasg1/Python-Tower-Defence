@@ -99,7 +99,7 @@ monster_classes = [BasicMonster, TankMonster, FlyingMonster, HealerMonster, Quic
 monsters = pygame.sprite.Group()
 index = 0
 spawn_timer = 0
-spawn_interval = 30
+spawn_interval = 100
 
 while True:
     for event in pygame.event.get():
@@ -160,11 +160,11 @@ while True:
         monsters.add(monster.sprite)
         index = (index + 1) % len(monster_classes)
 
-    monsters.update()
     game_stats.draw(screen)
-    monsters.draw(screen)
     towers.draw(screen)
     towers.update(screen)
+    monsters.draw(screen)
+    monsters.update(screen)
     pygame.display.update()
     clock.tick(60)
 

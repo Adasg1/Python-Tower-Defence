@@ -14,6 +14,8 @@ class Monster(MonsterSprite, MonsterStats):
         self.current_point = 0
         self.pos = pygame.Vector2(self.path[0])
         self.direction = pygame.Vector2(1, 0)
+        self.is_dead = False
+        self.max_health = health
 
     def move(self):
         if self.current_point + 1 < len(self.path):
@@ -25,14 +27,17 @@ class Monster(MonsterSprite, MonsterStats):
                 self.current_point += 1
 
     def update(self):
-        if self.health >= 0:
+        if self.health > 0:
             self.get_damage(1)
             self.move()
-        if self.health == 0:
+        if self.health <= 0 and not self.is_dead:
             self.sprite.die()
         if self.current_point == len(self.path) - 1:
-            self.sprite.kill()
+            self.sprite.kill() # tu bedzie bicie żyć graczowi
             return
 
     def get_damage(self, damage):
         self.health -= damage
+
+    def heal(self, amount):
+        self.health += amount
