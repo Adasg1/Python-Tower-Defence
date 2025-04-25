@@ -4,13 +4,14 @@ from src.Projectiles.ArcherSprite import ArcherSprite
 from src.Projectiles.Projectile import Projectile
 from src.Towers.Tower import Tower
 from src.Enum.TowerType import TowerType
+from src.assets.AssetManager import AssetManager
 
 class Archer(Tower):
     def __init__(self, x, y):
         super().__init__(x, y, TowerType.ARCHER, 10, 100, 1,100)
         self.archer = pygame.sprite.GroupSingle(ArcherSprite(self.rect.midtop[0]-3, self.rect.midtop[1]-14))
         self.arrows = pygame.sprite.Group()
-        self.arrow_image = pygame.image.load("assets/images/projectiles/arrow.png")
+        self.arrow_image = AssetManager.get_image("images/projectiles/arrow")
 
 
     def use(self):
@@ -28,11 +29,11 @@ class Archer(Tower):
 
 
     def update(self, screen):
-        super().update(screen)
         self.arrows.draw(screen)
         self.arrows.update()
         self.archer.draw(screen)
         self.archer.update()
+        super().update(screen)
 
 
 

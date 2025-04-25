@@ -1,12 +1,13 @@
 import pygame
 from math import floor
 from src.Enum.TowerType import TowerType
+from src.assets.AssetManager import AssetManager
+
 
 class TowerSprite(pygame.sprite.Sprite):
     def __init__(self, x, y, tower_type):
         super().__init__()
-        self.image = pygame.image.load('assets/images/tower_place.png')
-        self.image = pygame.transform.scale(self.image, (130, 60))
+        self.image = AssetManager.get_image("images/tower_place")
         self.showed_options = False
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
@@ -24,16 +25,13 @@ class TowerSprite(pygame.sprite.Sprite):
     def place_tower(self, x, y):
         self.counter = 0
         self.hide_options()
-        self.image = pygame.image.load(f'assets/images/towers/{self.type}_lvl1.png').convert_alpha()
-        self.image = pygame.transform.smoothscale(self.image, (100, 100))
+        self.image = AssetManager.get_image(f'images/towers/{self.type}_lvl1')
         self.rect = self.image.get_rect()
         self.rect.midbottom = (x + 67, y + 68)
 
     def upgrade_image(self, level):
         if level == 3 or level == 5:
-            self.image = pygame.image.load(f'assets/images/towers/{self.type}_lvl{level}.png').convert_alpha()
-            width, height = self.image.get_size()
-            self.image = pygame.transform.smoothscale(self.image, (100, height * (100/width)))
+            self.image = AssetManager.get_image(f'images/towers/{self.type}_lvl{level}')
             self.rect = self.image.get_rect(midbottom=self.rect.midbottom)
 
     def update(self, screen):
@@ -45,8 +43,7 @@ class TowerSprite(pygame.sprite.Sprite):
                 if self.counter <= 0:
                     self.counter = 0
                 else:
-                    options_image = pygame.image.load(f'assets/images/towers_options/tower_options00{floor(self.counter)}.png')
-                    options_image = pygame.transform.smoothscale(options_image, (200, 200))
+                    options_image = AssetManager.get_image(f"images/tower_options/tower_options00{floor(self.counter)}")
                     self.draw_options(options_image, screen)
 
 
