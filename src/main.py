@@ -1,6 +1,10 @@
 import sys
 
 import pygame
+
+from src.Monsters.GolemBoss import GolemBoss
+from src.Monsters.KnightBoss import KnightBoss
+from src.Monsters.TreeBoss import TreeBoss
 from Mechanics.TowerSpot import TowerSpot
 from src.Towers.Archer import Archer
 from src.Towers.Ice import Ice
@@ -11,11 +15,11 @@ from src.Towers.Executor import Executor
 from src.Towers.TowerSprite import TowerSprite
 import Mechanics.GameStats as stats
 from Enum.TowerType import TowerType
-from src.Monsters.basic import BasicMonster
-from src.Monsters.tank import TankMonster
-from src.Monsters.flying import FlyingMonster
-from src.Monsters.healer import HealerMonster
-from src.Monsters.quick import QuickMonster
+from src.Monsters.Basic import BasicMonster
+from src.Monsters.Tank import TankMonster
+from src.Monsters.Flying import FlyingMonster
+from src.Monsters.Healer import HealerMonster
+from src.Monsters.Quick import QuickMonster
 from src.assets.AssetManager import AssetManager
 
 
@@ -101,11 +105,12 @@ print(tower_spots)
 
 path = AssetManager.get_csv("map/path")
 
-monster_classes = [BasicMonster, TankMonster, FlyingMonster, HealerMonster, QuickMonster]
+monster_classes = [KnightBoss, GolemBoss, TreeBoss, BasicMonster, TankMonster, FlyingMonster, HealerMonster, QuickMonster]
+#monster_classes = [KnightBoss, GolemBoss, TreeBoss]
 monsters = pygame.sprite.Group()
 index = 0
 spawn_timer = 0
-spawn_interval = 120
+spawn_interval = 60
 
 while True:
     for event in pygame.event.get():
@@ -166,11 +171,23 @@ while True:
         monsters.add(monster)
         index = (index + 1) % len(monster_classes)
 
-    monsters.update()
     game_stats.draw(screen)
-    monsters.draw(screen)
     towers.draw(screen)
     towers.update(screen)
+    for monster in monsters:
+        monster.get_damage(0.7)
+        if not monster.is_dead:
+            if monster.monster_type.monster_name == "healer":
+                monster.healing(monsters)
+            if monster.monster_type.monster_name == "treeboss":
+                monster.spawn_monsters(monsters)
+            if monster.monster_type.monster_name == "knightboss":
+                monster.set_invulnerable()
+    monsters.update(screen)
+    monsters.draw(screen)
+    for monster in monsters:
+        monster.draw_health_bar(screen)
+
     pygame.display.update()
     clock.tick(60)
 
