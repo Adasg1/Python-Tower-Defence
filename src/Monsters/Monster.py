@@ -20,6 +20,7 @@ class Monster(MonsterSprite, MonsterStats):
         self.path_total_length = 0
         self.compute_path_data()
         self.target = pygame.Vector2(self.path[self.current_point+1])
+        self.is_invulnerable = False
 
     def compute_path_data(self):
         for i in range(len(self.path) - 1):
@@ -37,11 +38,11 @@ class Monster(MonsterSprite, MonsterStats):
 
             if self.pos.distance_to(self.target) < self.speed:
                 self.current_point += 1
-                self.target = pygame.Vector2(self.path[self.current_point+1])
+                if self.current_point + 1 < len(self.path):
+                    self.target = pygame.Vector2(self.path[self.current_point+1])
 
     def update(self, screen):
         if self.health > 0:
-            self.get_damage(1)
             self.move()
         if self.health <= 0 and not self.is_dead:
             MonsterSprite.die(self)

@@ -1,6 +1,9 @@
 import sys
 
 import pygame
+
+from src.Monsters.GolemBoss import GolemBoss
+from src.Monsters.KnightBoss import KnightBoss
 from src.Monsters.TreeBoss import TreeBoss
 from Mechanics.TowerSpot import TowerSpot
 from src.Towers.Archer import Archer
@@ -102,12 +105,12 @@ print(tower_spots)
 
 path = AssetManager.get_csv("map/path")
 
-#monster_classes = [BasicMonster, TankMonster, FlyingMonster, HealerMonster, QuickMonster, TreeBoss]
-monster_classes = [TreeBoss]
+monster_classes = [KnightBoss, GolemBoss, TreeBoss, BasicMonster, TankMonster, FlyingMonster, HealerMonster, QuickMonster]
+#monster_classes = [KnightBoss, GolemBoss, TreeBoss]
 monsters = pygame.sprite.Group()
 index = 0
-spawn_timer = 3990
-spawn_interval = 4000
+spawn_timer = 0
+spawn_interval = 60
 
 while True:
     for event in pygame.event.get():
@@ -172,14 +175,17 @@ while True:
     towers.draw(screen)
     towers.update(screen)
     for monster in monsters:
+        monster.get_damage(0.7)
         if not monster.is_dead:
             if monster.monster_type.monster_name == "healer":
                 monster.healing(monsters)
             if monster.monster_type.monster_name == "treeboss":
                 monster.spawn_monsters(monsters)
+            if monster.monster_type.monster_name == "knightboss":
+                monster.set_invulnerable()
     monsters.update(screen)
     monsters.draw(screen)
-    for monster in monsters:  # Lub monsters_sprites jeśli masz oddzielną grupę sprite'ów
+    for monster in monsters:
         monster.draw_health_bar(screen)
 
     pygame.display.update()

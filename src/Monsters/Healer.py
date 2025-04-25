@@ -8,10 +8,10 @@ from src.Monsters.MonsterSprite import MonsterSprite
 class HealerMonster(Monster):
     def __init__(self, path_points):
         super().__init__(path_points, monster_type = MonsterType.HEALER, health = 200, speed = 1.0)
-        self.heal_radius = 100
+        self.heal_radius = 75
         self.heal_amount = 90
         self.heal_cooldown = 2000
-        self.last_heal_time = 0
+        self.last_heal_time = pygame.time.get_ticks()
 
     def heal_monsters(self, monsters):
         for monster in monsters:

@@ -20,7 +20,10 @@ class AssetManager:
             "images/monsters/healer": (64, 64),
             "images/monsters/quick": (50, 50),
             "images/monsters/tank": (110, 110),
+            "images/monsters/root": (140, 140),
             "images/monsters/treeboss": (150, 150),
+            "images/monsters/knightboss": (150, 150),
+            "images/monsters/golemboss": (150, 150),
             "images/tower_options": (200, 200),
             "images/towers/elems": (24, 40),
         }
@@ -76,7 +79,7 @@ class AssetManager:
     @classmethod
     def get_csv(cls, key):
         if key not in cls._csv_data:
-            print(f"Ostrzeżenie: Nie znaleziono pliku CSV o kluczu '{key}'")
+            print(f"Nie znaleziono pliku CSV o kluczu '{key}'")
         return cls._csv_data.get(key)
 
 
