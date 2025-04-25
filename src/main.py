@@ -2,6 +2,7 @@ import sys
 
 import pygame
 import Mechanics.TowerSpot as ts
+from src.Monsters.TreeBoss import TreeBoss
 from src.Towers.Archer import Archer
 from src.Towers.Ice import Ice
 from src.Towers.Stone import Stone
@@ -95,11 +96,12 @@ for spot in ts.tower_spots:
 
 path = AssetManager.get_csv("map/path")
 
-monster_classes = [BasicMonster, TankMonster, FlyingMonster, HealerMonster, QuickMonster]
+#monster_classes = [BasicMonster, TankMonster, FlyingMonster, HealerMonster, QuickMonster, TreeBoss]
+monster_classes = [TreeBoss]
 monsters = pygame.sprite.Group()
 index = 0
-spawn_timer = 0
-spawn_interval = 100
+spawn_timer = 3990
+spawn_interval = 4000
 
 while True:
     for event in pygame.event.get():
@@ -157,14 +159,23 @@ while True:
         spawn_timer = 0
         Monsterclass = monster_classes[index]
         monster = Monsterclass(path)
-        monsters.add(monster.sprite)
+        monsters.add(monster)
         index = (index + 1) % len(monster_classes)
 
     game_stats.draw(screen)
     towers.draw(screen)
     towers.update(screen)
-    monsters.draw(screen)
+    for monster in monsters:
+        if not monster.is_dead:
+            if monster.monster_type.monster_name == "healer":
+                monster.healing(monsters)
+            if monster.monster_type.monster_name == "treeboss":
+                monster.spawn_monsters(monsters)
     monsters.update(screen)
+    monsters.draw(screen)
+    for monster in monsters:  # Lub monsters_sprites jeśli masz oddzielną grupę sprite'ów
+        monster.draw_health_bar(screen)
+
     pygame.display.update()
     clock.tick(60)
 

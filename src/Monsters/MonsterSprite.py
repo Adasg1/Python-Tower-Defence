@@ -1,4 +1,5 @@
 import pygame
+import random
 
 from src.assets.AssetManager import AssetManager
 
@@ -20,10 +21,13 @@ class MonsterSprite(pygame.sprite.Sprite):
         self.rect = None
         self.bar_width = 50
         self.bar_height = 5
+        self.current_health_width = self.bar_width
         self.animation_delay = 4
         self.load_animation("walk", self.walkframe_count)
         self.load_animation("die", self.dieframe_count)
         self.set_animation("walk")
+        self.x_offset = random.randint(-20, 20)
+        self.y_offset = random.randint(-20, 20)
 
     def load_animation(self, anim_type, frame_count):
         keys = [f"images/monsters/{self.name}/{anim_type}_{i:03d}" for i in range(frame_count)]
@@ -61,27 +65,27 @@ class MonsterSprite(pygame.sprite.Sprite):
             new_keys.append(new_key)
         self.animation_keys[self.current_animation] = new_keys
 
+    def update_health_bar(self):
+        health_ratio = self.monster.health / self.monster.max_health
+        self.current_health_width = int(self.bar_width * health_ratio)
+
     def draw_health_bar(self, surface):
         if self.monster.health > 0:
             x = self.rect.centerx - self.bar_width / 2 - 10
             y = self.rect.top - self.bar_height - 5
 
-            health_ratio = self.monster.health / self.monster.max_health
             pygame.draw.rect(surface, (255, 0, 0), (x, y, self.bar_width, self.bar_height))
 
-            pygame.draw.rect(surface, (0, 255, 0), (x, y, int(self.bar_width * health_ratio), self.bar_height))
+            pygame.draw.rect(surface, (0, 255, 0), (x, y, self.current_health_width, self.bar_height))
 
     def update(self, surface):
+        self.rect.midbottom = (self.monster.pos[0] + self.x_offset, self.monster.pos[1] + self.y_offset)
         self.handle_animation()
-        self.rect.midbottom = self.monster.pos
-        self.monster.update()
 
         if self.monster.direction.x < 0 and self.facing_right:
             self.flip_frames()
         elif self.monster.direction.x > 0 and not self.facing_right:
             self.flip_frames()
-
-        self.draw_health_bar(surface)
 
     def die(self):
         self.set_animation("die")

@@ -20,6 +20,7 @@ class AssetManager:
             "images/monsters/healer": (64, 64),
             "images/monsters/quick": (50, 50),
             "images/monsters/tank": (110, 110),
+            "images/monsters/treeboss": (150, 150),
         }
 
         for root, dirs, files in os.walk(base_folder):
