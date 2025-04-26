@@ -19,14 +19,11 @@ class GameStats:
     def take_damage(self, damage):
         self._hp -= damage
 
-    def pay(self, amount):
-        if amount > self._money:
-            return False
-        self._money -= amount
-        return True
-
     def earn(self, amount):
         self._money += amount
+
+    def pay(self, amount):
+        self._money -= amount
 
     def next_wave(self):
         self.wave += 1

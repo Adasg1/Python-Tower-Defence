@@ -5,8 +5,8 @@ from src.Enum.MonsterType import MonsterType
 from src.Monsters.Monster import Monster
 
 class TreeBoss(Monster):
-    def __init__(self, path_points):
-        super().__init__(path_points, monster_type = MonsterType.TREEBOSS, health = 1000, speed = 0.8)
+    def __init__(self, path_points, game_stats):
+        super().__init__(path_points, game_stats, monster_type = MonsterType.TREEBOSS, health = 1000, speed = 0.8, value = 100)
         self.spawn_cooldown = 5000
         self.last_spawn_time = pygame.time.get_ticks()
 
