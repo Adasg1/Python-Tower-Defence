@@ -5,11 +5,12 @@ from src.Monsters.MonsterStats import MonsterStats
 
 
 class Monster(MonsterSprite, MonsterStats):
-    def __init__(self, path_points, monster_type, health, speed):
+    def __init__(self, path_points, game_stats, monster_type, health, speed):
         MonsterSprite.__init__(self, self, monster_type)
         MonsterStats.__init__(self, health, speed)
         self.monster_type = monster_type
         self.path = path_points
+        self.game_stats = game_stats
         self.current_point = 0
         self.distance_on_path = 0
         self.pos = pygame.Vector2(self.path[0])
@@ -50,6 +51,7 @@ class Monster(MonsterSprite, MonsterStats):
         MonsterSprite.update(self,screen)
         if self.current_point == len(self.path) - 1:
             MonsterSprite.kill(self) # tu bedzie bicie żyć graczowi
+            self.game_stats.take_damage(1)
             return
 
     def get_damage(self, damage):

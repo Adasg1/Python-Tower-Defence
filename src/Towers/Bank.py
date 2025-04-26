@@ -2,8 +2,8 @@ from src.Towers.Tower import Tower
 from src.Enum.TowerType import TowerType
 
 class Bank(Tower):
-    def __init__(self, x, y):
-        super().__init__(x, y, TowerType.BANK,None, None, 2, 200)
+    def __init__(self, x, y, game_stats):
+        super().__init__(x, y, TowerType.BANK, game_stats,None,None, None, 2, 200)
         self.cooldown = 0
         self.earnings = 10
 
@@ -15,8 +15,7 @@ class Bank(Tower):
             self.cooldown = 60 / self.firerate
 
     def earn(self):
-        pass
-        #Logika zarabiania przez wiezyczke
+        self.game_stats.earn(self.earnings)
 
     def update(self, screen):
         super().update(screen)
