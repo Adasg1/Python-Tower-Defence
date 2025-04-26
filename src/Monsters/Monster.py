@@ -5,9 +5,10 @@ from src.Monsters.MonsterStats import MonsterStats
 
 
 class Monster(MonsterSprite, MonsterStats):
-    def __init__(self, path_points, game_stats, monster_type, health, speed):
+    def __init__(self, path_points, game_stats, monster_type, health, speed, value):
         MonsterSprite.__init__(self, self, monster_type)
         MonsterStats.__init__(self, health, speed)
+        self.value = value
         self.monster_type = monster_type
         self.path = path_points
         self.game_stats = game_stats
@@ -48,6 +49,7 @@ class Monster(MonsterSprite, MonsterStats):
         if self.health <= 0 and not self.is_dead:
             MonsterSprite.die(self)
             self.is_dead = True
+            self.game_stats.earn(self.value)
         MonsterSprite.update(self,screen)
         if self.current_point == len(self.path) - 1:
             MonsterSprite.kill(self) # tu bedzie bicie żyć graczowi

@@ -36,7 +36,7 @@ class Game:
         self.is_running = False
         self.index = 0
         self.spawn_timer = 0
-        self.spawn_interval = 150
+        self.spawn_interval = 300
         self.monster_classes = [BasicMonster, TankMonster, FlyingMonster, HealerMonster, QuickMonster, KnightBoss, GolemBoss, TreeBoss]
         # monster_classes = [KnightBoss, GolemBoss, TreeBoss]
         self.monsters = pygame.sprite.Group()
@@ -115,7 +115,8 @@ class Game:
                                             tower_type = TowerType.EXECUTOR
 
                                         if tower_type:
-                                            self.place_tower(spot, tower_type)
+                                            if tower_type.cost <= self.game_stats.get_money:
+                                                self.place_tower(spot, tower_type)
                                     else:
                                         spot.tower.hide_options()
                             else:
@@ -145,8 +146,7 @@ class Game:
                 self.spawn_monsters()
 
             self.game_stats.draw(self.screen)
-            self.towers.draw(self.screen)
-            self.towers.update(self.screen)
+
             for monster in self.monsters:
                 if not monster.is_dead:
                     if monster.monster_type.monster_name == "healer":
@@ -157,6 +157,8 @@ class Game:
                         monster.set_invulnerable()
             self.monsters.update(self.screen)
             self.monsters.draw(self.screen)
+            self.towers.draw(self.screen)
+            self.towers.update(self.screen)
             for monster in self.monsters:
                 monster.draw_health_bar(self.screen)
             if self.game_stats.get_hp <= 0:
@@ -169,8 +171,13 @@ class Game:
 
     def upgrade_sell_tower(self, spot, rel_x, rel_y):
         if 70 < rel_x < 120 and 10 < rel_y < 60:
-            spot.tower.hide_options()
-            spot.tower.upgrade()
+            upgrade_cost = spot.tower.get_upgrade_cost()
+            if upgrade_cost <= self.game_stats.get_money:
+                spot.tower.hide_options()
+                spot.tower.upgrade()
+                self.game_stats.pay(upgrade_cost)
+            else:
+                print("Not enough money")
 
         if 70 < rel_x < 120 and 140 < rel_y < 190:
             spot.tower.hide_options()
@@ -183,6 +190,7 @@ class Game:
     def place_tower(self, spot, tower_type):
         spot.tower.hide_options()
         self.towers.remove(spot.tower)
+        self.game_stats.pay(tower_type.cost)
         match tower_type:
             case TowerType.ARCHER:
                 spot.tower = Archer(spot.rect.x, spot.rect.y, self.game_stats, self.monsters)
@@ -194,6 +202,7 @@ class Game:
                 spot.tower = Bank(spot.rect.x, spot.rect.y, self.game_stats)
             case TowerType.EXECUTOR:
                 spot.tower = Executor(spot.rect.x, spot.rect.y, self.game_stats, self.monsters)
+
         spot.tower.set_tower_image(spot.rect.x, spot.rect.y)
         self.towers.add(spot.tower)
         spot.occupied = True
@@ -204,3 +213,8 @@ class Game:
         monster = Monsterclass(self.path, self.game_stats)
         self.monsters.add(monster)
         self.index = (self.index + 1) % len(self.monster_classes)
+
+    def draw_label(self, text, x, y):
+        set_text = self.font.render(text, True, (255, 0, 0))
+        self.screen.blit(set_text, (x, y))
+

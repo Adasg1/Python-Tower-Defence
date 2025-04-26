@@ -6,8 +6,8 @@ from src.Monsters.MonsterSprite import MonsterSprite
 
 
 class HealerMonster(Monster):
-    def __init__(self, path_points):
-        super().__init__(path_points, monster_type = MonsterType.HEALER, health = 200, speed = 1.0)
+    def __init__(self, path_points, game_stats):
+        super().__init__(path_points, game_stats, monster_type = MonsterType.HEALER, health = 200, speed = 1.0, value=25)
         self.heal_radius = 75
         self.heal_amount = 90
         self.heal_cooldown = 2000
