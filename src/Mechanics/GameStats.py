@@ -1,9 +1,10 @@
 import pygame
 
-pygame.font.init()
+
 
 class GameStats:
     def __init__(self):
+        pygame.font.init()
         self._hp = 100
         self._money = 100
         self.wave = 1
@@ -27,8 +28,8 @@ class GameStats:
     def earn(self, amount):
         self._money += amount
 
-    def next_level(self):
-        self.level += 1
+    def next_wave(self):
+        self.wave += 1
 
     def draw(self, screen):
 

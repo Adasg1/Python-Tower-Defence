@@ -7,25 +7,16 @@ from src.Enum.TowerType import TowerType
 from src.assets.AssetManager import AssetManager
 
 class Archer(Tower):
-    def __init__(self, x, y):
-        super().__init__(x, y, TowerType.ARCHER, 10, 100, 1,100)
+    def __init__(self, x, y, game_stats, monsters):
+        super().__init__(x, y, TowerType.ARCHER, game_stats, monsters, 25, 150, 1,100)
         self.archer = pygame.sprite.GroupSingle(ArcherSprite(self.rect.midtop[0]-3, self.rect.midtop[1]-14))
         self.arrows = pygame.sprite.Group()
         self.arrow_image = AssetManager.get_image("images/projectiles/arrow")
 
-
-    def use(self):
-
-        #logika uzywania wiezy
-        self.cooldown -= 1
-        if self.cooldown <= 0:
-            self.shoot(860, 50)
-            self.cooldown = 60 / self.firerate
-
-    def shoot(self, x, y):
+    def shoot(self, monster):
         self.archer.sprite.shot = True
         arrow_pos = self.archer.sprite.rect.center
-        self.arrows.add(Projectile(arrow_pos[0], arrow_pos[1], x, y, self.arrow_image))
+        self.arrows.add(Projectile(arrow_pos[0], arrow_pos[1], monster, self.arrow_image, self.damage))
 
 
     def update(self, screen):

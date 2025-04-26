@@ -22,7 +22,7 @@ class TowerSprite(pygame.sprite.Sprite):
         self.showed_options = False
         self.counter -= 0.5
 
-    def place_tower(self, x, y):
+    def set_tower_image(self, x, y):
         self.counter = 0
         self.hide_options()
         self.image = AssetManager.get_image(f'images/towers/{self.type}_lvl1')

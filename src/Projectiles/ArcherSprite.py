@@ -17,7 +17,6 @@ class ArcherSprite(pygame.sprite.Sprite):
 
     def shoot_animation(self):
         self.frame += 0.2
-        print(self.frame)
         self.image = AssetManager.get_image(f"images/archer/archer_animation_{floor(self.frame)}")
         if self.facing_direction == "left":
             self.image = pygame.transform.flip(self.image, True, False)
