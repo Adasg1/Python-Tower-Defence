@@ -8,6 +8,7 @@ class Monster(MonsterSprite, MonsterStats):
     def __init__(self, path_points, game_stats, monster_type, health, speed, value):
         MonsterSprite.__init__(self, self, monster_type)
         MonsterStats.__init__(self, health, speed)
+        self.base_speed = speed
         self.value = value
         self.monster_type = monster_type
         self.path = path_points
@@ -23,6 +24,8 @@ class Monster(MonsterSprite, MonsterStats):
         self.compute_path_data()
         self.target = pygame.Vector2(self.path[self.current_point+1])
         self.is_invulnerable = False
+        self.is_slowed = False
+        self.slowed_timer = 0
 
     def compute_path_data(self):
         for i in range(len(self.path) - 1):
@@ -50,6 +53,8 @@ class Monster(MonsterSprite, MonsterStats):
             MonsterSprite.die(self)
             self.is_dead = True
             self.game_stats.earn(self.value)
+        self.slow_update()
+
         MonsterSprite.update(self,screen)
         if self.current_point == len(self.path) - 1:
             MonsterSprite.kill(self) # tu bedzie bicie żyć graczowi
@@ -66,3 +71,18 @@ class Monster(MonsterSprite, MonsterStats):
         else:
             self.health = self.max_health
         MonsterSprite.update_health_bar(self)
+
+    def slow_update(self):
+        if self.slowed_timer == 0:
+            self.speed = self.base_speed
+            self.is_slowed = False
+        if self.is_slowed:
+            self.slowed_timer -= 1
+
+
+    def get_slowed(self, slow_ratio, slow_time):
+        self.slowed_timer = slow_time * 60
+        if not self.is_slowed:
+            self.speed = self.base_speed * slow_ratio
+            self.is_slowed = True
+

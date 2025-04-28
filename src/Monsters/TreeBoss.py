@@ -14,7 +14,7 @@ class TreeBoss(Monster):
         now = pygame.time.get_ticks()
         if now - self.last_spawn_time > self.spawn_cooldown:
             for _ in range(num_monsters):
-                root = Monster(self.path, MonsterType.ROOT, health = 100, speed = 1.1)
+                root = Monster(self.path, self.game_stats, MonsterType.ROOT, health = 100, speed = 1.1, value = 0)
                 spawn_x = self.pos.x
                 spawn_y = self.pos.y
                 target = self.target

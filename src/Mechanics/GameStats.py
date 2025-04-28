@@ -6,7 +6,7 @@ class GameStats:
     def __init__(self):
         pygame.font.init()
         self._hp = 100
-        self._money = 100
+        self._money = 1000
         self.wave = 1
         self.font = pygame.font.SysFont(None, 36)
 
@@ -27,6 +27,11 @@ class GameStats:
 
     def next_wave(self):
         self.wave += 1
+
+    def reset_stats(self):
+        self._hp = 100
+        self._money = 100
+        self.wave = 1
 
     def draw(self, screen):
 

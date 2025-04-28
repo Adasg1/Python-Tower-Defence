@@ -21,6 +21,7 @@ from src.Monsters.Flying import FlyingMonster
 from src.Monsters.Healer import HealerMonster
 from src.Monsters.Quick import QuickMonster
 from src.assets.AssetManager import AssetManager
+from src.Enum.GameState import GameState
 
 class Game:
     def __init__(self):
@@ -33,10 +34,10 @@ class Game:
         self.font = pygame.font.SysFont(None, 100)
         self.background = pygame.transform.scale(self.background, (1280, 720))
         self.game_stats = stats.GameStats()
-        self.is_running = False
+        self.game_state = GameState.MENU
         self.index = 0
         self.spawn_timer = 0
-        self.spawn_interval = 300
+        self.spawn_interval = 180
         self.monster_classes = [BasicMonster, TankMonster, FlyingMonster, HealerMonster, QuickMonster, KnightBoss, GolemBoss, TreeBoss]
         # monster_classes = [KnightBoss, GolemBoss, TreeBoss]
         self.monsters = pygame.sprite.Group()
@@ -55,13 +56,13 @@ class Game:
             self.towers.add(self.tower_spots[-1].tower)
 
     def menu(self):
-        while not self.is_running:
+        while self.game_state == GameState.MENU:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
                 if event.type == pygame.MOUSEBUTTONDOWN or event.type == pygame.KEYDOWN:
-                    self.is_running = True
+                    self.game_state = GameState.RUNNING
             self.screen.blit(self.background, (0, 0))
             start_text = self.font.render('Press to start a game', True, (181, 53, 53))
             rect = start_text.get_rect()
@@ -73,9 +74,35 @@ class Game:
             self.run()
             print("game started")
 
+    def game_over(self):
+        self.game_stats.reset_stats()
+        for tower in self.towers:
+            tower.kill()
+        for monster in self.monsters:
+            monster.kill()
+        for spot in self.tower_spots:
+            self.towers.add(spot.tower)
+
+        while self.game_state == GameState.GAME_OVER:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                if event.type == pygame.MOUSEBUTTONDOWN or event.type == pygame.KEYDOWN:
+                    self.game_state = GameState.RUNNING
+            self.screen.blit(self.background, (0, 0))
+            start_text = self.font.render('GAME OVER', True, (255, 0, 0))
+            rect = start_text.get_rect()
+            rect.center = (640, 360)
+            self.screen.blit(start_text, rect)
+            pygame.display.update()
+            self.clock.tick(60)
+        else:
+            self.run()
+            print("game restarted")
 
     def run(self):
-        while self.is_running:
+        while self.game_state == GameState.RUNNING:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -162,12 +189,12 @@ class Game:
             for monster in self.monsters:
                 monster.draw_health_bar(self.screen)
             if self.game_stats.get_hp <= 0:
-                self.is_running = False
+                self.game_state = GameState.GAME_OVER
                 print("game over")
+                self.game_over()
             pygame.display.update()
             self.clock.tick(60)
-        else:
-            self.menu()
+
 
     def upgrade_sell_tower(self, spot, rel_x, rel_y):
         if 70 < rel_x < 120 and 10 < rel_y < 60:
@@ -209,7 +236,7 @@ class Game:
 
     def spawn_monsters(self):
         self.spawn_timer = 0
-        Monsterclass = self.monster_classes[0] #Tymaczowo 0
+        Monsterclass = self.monster_classes[self.index] #Tymaczowo 0
         monster = Monsterclass(self.path, self.game_stats)
         self.monsters.add(monster)
         self.index = (self.index + 1) % len(self.monster_classes)
