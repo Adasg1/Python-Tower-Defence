@@ -12,6 +12,8 @@ class Tower(TowerSprite, TowerStats):
         TowerSprite.__init__(self, x, y, tower_type)
         self.cooldown = 0
         self.monsters = monsters
+        self.disabled = False
+        self.disable_timer = 0
 
     def upgrade(self):
         super().upgrade_stats()
@@ -36,6 +38,14 @@ class Tower(TowerSprite, TowerStats):
             return target
         return None
 
+    def disable(self, time):
+        self.disabled = True
+        self.disable_timer = time
+
+    def handle_disable_effect(self):
+        self.disable_timer -= 1
+        if self.disable_timer <= 0:
+            self.disabled = False
 
     def update(self, screen):
         if self.counter != 0:
@@ -48,7 +58,10 @@ class Tower(TowerSprite, TowerStats):
             else:
                 options_image = AssetManager.get_image("images/tower_options/upgrade_sell")
                 self.draw_tower_options(options_image, screen)
-        self.use()
+        if not self.disabled:
+            self.use()
+        else:
+            self.handle_disable_effect()
 
     def sell(self):
 
