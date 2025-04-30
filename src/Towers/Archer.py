@@ -23,12 +23,17 @@ class Archer(Tower):
         self.arrows.add(Arrow(arrow_pos[0], arrow_pos[1], monster, self.damage))
 
 
-    def update(self, screen):
-        self.arrows.draw(screen)
+    def update(self):
         self.arrows.update()
-        self.archer.draw(screen)
         self.archer.update()
-        super().update(screen)
+        super().update()
+
+    def draw(self, surface):
+        surface.blit(self.image, self.rect)
+        self.arrows.draw(surface)
+        self.archer.draw(surface)
+        super().draw(surface)
+
 
 
 

@@ -27,8 +27,15 @@ class Ice(Tower):
                 monster.get_slowed(0.6, 3)
 
 
-    def update(self, screen):
+    def update(self):
         self.ice_shards.update()
-        self.ice_shards.draw(screen)
-        screen.blit(self.elem, self.elem_rect)
-        super().update(screen)
+
+
+        super().update()
+
+    def draw(self, surface):
+        surface.blit(self.image, self.rect)
+        self.ice_shards.draw(surface)
+        surface.blit(self.elem, self.elem_rect)
+        super().draw(surface)
+

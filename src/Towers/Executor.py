@@ -9,7 +9,7 @@ from src.assets.AssetManager import AssetManager
 
 class Executor(Tower):
     def __init__(self, x, y, game_stats, monsters):
-        super().__init__(x, y, TowerType.EXECUTOR, game_stats, monsters,50, 250, 1,  200)
+        super().__init__(x, y, TowerType.EXECUTOR, game_stats, monsters,70, 250, 1,  200)
         self.elem = AssetManager.get_image('images/towers/executor_elem')
         self.elem_rect = self.elem.get_rect()
         self.elem_rect.midbottom = self.rect.midtop
@@ -20,8 +20,12 @@ class Executor(Tower):
     def shoot(self, monster):
         self.thunderbolts.add(ThunderBolt(self.elem_rect.center[0], self.elem_rect.center[1], monster, self.damage))
 
-    def update(self, screen):
+    def update(self):
         self.thunderbolts.update()
-        self.thunderbolts.draw(screen)
-        screen.blit(self.elem, self.elem_rect)
-        super().update(screen,)
+        super().update()
+
+    def draw(self, surface):
+        surface.blit(self.image, self.rect)
+        self.thunderbolts.draw(surface)
+        surface.blit(self.elem, self.elem_rect)
+        super().draw(surface)
