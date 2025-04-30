@@ -1,13 +1,13 @@
 import pygame
 
 from src.Monsters.MonsterSprite import MonsterSprite
-from src.Monsters.MonsterStats import MonsterStats
 
 
-class Monster(MonsterSprite, MonsterStats):
+class Monster(MonsterSprite):
     def __init__(self, path_points, game_stats, monster_type, health, speed, value):
         MonsterSprite.__init__(self, self, monster_type)
-        MonsterStats.__init__(self, health, speed)
+        self.health = health
+        self.speed = speed
         self.base_speed = speed
         self.value = value
         self.monster_type = monster_type
@@ -55,7 +55,6 @@ class Monster(MonsterSprite, MonsterStats):
             self.game_stats.earn(self.value)
         self.slow_update()
 
-        MonsterSprite.update(self,screen)
         if self.current_point == len(self.path) - 1:
             MonsterSprite.kill(self) # tu bedzie bicie żyć graczowi
             self.game_stats.take_damage(1)

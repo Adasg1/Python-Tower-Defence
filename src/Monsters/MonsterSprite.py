@@ -78,10 +78,11 @@ class MonsterSprite(pygame.sprite.Sprite):
 
             pygame.draw.rect(surface, (0, 255, 0), (x, y, self.current_health_width, self.bar_height))
 
-    def update(self, surface):
+    def draw(self, surface):
+        surface.blit(self.image, self.rect)
+        self.draw_health_bar(surface)
         self.rect.midbottom = (self.monster.pos[0] + self.x_offset, self.monster.pos[1] + self.y_offset)
         self.handle_animation()
-        self.draw_health_bar(surface)
         if self.monster.direction.x < 0 and self.facing_right:
             self.flip_frames()
         elif self.monster.direction.x > 0 and not self.facing_right:

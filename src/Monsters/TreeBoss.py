@@ -6,7 +6,7 @@ from src.Monsters.Monster import Monster
 
 class TreeBoss(Monster):
     def __init__(self, path_points, game_stats):
-        super().__init__(path_points, game_stats, monster_type = MonsterType.TREEBOSS, health = 1000, speed = 0.8, value = 100)
+        super().__init__(path_points, game_stats, monster_type=MonsterType.TREEBOSS, health=1000, speed=0.8, value=100)
         self.spawn_cooldown = 5000
         self.last_spawn_time = pygame.time.get_ticks()
 
@@ -14,7 +14,7 @@ class TreeBoss(Monster):
         now = pygame.time.get_ticks()
         if now - self.last_spawn_time > self.spawn_cooldown:
             for _ in range(num_monsters):
-                root = Monster(self.path, self.game_stats, MonsterType.ROOT, health = 30, speed = 1.1, value = 0)
+                root = Monster(self.path, self.game_stats, MonsterType.ROOT, health=30, speed = 1.1, value=0)
                 spawn_x = self.pos.x
                 spawn_y = self.pos.y
                 target = self.target

@@ -118,13 +118,17 @@ class Game:
 
             #draw
             self.game_stats.draw(self.screen)
-            self.monsters.draw(self.screen)
             self.draw_towers()
+            self.draw_monsters()
 
             self.is_game_over()
 
             pygame.display.update()
             self.clock.tick(60)
+
+    def draw_monsters(self):
+        for monster in self.monsters:
+            monster.draw(self.screen)
 
     def draw_towers(self):
         for tower in self.towers:
@@ -179,7 +183,7 @@ class Game:
         spot.occupied = True
 
     def spawn_monsters(self):
-        self.spawn_timer += 1
+        self.spawn_timer += 5
         if self.spawn_timer >= self.spawn_interval:
             self.spawn_timer = 0
             Monsterclass = self.monster_classes[self.index] #self.index
