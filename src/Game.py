@@ -120,6 +120,7 @@ class Game:
             self.game_stats.draw(self.screen)
             self.draw_towers()
             self.draw_monsters()
+            self.draw_healthbars()
 
             self.is_game_over()
 
@@ -129,6 +130,10 @@ class Game:
     def draw_monsters(self):
         for monster in self.monsters:
             monster.draw(self.screen)
+
+    def draw_healthbars(self):
+        for monster in self.monsters:
+            monster.draw_health_bar(self.screen)
 
     def draw_towers(self):
         for tower in self.towers:
