@@ -17,6 +17,10 @@ class Bank(Tower):
     def earn(self):
         self.game_stats.earn(self.earnings)
 
-    def update(self, screen):
-        super().update(screen)
+    def update(self):
+        super().update()
+
+    def draw(self, surface):
+        surface.blit(self.image, self.rect)
+        super().draw(surface)
 

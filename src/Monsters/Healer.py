@@ -10,7 +10,7 @@ class HealerMonster(Monster):
         super().__init__(path_points, game_stats, monster_type = MonsterType.HEALER, health = 200, speed = 1.0, value=25)
         self.heal_radius = 75
         self.heal_amount = 70
-        self.heal_cooldown = 2000
+        self.heal_cooldown = 5000
         self.last_heal_time = pygame.time.get_ticks()
 
     def heal_monsters(self, monsters):

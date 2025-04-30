@@ -18,9 +18,8 @@ class StoneSprite(Projectile):
         self.target_pos = Vector2(monster.rect.center)
 
         self.total_time = dist(self.start_pos, self.target_pos) / 5
-        self.velocity = (self.target_pos - self.start_pos) / self.total_time
-        self.gravity = Vector2(0, 0.25)  # siła grawitacji
-        self.velocity -= self.gravity * (self.total_time//2)
+        self.gravity = Vector2(0, 0.5)  # siła grawitacji
+        self.velocity = ((self.target_pos - self.start_pos) / self.total_time) - self.gravity * (self.total_time//2)
         self.break_frame = 0
         self.projectile_pos = self.start_pos.copy()
         self.fly_time = 0

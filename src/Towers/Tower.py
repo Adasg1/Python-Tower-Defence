@@ -47,7 +47,7 @@ class Tower(TowerSprite, TowerStats):
         if self.disable_timer <= 0:
             self.disabled = False
 
-    def update(self, screen):
+    def update(self):
         if self.counter != 0:
             if self.showed_options and self.counter <= 7:
                 self.counter += 0.5
@@ -55,13 +55,15 @@ class Tower(TowerSprite, TowerStats):
                 self.counter -= 0.5
             if self.counter <= 0:
                 self.counter = 0
-            else:
-                options_image = AssetManager.get_image("images/tower_options/upgrade_sell")
-                self.draw_tower_options(options_image, screen)
         if not self.disabled:
             self.use()
         else:
             self.handle_disable_effect()
+
+    def draw(self, surface):
+        if self.counter > 0:
+            options_image = AssetManager.get_image("images/tower_options/upgrade_sell")
+            self.draw_tower_options(options_image, surface)
 
     def sell(self):
 

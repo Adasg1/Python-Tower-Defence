@@ -34,7 +34,7 @@ class TowerSprite(pygame.sprite.Sprite):
             self.image = AssetManager.get_image(f'images/towers/{self.type}_lvl{level}')
             self.rect = self.image.get_rect(midbottom=self.rect.midbottom)
 
-    def update(self, screen):
+    def update(self):
             if self.counter != 0:
                 if self.showed_options and self.counter <= 7:
                     self.counter += 0.5
@@ -42,10 +42,13 @@ class TowerSprite(pygame.sprite.Sprite):
                     self.counter -= 0.5
                 if self.counter <= 0:
                     self.counter = 0
-                else:
-                    options_image = AssetManager.get_image(f"images/tower_options/tower_options00{floor(self.counter)}")
-                    self.draw_options(options_image, screen)
 
+
+    def draw(self, surface):
+        surface.blit(self.image, self.rect)
+        if self.counter > 0:
+            options_image = AssetManager.get_image(f"images/tower_options/tower_options00{floor(self.counter)}")
+            self.draw_options(options_image, surface)
 
     def draw_options(self, image, surface):
         rect = image.get_rect(midbottom = self.rect.midbottom)

@@ -75,17 +75,7 @@ class Game:
             print("game started")
 
     def game_over(self):
-        self.game_stats.reset_stats()
-        for tower in self.towers:
-            tower.kill()
-        for monster in self.monsters:
-            monster.kill()
-        for spot in self.tower_spots:
-            spot.init()
-            self.towers.add(spot.tower)
-
-        print(f"{self.towers}")
-
+        self.reset_game()
         while self.game_state == GameState.GAME_OVER:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -122,22 +112,33 @@ class Game:
                     if monster.monster_type.monster_name == "knightboss":
                         monster.set_invulnerable()
 
-
+            # update
+            self.monsters.update(self.screen)
+            self.towers.update()
 
             #draw
             self.game_stats.draw(self.screen)
-            self.towers.draw(self.screen)
             self.monsters.draw(self.screen)
-
-            # update
-            self.monsters.update(self.screen)
-            self.towers.update(self.screen)
+            self.draw_towers()
 
             self.is_game_over()
 
             pygame.display.update()
             self.clock.tick(60)
 
+    def draw_towers(self):
+        for tower in self.towers:
+            tower.draw(self.screen)
+
+    def reset_game(self):
+        self.game_stats.reset_stats()
+        for tower in self.towers:
+            tower.kill()
+        for monster in self.monsters:
+            monster.kill()
+        for spot in self.tower_spots:
+            spot.init()
+            self.towers.add(spot.tower)
 
     def upgrade_sell_tower(self, spot, rel_x, rel_y):
         if 70 < rel_x < 120 and 10 < rel_y < 60:
