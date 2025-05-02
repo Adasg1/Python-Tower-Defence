@@ -28,6 +28,7 @@ class MonsterSprite(pygame.sprite.Sprite):
         self.set_animation("walk")
         self.x_offset = random.randint(-20, 20)
         self.y_offset = random.randint(-20, 20)
+        self.rect.midbottom = (self.monster.pos[0] + self.x_offset, self.monster.pos[1] + self.y_offset)
 
     def load_animation(self, anim_type, frame_count):
         keys = [f"images/monsters/{self.name}/{anim_type}_{i:03d}" for i in range(frame_count)]

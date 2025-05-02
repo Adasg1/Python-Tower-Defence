@@ -1,4 +1,5 @@
 import sys
+import time
 
 import pygame
 
@@ -22,6 +23,8 @@ from src.Monsters.Healer import HealerMonster
 from src.Monsters.Quick import QuickMonster
 from src.assets.AssetManager import AssetManager
 from src.Enum.GameState import GameState
+from src.Waves.WaveLoader import WaveLoader
+
 
 class Game:
     def __init__(self):
@@ -35,17 +38,19 @@ class Game:
         self.background = pygame.transform.scale(self.background, (1280, 720))
         self.game_stats = stats.GameStats()
         self.game_state = GameState.MENU
-        self.index = 0
-        self.spawn_timer = 0
-        self.spawn_interval = 300
-        self.monster_classes = [BasicMonster, TankMonster, FlyingMonster, HealerMonster, QuickMonster, KnightBoss, GolemBoss, TreeBoss]
-        # monster_classes = [KnightBoss, GolemBoss, TreeBoss]
+        self.current_wave = 1
+
         self.monsters = pygame.sprite.Group()
         self.towers = pygame.sprite.Group()
 
         AssetManager.load_assets()
 
         self.path = AssetManager.get_csv("map/path")
+
+        self.wave_loader = WaveLoader("Waves/waves.json", self.game_stats, self.towers)
+        self.waves = self.wave_loader.waves
+        self.last_spawn = pygame.time.get_ticks()
+        self.wave_delay = False
 
         spot_coords = AssetManager.get_csv("map/tower_spots")
         self.tower_spots = []
@@ -101,7 +106,8 @@ class Game:
             self.handle_event()
             self.screen.blit(self.background, (0, 0))
 
-            self.spawn_monsters()
+            self.spawn_monsters_from_wave()
+
             #To raczej do przeniesienia
             for monster in self.monsters:
                 if not monster.is_dead:
@@ -115,7 +121,6 @@ class Game:
             # update
             self.monsters.update(self.screen)
             self.towers.update()
-
             #draw
             self.game_stats.draw(self.screen)
             self.draw_towers()
@@ -187,17 +192,26 @@ class Game:
         self.towers.add(spot.tower)
         spot.occupied = True
 
-    def spawn_monsters(self):
-        self.spawn_timer += 5
-        if self.spawn_timer >= self.spawn_interval:
-            self.spawn_timer = 0
-            Monsterclass = self.monster_classes[self.index] #self.index
-            if Monsterclass == GolemBoss:
-                monster = Monsterclass(self.path, self.game_stats, self.towers)
-            else:
-                monster = Monsterclass(self.path, self.game_stats)
-            self.monsters.add(monster)
-            self.index = (self.index + 1) % len(self.monster_classes)
+    def spawn_monsters_from_wave(self):
+        now = pygame.time.get_ticks()
+        if not self.wave_delay:
+            spawn_interval = self.waves[0].spawn_interval
+            if now - self.last_spawn > spawn_interval:
+                if len(self.waves) > 0:
+                    if self.waves[0].remaining_monsters > 0:
+                        next_monster = self.waves[0].get_next_monster()
+                        self.monsters.add(next_monster)
+                        self.last_spawn = now
+                    else:
+                        self.waves.pop(0)
+                        self.wave_delay = True
+                        print("wave ended")
+                else:
+                    print("wygrana - koniec fal")
+                    self.game_state = GameState.GAME_OVER
+        elif len(self.monsters) == 0:
+            self.wave_delay = False
+            self.current_wave += 1
 
     def is_game_over(self):
         if self.game_stats.get_hp <= 0:

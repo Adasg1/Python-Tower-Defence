@@ -4,21 +4,21 @@ from src.Monsters.MonsterSprite import MonsterSprite
 
 
 class Monster(MonsterSprite):
-    def __init__(self, path_points, game_stats, monster_type, health, speed, value):
+    def __init__(self, path_points, game_stats, hp_multiplier, monster_type, health, speed, value):
+        self.path = path_points
+        self.pos = pygame.Vector2(self.path[0])
         MonsterSprite.__init__(self, self, monster_type)
-        self.health = health
+        self.health = health*hp_multiplier
         self.speed = speed
         self.base_speed = speed
         self.value = value
         self.monster_type = monster_type
-        self.path = path_points
         self.game_stats = game_stats
         self.current_point = 0
         self.distance_on_path = 0
-        self.pos = pygame.Vector2(self.path[0])
         self.direction = pygame.Vector2(1, 0)
         self.is_dead = False
-        self.max_health = health
+        self.max_health = self.health
         self.segment_lengths = []
         self.path_total_length = 0
         self.compute_path_data()
@@ -26,6 +26,7 @@ class Monster(MonsterSprite):
         self.is_invulnerable = False
         self.is_slowed = False
         self.slowed_timer = 0
+        MonsterSprite.__init__(self, self, monster_type)
 
     def compute_path_data(self):
         for i in range(len(self.path) - 1):
@@ -54,7 +55,6 @@ class Monster(MonsterSprite):
             self.is_dead = True
             self.game_stats.earn(self.value)
         self.slow_update()
-
         if self.current_point == len(self.path) - 1:
             MonsterSprite.kill(self) # tu bedzie bicie żyć graczowi
             self.game_stats.take_damage(1)
