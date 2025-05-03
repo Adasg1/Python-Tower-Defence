@@ -21,6 +21,5 @@ class Bank(Tower):
         super().update()
 
     def draw(self, surface):
-        surface.blit(self.image, self.rect)
         super().draw(surface)
 

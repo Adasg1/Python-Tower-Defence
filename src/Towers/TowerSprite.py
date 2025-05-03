@@ -46,18 +46,15 @@ class TowerSprite(pygame.sprite.Sprite):
 
     def draw(self, surface):
         surface.blit(self.image, self.rect)
+
+
+    def draw_options(self, surface):
         if self.counter > 0:
             options_image = AssetManager.get_image(f"images/tower_options/tower_options00{floor(self.counter)}")
-            self.draw_options(options_image, surface)
+            rect = options_image.get_rect(midbottom = self.rect.midbottom)
+            rect.y += 75
+            surface.blit(options_image, rect)
 
-    def draw_options(self, image, surface):
-        rect = image.get_rect(midbottom = self.rect.midbottom)
-        rect.y += 75
-        surface.blit(image, rect)
-    def draw_tower_options(self, image, surface):
-        rect = image.get_rect(midbottom=self.rect.midbottom)
-        rect.y += 50
-        surface.blit(image, rect)
 
 
 

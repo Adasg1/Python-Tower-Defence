@@ -29,10 +29,9 @@ class Archer(Tower):
         super().update()
 
     def draw(self, surface):
-        surface.blit(self.image, self.rect)
+        super().draw(surface)
         self.arrows.draw(surface)
         self.archer.draw(surface)
-        super().draw(surface)
 
 
 
