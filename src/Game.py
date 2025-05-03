@@ -3,6 +3,7 @@ import time
 
 import pygame
 
+from src.EventHandler import EventHandler
 from src.Monsters.GolemBoss import GolemBoss
 from src.Monsters.KnightBoss import KnightBoss
 from src.Monsters.TreeBoss import TreeBoss
@@ -38,6 +39,7 @@ class Game:
         self.background = pygame.transform.scale(self.background, (1280, 720))
         self.game_stats = stats.GameStats()
         self.game_state = GameState.MENU
+        self.event_handler = EventHandler(self)
         self.current_wave = 1
 
         self.monsters = pygame.sprite.Group()
@@ -103,7 +105,7 @@ class Game:
 
     def run(self):
         while self.game_state == GameState.RUNNING:
-            self.handle_event()
+            self.event_handler.running_game()
             self.screen.blit(self.background, (0, 0))
 
             self.spawn_monsters_from_wave()
@@ -126,6 +128,7 @@ class Game:
             self.draw_towers()
             self.draw_monsters()
             self.draw_healthbars()
+            self.draw_options()
 
             self.is_game_over()
 
@@ -144,6 +147,10 @@ class Game:
         for tower in self.towers:
             tower.draw(self.screen)
 
+    def draw_options(self):
+        for tower in self.towers:
+            tower.draw_options(self.screen)
+
     def reset_game(self):
         self.game_stats.reset_stats()
         for tower in self.towers:
@@ -154,23 +161,19 @@ class Game:
             spot.init()
             self.towers.add(spot.tower)
 
-    def upgrade_sell_tower(self, spot, rel_x, rel_y):
-        if 70 < rel_x < 120 and 10 < rel_y < 60:
-            upgrade_cost = spot.tower.get_upgrade_cost()
-            if upgrade_cost <= self.game_stats.get_money:
-                spot.tower.hide_options()
-                spot.tower.upgrade()
-                self.game_stats.pay(upgrade_cost)
-            else:
-                print("Not enough money")
+    def upgrade_tower(self, spot, upgrade_cost):
+        spot.tower.hide_options()
+        spot.tower.upgrade()
+        self.game_stats.pay(upgrade_cost)
 
-        if 70 < rel_x < 120 and 140 < rel_y < 190:
-            spot.tower.hide_options()
-            self.game_stats.earn(spot.tower.cost // 2)
-            spot.tower.sell()
-            spot.tower = TowerSprite(spot.rect.x, spot.rect.y, None)
-            self.towers.add(spot.tower)
-            spot.occupied = False
+    def sell_tower(self, spot):
+        spot.tower.hide_options()
+        self.game_stats.earn(spot.tower.cost // 2)
+        spot.tower.sell()
+        spot.tower = TowerSprite(spot.rect.x, spot.rect.y, None)
+        self.towers.add(spot.tower)
+        spot.occupied = False
+
 
     def place_tower(self, spot, tower_type):
         spot.tower.hide_options()
@@ -223,69 +226,5 @@ class Game:
         set_text = self.font.render(text, True, (255, 0, 0))
         self.screen.blit(set_text, (x, y))
 
-    def handle_event(self):
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:
-                    mouse_pos = pygame.mouse.get_pos()
-                    for spot in self.tower_spots:
-                        if not spot.occupied:
-                            if spot.rect.collidepoint(mouse_pos) and not spot.tower.showed_options:
-                                spot.tower.show_options()
-                            elif spot.tower.showed_options:
-                                options_rect = pygame.Rect(
-                                    spot.tower.rect.x - 30,
-                                    spot.tower.rect.y - 60,
-                                    200,
-                                    200
-                                )
 
-                                if options_rect.collidepoint(mouse_pos):
-                                    rel_x = mouse_pos[0] - options_rect.x
-                                    rel_y = mouse_pos[1] - options_rect.y
-                                    tower_type = None
-                                    if 70 < rel_x < 120 and 10 < rel_y < 60:
-                                        tower_type = TowerType.ARCHER
-
-                                    elif 8 < rel_x < 58 and 60 < rel_y < 110:
-                                        tower_type = TowerType.ICE
-
-                                    elif 135 < rel_x < 185 and 60 < rel_y < 110:
-                                        tower_type = TowerType.STONE
-
-                                    elif 32 < rel_x < 82 and 128 < rel_y < 178:
-                                        tower_type = TowerType.BANK
-
-                                    elif 110 < rel_x < 160 and 128 < rel_y < 178:
-                                        tower_type = TowerType.EXECUTOR
-
-                                    if tower_type:
-                                        if tower_type.cost <= self.game_stats.get_money:
-                                            self.place_tower(spot, tower_type)
-                                        else:
-                                            print("Not enough money")
-                                else:
-                                    spot.tower.hide_options()
-                        else:
-                            if spot.rect.collidepoint(mouse_pos) and not spot.tower.showed_options:
-                                spot.tower.show_options()
-                            elif spot.tower.showed_options:
-                                options_rect = pygame.Rect(
-                                    0,
-                                    0,
-                                    200,
-                                    200
-                                )
-                                options_rect.midbottom = spot.tower.rect.midbottom
-                                options_rect.y += 50
-
-                                if options_rect.collidepoint(mouse_pos):
-                                    rel_x = mouse_pos[0] - options_rect.x
-                                    rel_y = mouse_pos[1] - options_rect.y
-                                    self.upgrade_sell_tower(spot, rel_x, rel_y)
-                                else:
-                                    spot.tower.hide_options()
 

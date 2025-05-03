@@ -93,11 +93,8 @@ class Stone(Tower):
 
 
     def draw(self, surface):
-        if self.counter > 0:
-            options_image = AssetManager.get_image("images/tower_options/upgrade_sell")
-            self.draw_tower_options(options_image, surface)
         surface.blit(self.back_elem, self.back_elem_rect)
-        surface.blit(self.image, self.rect)
+        super().draw(surface)
 
         if self.show_stone:
             surface.blit(self.stone, self.stone_rect)

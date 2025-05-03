@@ -25,7 +25,6 @@ class Executor(Tower):
         super().update()
 
     def draw(self, surface):
-        surface.blit(self.image, self.rect)
+        super().draw(surface)
         self.thunderbolts.draw(surface)
         surface.blit(self.elem, self.elem_rect)
-        super().draw(surface)

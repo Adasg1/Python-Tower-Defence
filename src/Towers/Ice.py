@@ -29,13 +29,11 @@ class Ice(Tower):
 
     def update(self):
         self.ice_shards.update()
-
-
         super().update()
 
     def draw(self, surface):
-        surface.blit(self.image, self.rect)
+        super().draw(surface)
         self.ice_shards.draw(surface)
         surface.blit(self.elem, self.elem_rect)
-        super().draw(surface)
+
 

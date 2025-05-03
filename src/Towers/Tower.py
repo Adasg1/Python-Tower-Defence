@@ -60,10 +60,13 @@ class Tower(TowerSprite, TowerStats):
         else:
             self.handle_disable_effect()
 
-    def draw(self, surface):
+    def draw_options(self, surface):
         if self.counter > 0:
             options_image = AssetManager.get_image("images/tower_options/upgrade_sell")
-            self.draw_tower_options(options_image, surface)
+            rect = options_image.get_rect(midbottom=self.rect.midbottom)
+            rect.y += 50
+            surface.blit(options_image, rect)
+
 
     def sell(self):
 
