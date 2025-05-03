@@ -75,6 +75,15 @@ class Stone(Tower):
 
             if not isinstance(monster, FlyingMonster) and monster.rect.colliderect(damage_area):
                 monster.get_damage(self.damage)
+    def upgrade(self):
+        super().upgrade()
+        self.upgrade_elem_image(self.level)
+
+    def upgrade_elem_image(self, level):
+        if level == 3 or level == 5:
+            self.back_elem = AssetManager.get_image(f"images/towers/back_elem_lvl{level}")
+            self.front_elem = AssetManager.get_image(f"images/towers/front_elem_lvl{level}")
+            self.back_elem_rect.y += 2
 
 
     def update(self):
@@ -89,9 +98,10 @@ class Stone(Tower):
             self.draw_tower_options(options_image, surface)
         surface.blit(self.back_elem, self.back_elem_rect)
         surface.blit(self.image, self.rect)
-        surface.blit(self.front_elem, self.front_elem_rect)
+
         if self.show_stone:
             surface.blit(self.stone, self.stone_rect)
+        surface.blit(self.front_elem, self.front_elem_rect)
         self.stones.draw(surface)
 
 
