@@ -23,6 +23,9 @@ class EventHandler:
                     mouse_pos = pygame.mouse.get_pos()
                     if 10 <= mouse_pos[0] <= 80 and 10 <= mouse_pos[1] <= 80:
                         self.game.game_state = GameState.PAUSED
+                    if self.game.skip_button_rect.collidepoint(mouse_pos):
+                        self.game.wave_delay = False
+                        return
                     for spot in self.game.tower_spots:
                         if not spot.occupied:
                             if spot.rect.collidepoint(mouse_pos) and not spot.tower.showed_options:

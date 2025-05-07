@@ -56,7 +56,6 @@ class MonsterSprite(pygame.sprite.Sprite):
         self.time_since_last_animation += 1
 
     def flip_frames(self):
-        self.facing_right = not self.facing_right
         new_keys = []
         for key in self.animation_keys[self.current_animation]:
             image = AssetManager.get_image(key)
@@ -85,9 +84,15 @@ class MonsterSprite(pygame.sprite.Sprite):
         self.handle_animation()
         if self.monster.direction.x < 0 and self.facing_right:
             self.flip_frames()
+            self.facing_right = False
         elif self.monster.direction.x > 0 and not self.facing_right:
             self.flip_frames()
+            self.facing_right = True
 
     def die(self):
-        self.set_animation("die")
-        self.rect.midbottom = self.monster.pos
+        if not self.monster.is_dead:
+            self.set_animation("die")
+            if not self.facing_right:
+                self.flip_frames()
+            self.rect.midbottom = self.monster.pos
+            self.image = AssetManager.get_image(self.animation_keys[self.current_animation][self.current_frame])
