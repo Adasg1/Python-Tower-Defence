@@ -1,12 +1,7 @@
 import sys
-import time
-
 import pygame
 
 from src.EventHandler import EventHandler
-from src.Monsters.GolemBoss import GolemBoss
-from src.Monsters.KnightBoss import KnightBoss
-from src.Monsters.TreeBoss import TreeBoss
 from Mechanics.TowerSpot import TowerSpot
 from src.Towers.Archer import Archer
 from src.Towers.Ice import Ice
@@ -17,11 +12,6 @@ from src.Towers.Executor import Executor
 from src.Towers.TowerSprite import TowerSprite
 import Mechanics.GameStats as stats
 from Enum.TowerType import TowerType
-from src.Monsters.Basic import BasicMonster
-from src.Monsters.Tank import TankMonster
-from src.Monsters.Flying import FlyingMonster
-from src.Monsters.Healer import HealerMonster
-from src.Monsters.Quick import QuickMonster
 from src.assets.AssetManager import AssetManager
 from src.Enum.GameState import GameState
 from src.Waves.WaveLoader import WaveLoader
@@ -33,25 +23,28 @@ class Game:
         pygame.display.set_caption("Last Bastion - TowerStats Defence")
         pygame.font.init()
         self.screen = pygame.display.set_mode((1280, 720))
+        AssetManager.load_assets()
         self.clock = pygame.time.Clock()
-        self.background = pygame.image.load('assets/images/game_background.png').convert_alpha()
+        self.background = AssetManager.get_image("images/game_background")
+        self.skip_table_bg = AssetManager.get_image("images/game_stats/skip_table")
+        self.skip_table_bg = pygame.transform.scale(self.skip_table_bg, (220, 55))
+        self.skip_button= AssetManager.get_image("images/game_stats/skip_button")
+        self.skip_button = pygame.transform.scale(self.skip_button, (55, 55))
         self.font = pygame.font.SysFont(None, 100)
         self.background = pygame.transform.scale(self.background, (1280, 720))
         self.game_stats = stats.GameStats()
         self.game_state = GameState.MENU
         self.event_handler = EventHandler(self)
-        self.current_wave = 1
-
         self.monsters = pygame.sprite.Group()
         self.towers = pygame.sprite.Group()
-
-        AssetManager.load_assets()
 
         self.path = AssetManager.get_csv("map/path")
 
         self.wave_loader = WaveLoader("Waves/waves.json", self.game_stats, self.towers)
         self.waves = self.wave_loader.waves
         self.last_spawn = pygame.time.get_ticks()
+        self.last_wave = -15000
+        self.skip_button_rect = pygame.Rect(0, 0, 55, 55)
         self.wave_delay = False
 
         spot_coords = AssetManager.get_csv("map/tower_spots")
@@ -108,6 +101,7 @@ class Game:
             self.event_handler.running_game()
             self.screen.blit(self.background, (0, 0))
 
+
             self.spawn_monsters_from_wave()
 
             #To raczej do przeniesienia
@@ -130,6 +124,8 @@ class Game:
             self.draw_healthbars()
             self.draw_options()
 
+            self.draw_wave_info_and_skip(self.screen)
+
             self.is_game_over()
 
             pygame.display.update()
@@ -150,6 +146,21 @@ class Game:
     def draw_options(self):
         for tower in self.towers:
             tower.draw_options(self.screen)
+
+    def draw_wave_info_and_skip(self, screen):
+        if self.wave_delay:
+            font = pygame.font.SysFont(None, 24)
+            now = pygame.time.get_ticks()
+            time_remaining = max(0, 15 - (now - self.last_wave) // 1000)
+
+            bg_pos = (4, 4)
+            screen.blit(self.skip_table_bg, bg_pos)
+
+            timer_text = font.render(f"Next wave in: {time_remaining}s", True, (255, 255, 255)) # wyswietlony timer
+            screen.blit(timer_text, (bg_pos[0] + 25, bg_pos[1] + 18))
+
+            self.skip_button_rect.topleft = (bg_pos[0] + 165, bg_pos[1])  # przycisk skip
+            screen.blit(self.skip_button, self.skip_button_rect.topleft)
 
     def reset_game(self):
         self.game_stats.reset_stats()
@@ -197,7 +208,8 @@ class Game:
 
     def spawn_monsters_from_wave(self):
         now = pygame.time.get_ticks()
-        if not self.wave_delay:
+        if not self.wave_delay or now - self.last_wave > 15000:
+            self.wave_delay = False
             spawn_interval = self.waves[0].spawn_interval
             if now - self.last_spawn > spawn_interval:
                 if len(self.waves) > 0:
@@ -207,14 +219,13 @@ class Game:
                         self.last_spawn = now
                     else:
                         self.waves.pop(0)
-                        self.wave_delay = True
+                        self.last_wave = now
                         print("wave ended")
+                        self.wave_delay = True
+                        self.game_stats.wave += 1
                 else:
                     print("wygrana - koniec fal")
                     self.game_state = GameState.GAME_OVER
-        elif len(self.monsters) == 0:
-            self.wave_delay = False
-            self.current_wave += 1
 
     def is_game_over(self):
         if self.game_stats.get_hp <= 0:

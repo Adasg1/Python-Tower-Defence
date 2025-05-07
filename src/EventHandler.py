@@ -20,6 +20,9 @@ class EventHandler:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     mouse_pos = pygame.mouse.get_pos()
+                    if self.game.skip_button_rect.collidepoint(mouse_pos):
+                        self.game.wave_delay = False
+                        return
                     for spot in self.game.tower_spots:
                         if not spot.occupied:
                             if spot.rect.collidepoint(mouse_pos) and not spot.tower.showed_options:
