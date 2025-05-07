@@ -82,6 +82,7 @@ class Tower(TowerSprite, TowerStats):
             sell_rect = sell_price_text.get_rect(center=self.rect.midbottom)
             sell_rect.y += 28
             surface.blit(sell_price_text, sell_rect)
+            super().draw_stats(surface, pos=(self.rect.right+10, self.rect.top))
 
     def draw_range(self, surface):
         if self.type is not None and self.showed_options:

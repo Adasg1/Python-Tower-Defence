@@ -25,3 +25,8 @@ class Bank(Tower):
 
     def draw_range(self, surface):
         pass
+
+    def get_stat_lines(self):
+        return [
+            f"$ per wave: {self.earnings}",
+        ]

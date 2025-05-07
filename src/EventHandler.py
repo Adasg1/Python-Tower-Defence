@@ -3,6 +3,7 @@ import pygame
 
 from Enum.TowerType import TowerType
 from Enum.GameState import GameState
+import Mechanics.GameStats as stats
 
 
 def handle_exit(event):
@@ -24,7 +25,7 @@ class EventHandler:
                     if 10 <= mouse_pos[0] <= 80 and 10 <= mouse_pos[1] <= 80:
                         self.game.game_state = GameState.PAUSED
                     if self.game.skip_button_rect.collidepoint(mouse_pos):
-                        self.game.wave_delay = False
+                        self.game.start_next_wave()
                         return
                     for spot in self.game.tower_spots:
                         if not spot.occupied:

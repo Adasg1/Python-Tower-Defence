@@ -15,6 +15,7 @@ class Ice(Tower):
         self.elem_rect.midbottom = self.rect.midtop
         self.elem_rect.y -= 10
         self.ice_shards = pygame.sprite.Group()
+        self.slowness = 0.6
 
 
     def shoot(self, monster):
@@ -24,7 +25,7 @@ class Ice(Tower):
         slow_area = pygame.Rect(pos[0],pos[1], 80,80)
         for monster in self.monsters:
             if monster.rect.colliderect(slow_area):
-                monster.get_slowed(0.6, 3)
+                monster.get_slowed(self.slowness, 3)
 
 
     def update(self):
@@ -35,5 +36,11 @@ class Ice(Tower):
         super().draw(surface)
         self.ice_shards.draw(surface)
         surface.blit(self.elem, self.elem_rect)
+
+    def get_stat_lines(self):
+        lines = super().get_stat_lines()
+        slow = (1-self.slowness)*100
+        lines.append(f"Slow: {slow}%")
+        return lines
 
 

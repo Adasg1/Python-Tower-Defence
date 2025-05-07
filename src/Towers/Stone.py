@@ -30,6 +30,7 @@ class Stone(Tower):
         self.target = None
         self.elem_speed = 3.5
         self.show_stone = True
+        self.explosion_area = 80
 
     def handle_shoot_animation(self):
         if self.shot:
@@ -70,7 +71,7 @@ class Stone(Tower):
             print(f"{self.target}")
 
     def area_damage(self, pos):
-        damage_area = pygame.Rect(pos[0],pos[1], 80,80)
+        damage_area = pygame.Rect(pos[0],pos[1], self.explosion_area,self.explosion_area)
         for monster in self.monsters:
 
             if not isinstance(monster, FlyingMonster) and monster.rect.colliderect(damage_area):
@@ -101,5 +102,10 @@ class Stone(Tower):
         surface.blit(self.front_elem, self.front_elem_rect)
         self.stones.draw(surface)
 
+    def get_stat_lines(self):
+        lines = super().get_stat_lines()
+        radius = self.explosion_area//40
+        lines.append(f"Radius: {radius}%")
+        return lines
 
 
