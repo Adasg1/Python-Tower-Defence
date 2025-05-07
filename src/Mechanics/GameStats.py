@@ -6,9 +6,20 @@ class GameStats:
     def __init__(self):
         pygame.font.init()
         self._hp = 100
-        self._money = 1000
+        self._money = 100
         self.wave = 1
-        self.font = pygame.font.SysFont(None, 36)
+        self.font = pygame.font.Font("assets/fonts/LuckiestGuy-Regular.ttf", 20)
+        self.bar_image = pygame.image.load('assets/images/game_stats/table.png')
+        self.bar_image = pygame.transform.smoothscale(self.bar_image, (400, 120))
+        self.heart_image = pygame.image.load('assets/images/game_stats/heart.png')
+        self.heart_image = pygame.transform.smoothscale(self.heart_image, (32, 24))
+
+        self.money_image = pygame.image.load('assets/images/game_stats/money.png')
+        self.money_image = pygame.transform.smoothscale(self.money_image, (32, 24))
+
+
+        self.pause_image = pygame.image.load('assets/images/game_stats/button_pause.png')
+        self.pause_image = pygame.transform.smoothscale(self.pause_image, (70, 70))
 
     @property
     def get_hp(self): return self._hp
@@ -35,23 +46,18 @@ class GameStats:
 
     def draw(self, screen):
 
-        bar_image = pygame.image.load('assets/images/game_stats/table.png')
-        bar_image = pygame.transform.scale(bar_image, (180, 175))
-        screen.blit(bar_image, (1080, 10))
 
-        heart_image = pygame.image.load('assets/images/game_stats/heart.png')
-        screen.blit(heart_image, (1120, 25))
-        heart_text = self.font.render(f'{self._hp}', True, (255, 255, 255))
-        screen.blit(heart_text, (1170, 28))
+        screen.blit(self.bar_image, (930, -68))
 
-        money_image = pygame.image.load('assets/images/game_stats/money.png')
-        money_image = pygame.transform.smoothscale(money_image, (40, 30))
-        screen.blit(money_image, (1120, 75))
-        money_text = self.font.render(f'{self._money}', True, (255, 255, 255))
-        screen.blit(money_text, (1170, 78))
+        screen.blit(self.heart_image, (950, 8))
+        heart_text = self.font.render(f'{self._hp}', True, (222, 184, 135))
+        screen.blit(heart_text, (990, 12))
 
-        wave_image = pygame.image.load('assets/images/game_stats/wave.png')
-        wave_image = pygame.transform.smoothscale(wave_image, (40, 40))
-        screen.blit(wave_image, (1120, 120))
-        wave_text = self.font.render(f'{self.wave}', True, (255, 255, 255))
-        screen.blit(wave_text, (1170, 128))
+        screen.blit(self.money_image, (1040, 8))
+        money_text = self.font.render(f'{self._money}', True, (222, 184, 135))
+        screen.blit(money_text, (1080, 12))
+
+        wave_text = self.font.render(f'wave: {self.wave} / 30', True, (222, 184, 135))
+        screen.blit(wave_text, (1150, 12))
+
+        screen.blit(self.pause_image, (10, 10))

@@ -16,3 +16,6 @@ class TowerStats:
     def get_upgrade_cost(self):
         #chwilowe rozwiązanie, pewnie do zmiany
         return floor(self.cost*self.level*(1/2))
+
+    def get_sell_amount(self):
+        return floor((self.cost + self.cost*(self.level - 1)*(1/2))*(1/2))

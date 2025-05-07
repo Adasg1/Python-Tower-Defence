@@ -2,6 +2,7 @@ import sys
 import pygame
 
 from Enum.TowerType import TowerType
+from Enum.GameState import GameState
 
 
 def handle_exit(event):
@@ -20,6 +21,8 @@ class EventHandler:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     mouse_pos = pygame.mouse.get_pos()
+                    if 10 <= mouse_pos[0] <= 80 and 10 <= mouse_pos[1] <= 80:
+                        self.game.game_state = GameState.PAUSED
                     if self.game.skip_button_rect.collidepoint(mouse_pos):
                         self.game.wave_delay = False
                         return

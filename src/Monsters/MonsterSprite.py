@@ -92,7 +92,6 @@ class MonsterSprite(pygame.sprite.Sprite):
     def die(self):
         if not self.monster.is_dead:
             self.set_animation("die")
-            self.monster.is_dead = True
             if not self.facing_right:
                 self.flip_frames()
             self.rect.midbottom = self.monster.pos

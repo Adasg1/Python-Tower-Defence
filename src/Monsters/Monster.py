@@ -47,13 +47,18 @@ class Monster(MonsterSprite):
                 if self.current_point + 1 < len(self.path):
                     self.target = pygame.Vector2(self.path[self.current_point+1])
 
+    def die(self):
+        super().die()
+        self.is_dead = True
+        self.game_stats.earn(self.value)
+
     def update(self, screen):
         if self.health > 0:
             self.move()
         if self.health <= 0 and not self.is_dead:
-            MonsterSprite.die(self)
+            self.die()
             self.is_dead = True
-            self.game_stats.earn(self.value)
+
         self.slow_update()
         if self.current_point == len(self.path) - 1:
             MonsterSprite.kill(self) # tu bedzie bicie żyć graczowi

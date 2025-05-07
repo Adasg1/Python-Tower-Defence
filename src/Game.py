@@ -13,7 +13,7 @@ from src.Towers.TowerSprite import TowerSprite
 import Mechanics.GameStats as stats
 from Enum.TowerType import TowerType
 from src.assets.AssetManager import AssetManager
-from src.Enum.GameState import GameState
+from Enum.GameState import GameState
 from src.Waves.WaveLoader import WaveLoader
 
 
@@ -30,7 +30,7 @@ class Game:
         self.skip_table_bg = pygame.transform.scale(self.skip_table_bg, (220, 55))
         self.skip_button= AssetManager.get_image("images/game_stats/skip_button")
         self.skip_button = pygame.transform.scale(self.skip_button, (55, 55))
-        self.font = pygame.font.SysFont(None, 100)
+        self.font = pygame.font.Font('assets/fonts/LuckiestGuy-Regular.ttf', 100)
         self.background = pygame.transform.scale(self.background, (1280, 720))
         self.game_stats = stats.GameStats()
         self.game_state = GameState.MENU
@@ -63,6 +63,7 @@ class Game:
                     sys.exit()
                 if event.type == pygame.MOUSEBUTTONDOWN or event.type == pygame.KEYDOWN:
                     self.game_state = GameState.RUNNING
+
             self.screen.blit(self.background, (0, 0))
             start_text = self.font.render('Press to start a game', True, (181, 53, 53))
             rect = start_text.get_rect()
@@ -70,12 +71,13 @@ class Game:
             self.screen.blit(start_text, rect)
             pygame.display.update()
             self.clock.tick(60)
-        else:
-            self.run()
-            print("game started")
+
 
     def game_over(self):
         self.reset_game()
+        start_text = self.font.render('GAME OVER', True, (255, 0, 0))
+        rect = start_text.get_rect()
+        rect.center = (640, 360)
         while self.game_state == GameState.GAME_OVER:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -84,22 +86,40 @@ class Game:
                 if event.type == pygame.MOUSEBUTTONDOWN or event.type == pygame.KEYDOWN:
                     self.game_state = GameState.RUNNING
             self.screen.blit(self.background, (0, 0))
-            start_text = self.font.render('GAME OVER', True, (255, 0, 0))
-            rect = start_text.get_rect()
-            rect.center = (640, 360)
             self.screen.blit(start_text, rect)
             pygame.display.update()
             self.clock.tick(60)
-        else:
-            print("game restarted")
-            self.run()
 
+
+    def pause(self):
+        paused_text = self.font.render('PAUSED', True, (255, 0, 0))
+        rect = paused_text.get_rect()
+        rect.center = (640, 360)
+        print("paused")
+        print(f"{self.game_state}")
+        while self.game_state == GameState.PAUSED:
+            print("paused game")
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    print("nooo")
+                    pygame.quit()
+                    sys.exit()
+                if event.type == pygame.MOUSEBUTTONDOWN or event.type == pygame.KEYDOWN:
+                    self.game_state = GameState.RUNNING
+            self.screen.blit(self.background, (0, 0))
+            self.game_stats.draw(self.screen)
+            self.draw_monsters()
+            self.draw_towers()
+            self.draw_healthbars()
+            self.screen.blit(paused_text, rect)
+            pygame.display.update()
+            self.clock.tick(60)
 
 
     def run(self):
         while self.game_state == GameState.RUNNING:
             self.event_handler.running_game()
-            self.screen.blit(self.background, (0, 0))
+
 
 
             self.spawn_monsters_from_wave()
@@ -118,9 +138,11 @@ class Game:
             self.monsters.update(self.screen)
             self.towers.update()
             #draw
+            self.screen.blit(self.background, (0, 0))
+            self.draw_range()
             self.game_stats.draw(self.screen)
-            self.draw_towers()
             self.draw_monsters()
+            self.draw_towers()
             self.draw_healthbars()
             self.draw_options()
 
@@ -130,6 +152,10 @@ class Game:
 
             pygame.display.update()
             self.clock.tick(60)
+
+    def draw_range(self):
+        for tower in self.towers:
+            tower.draw_range(self.screen)
 
     def draw_monsters(self):
         for monster in self.monsters:
@@ -222,16 +248,15 @@ class Game:
                         self.last_wave = now
                         print("wave ended")
                         self.wave_delay = True
-                        self.game_stats.wave += 1
+                        self.game_stats.next_wave()
                 else:
                     print("wygrana - koniec fal")
                     self.game_state = GameState.GAME_OVER
 
+
     def is_game_over(self):
         if self.game_stats.get_hp <= 0:
             self.game_state = GameState.GAME_OVER
-            print("game over")
-            self.game_over()
 
     def draw_label(self, text, x, y):
         set_text = self.font.render(text, True, (255, 0, 0))
