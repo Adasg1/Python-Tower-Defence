@@ -53,7 +53,7 @@ class AssetManager:
 
 
                     cls._images[key] = image
-                    print(f"Załadowano obraz: {key}")
+                    #print(f"Załadowano obraz: {key}")
 
     @classmethod
     def get_image(cls, key):
@@ -74,7 +74,7 @@ class AssetManager:
                         reader = csv.DictReader(csvfile)
                         data = [(int(row["x"]), int(row["y"])) for row in reader]  # Współrzędne w formacie (x, y)
                         cls._csv_data[key] = data
-                        print(f"Załadowano plik CSV: {key}")
+                        #print(f"Załadowano plik CSV: {key}")
 
     @classmethod
     def get_csv(cls, key):

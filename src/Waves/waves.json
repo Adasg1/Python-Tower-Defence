@@ -3,7 +3,7 @@
         "wave": 1,
         "spawn_interval": 1000,
         "monsters": [
-            {"type": "BasicMonster", "count": 10, "hp_multiplier": 1}
+            {"type": "BasicMonster", "count": 1, "hp_multiplier": 1}
         ]
     },
 
