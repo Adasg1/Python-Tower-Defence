@@ -5,7 +5,7 @@ from src.Monsters.Monster import Monster
 
 class KnightBoss(Monster):
     def __init__(self, path_points, game_stats, hp_multiplier):
-        super().__init__(path_points, game_stats, hp_multiplier, monster_type=MonsterType.KNIGHTBOSS, health=400, speed=0.7, value=100)
+        super().__init__(path_points, game_stats, hp_multiplier, monster_type=MonsterType.KNIGHTBOSS, health=500, speed=0.7, value=100)
         self.is_invulnerable = False
         self.invulnerability_cooldown = 5000
         self.invulnerability_duration = 2500

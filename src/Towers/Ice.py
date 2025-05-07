@@ -9,7 +9,7 @@ from src.assets.AssetManager import AssetManager
 
 class Ice(Tower):
     def __init__(self, x, y, game_stats, monsters):
-        super().__init__(x, y, TowerType.ICE, game_stats, monsters,25, 250, 1, 150)
+        super().__init__(x, y, TowerType.ICE, game_stats, monsters,25, 150, 1, 150)
         self.elem = AssetManager.get_image("images/towers/elems/ice_elem")
         self.elem_rect = self.elem.get_rect()
         self.elem_rect.midbottom = self.rect.midtop

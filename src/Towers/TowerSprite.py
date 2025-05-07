@@ -55,6 +55,9 @@ class TowerSprite(pygame.sprite.Sprite):
             rect.y += 75
             surface.blit(options_image, rect)
 
+    def draw_range(self, surface):
+        pass
+
 
 
 

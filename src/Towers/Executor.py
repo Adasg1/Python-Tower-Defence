@@ -9,7 +9,7 @@ from src.assets.AssetManager import AssetManager
 
 class Executor(Tower):
     def __init__(self, x, y, game_stats, monsters):
-        super().__init__(x, y, TowerType.EXECUTOR, game_stats, monsters,70, 250, 1,  200)
+        super().__init__(x, y, TowerType.EXECUTOR, game_stats, monsters,60, 150, 0.5,  200)
         self.elem = AssetManager.get_image('images/towers/executor_elem')
         self.elem_rect = self.elem.get_rect()
         self.elem_rect.midbottom = self.rect.midtop

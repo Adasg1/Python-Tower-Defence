@@ -90,5 +90,4 @@ class MonsterSprite(pygame.sprite.Sprite):
 
     def die(self):
         self.set_animation("die")
-        self.monster.is_dead = True
         self.rect.midbottom = self.monster.pos

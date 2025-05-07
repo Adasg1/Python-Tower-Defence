@@ -8,7 +8,7 @@ from src.assets.AssetManager import AssetManager
 
 class Stone(Tower):
     def __init__(self, x, y, game_stats, monsters):
-        super().__init__(x, y, TowerType.STONE, game_stats, monsters,45, 200, 0.5, 150)
+        super().__init__(x, y, TowerType.STONE, game_stats, monsters,40, 150, 0.5, 150)
         self.stones = pygame.sprite.Group()
         self.shot = False
         self.back_elem = AssetManager.get_image("images/towers/back_elem_lvl1")

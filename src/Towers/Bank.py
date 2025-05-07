@@ -23,3 +23,5 @@ class Bank(Tower):
     def draw(self, surface):
         super().draw(surface)
 
+    def draw_range(self, surface):
+        pass
