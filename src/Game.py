@@ -221,15 +221,15 @@ class Game:
         self.game_stats.pay(tower_type.cost)
         match tower_type:
             case TowerType.ARCHER:
-                spot.tower = Archer(spot.rect.x, spot.rect.y, self.game_stats, self.monsters)
+                spot.tower = Archer(spot.rect.x, spot.rect.y, self, self.game_stats)
             case TowerType.ICE:
-                spot.tower = Ice(spot.rect.x, spot.rect.y, self.game_stats, self.monsters)
+                spot.tower = Ice(spot.rect.x, spot.rect.y, self, self.game_stats)
             case TowerType.STONE:
-                spot.tower = Stone(spot.rect.x, spot.rect.y, self.game_stats, self.monsters)
+                spot.tower = Stone(spot.rect.x, spot.rect.y, self, self.game_stats)
             case TowerType.BANK:
-                spot.tower = Bank(spot.rect.x, spot.rect.y, self.game_stats)
+                spot.tower = Bank(spot.rect.x, spot.rect.y, self, self.game_stats)
             case TowerType.EXECUTOR:
-                spot.tower = Executor(spot.rect.x, spot.rect.y, self.game_stats, self.monsters)
+                spot.tower = Executor(spot.rect.x, spot.rect.y, self, self.game_stats)
 
         spot.tower.set_tower_image(spot.rect.x, spot.rect.y)
         self.towers.add(spot.tower)
