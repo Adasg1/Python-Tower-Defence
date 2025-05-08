@@ -23,7 +23,7 @@ class TowerStats:
         self.firerate += fire_up
 
     def get_next_upgrade_values(self):
-        damage_up = int(self.damage * 0.1)
+        damage_up = int(self.damage * 0.2)
         range_up = 20 if self.level<=5 else 0
         firerate_up = 0.1
         return damage_up, range_up, firerate_up
