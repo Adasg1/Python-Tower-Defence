@@ -7,8 +7,8 @@ from src.Enum.TowerType import TowerType
 from src.assets.AssetManager import AssetManager
 
 class Stone(Tower):
-    def __init__(self, x, y, game_stats, monsters):
-        super().__init__(x, y, TowerType.STONE, game_stats, monsters,40, 150, 0.5, 150)
+    def __init__(self, x, y, game, game_stats):
+        super().__init__(x, y, TowerType.STONE, game, game_stats,40, 150, 0.5, 150)
         self.stones = pygame.sprite.Group()
         self.shot = False
         self.back_elem = AssetManager.get_image("images/towers/back_elem_lvl1")
@@ -30,6 +30,21 @@ class Stone(Tower):
         self.target = None
         self.elem_speed = 3.5
         self.show_stone = True
+        self.explosion_area = 80
+
+    def upgrade(self):
+        super().upgrade()
+        self.upgrade_elem_image(self.level)
+
+    def upgrade_stats(self):
+        super().upgrade_stats()
+        expl_up = self.get_next_upgrade_values_stone()
+
+        self.explosion_area += expl_up
+
+    def get_next_upgrade_values_stone(self):
+        explosion_up = 10 if self.level <=5 else 0
+        return explosion_up
 
     def handle_shoot_animation(self):
         if self.shot:
@@ -70,14 +85,11 @@ class Stone(Tower):
             print(f"{self.target}")
 
     def area_damage(self, pos):
-        damage_area = pygame.Rect(pos[0],pos[1], 80,80)
+        damage_area = pygame.Rect(pos[0],pos[1], self.explosion_area,self.explosion_area)
         for monster in self.monsters:
 
             if not isinstance(monster, FlyingMonster) and monster.rect.colliderect(damage_area):
                 monster.get_damage(self.damage)
-    def upgrade(self):
-        super().upgrade()
-        self.upgrade_elem_image(self.level)
 
     def upgrade_elem_image(self, level):
         if level == 3 or level == 5:
@@ -101,5 +113,11 @@ class Stone(Tower):
         surface.blit(self.front_elem, self.front_elem_rect)
         self.stones.draw(surface)
 
+    def get_stat_lines(self):
+        lines = super().get_stat_lines()
+        expl = self.explosion_area//2
+        expl_up = self.get_next_upgrade_values_stone()//2
+        lines.append(f"Explosion: {expl} (+{expl_up})")
+        return lines
 
 

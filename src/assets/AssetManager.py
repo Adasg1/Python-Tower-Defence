@@ -56,10 +56,14 @@ class AssetManager:
                     #print(f"Załadowano obraz: {key}")
 
     @classmethod
-    def get_image(cls, key):
+    def get_image(cls, key, scale=None):
         if key not in cls._images:
             print(f"Ostrzeżenie: Nie znaleziono obrazu o kluczu '{key}'")
-        return cls._images.get(key)
+            return None
+        image = cls._images[key]
+        if scale:
+            image = pygame.transform.smoothscale(image, scale)
+        return image
 
     @classmethod
     def load_all_csv_from(cls, base_folder):

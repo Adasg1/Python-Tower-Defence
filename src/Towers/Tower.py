@@ -7,17 +7,18 @@ from src.assets.AssetManager import AssetManager
 
 
 class Tower(TowerSprite, TowerStats):
-    def __init__(self, x, y, tower_type, game_stats, monsters, damage, range, firerate, cost):
+    def __init__(self, x, y, tower_type, game, game_stats, damage, range, firerate, cost):
         TowerStats.__init__(self, game_stats, damage, range, firerate, cost)
         TowerSprite.__init__(self, x, y, tower_type)
+        self.game = game
         self.cooldown = 0
-        self.monsters = monsters
+        self.monsters = self.game.monsters
         self.disabled = False
         self.disable_timer = 0
         self.font = pygame.font.Font("assets/fonts/CarterOne-Regular.ttf", 13)
 
     def upgrade(self):
-        super().upgrade_stats()
+        self.upgrade_stats()
         super().upgrade_image(self.level)
 
     def use(self):
@@ -82,6 +83,7 @@ class Tower(TowerSprite, TowerStats):
             sell_rect = sell_price_text.get_rect(center=self.rect.midbottom)
             sell_rect.y += 28
             surface.blit(sell_price_text, sell_rect)
+            super().draw_stats(surface, pos=(self.rect.right+10, self.rect.top))
 
     def draw_range(self, surface):
         if self.type is not None and self.showed_options:

@@ -7,11 +7,14 @@ from src.Enum.TowerType import TowerType
 from src.assets.AssetManager import AssetManager
 
 class Archer(Tower):
-    def __init__(self, x, y, game_stats, monsters):
-        super().__init__(x, y, TowerType.ARCHER, game_stats, monsters, 30, 150, 1.5,100)
+    def __init__(self, x, y, game, game_stats):
+        super().__init__(x, y, TowerType.ARCHER, game, game_stats,30, 150, 1.5,100)
         self.archer = pygame.sprite.GroupSingle(ArcherSprite(self.rect.midtop[0]-3, self.rect.midtop[1]-25))
         self.arrows = pygame.sprite.Group()
         self.arrow_image = AssetManager.get_image("images/projectiles/arrow")
+
+    def upgrade(self):
+        super().upgrade()
 
     def shoot(self, monster):
         self.archer.sprite.shot = True
