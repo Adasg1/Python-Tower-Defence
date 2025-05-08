@@ -22,7 +22,7 @@ class EventHandler:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     mouse_pos = pygame.mouse.get_pos()
-                    if 10 <= mouse_pos[0] <= 80 and 10 <= mouse_pos[1] <= 80:
+                    if self.game.pause_button_rect.collidepoint(mouse_pos):
                         self.game.game_state = GameState.PAUSED
                     if self.game.skip_button_rect.collidepoint(mouse_pos):
                         self.game.start_next_wave()
@@ -32,9 +32,12 @@ class EventHandler:
                             if spot.rect.collidepoint(mouse_pos) and not spot.tower.showed_options:
                                 spot.tower.show_options()
                             elif spot.tower.showed_options:
+                                up = 0
+                                if spot.tower.rect.midbottom[1] > 670:
+                                    up = 50
                                 options_rect = pygame.Rect(
                                     spot.tower.rect.x - 30,
-                                    spot.tower.rect.y - 60,
+                                    spot.tower.rect.y - 60 - up,
                                     200,
                                     200
                                 )

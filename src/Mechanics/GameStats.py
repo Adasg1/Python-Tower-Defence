@@ -1,25 +1,17 @@
 import pygame
-
+from src.assets.AssetManager import AssetManager
 
 
 class GameStats:
     def __init__(self):
         pygame.font.init()
         self._hp = 100
-        self._money = 1000
+        self._money = 100
         self.wave = 0
         self.font = pygame.font.Font("assets/fonts/LuckiestGuy-Regular.ttf", 20)
-        self.bar_image = pygame.image.load('assets/images/game_stats/table.png')
-        self.bar_image = pygame.transform.smoothscale(self.bar_image, (400, 120))
-        self.heart_image = pygame.image.load('assets/images/game_stats/heart.png')
-        self.heart_image = pygame.transform.smoothscale(self.heart_image, (32, 24))
-
-        self.money_image = pygame.image.load('assets/images/game_stats/money.png')
-        self.money_image = pygame.transform.smoothscale(self.money_image, (32, 24))
-
-
-        self.pause_image = pygame.image.load('assets/images/game_stats/button_pause.png')
-        self.pause_image = pygame.transform.smoothscale(self.pause_image, (70, 70))
+        self.bar_image = AssetManager.get_image("images/game_stats/table", (400, 120))
+        self.heart_image = AssetManager.get_image("images/game_stats/heart", (32, 24))
+        self.money_image = AssetManager.get_image("images/game_stats/money", (32, 24))
 
     @property
     def get_hp(self): return self._hp
@@ -32,6 +24,9 @@ class GameStats:
 
     def earn(self, amount):
         self._money += amount
+
+    def get_afterwave_earnings(self):
+        self._money += 15 + 5*self.wave
 
     def pay(self, amount):
         self._money -= amount
@@ -59,5 +54,3 @@ class GameStats:
 
         wave_text = self.font.render(f'wave: {self.wave} / 30', True, (222, 184, 135))
         screen.blit(wave_text, (1150, 12))
-
-        screen.blit(self.pause_image, (10, 10))

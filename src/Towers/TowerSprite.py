@@ -49,14 +49,21 @@ class TowerSprite(pygame.sprite.Sprite):
 
 
     def draw_options(self, surface):
+        up = 0
+        if self.rect.midbottom[1] > 670:
+            up = 50
         if self.counter > 0:
             options_image = AssetManager.get_image(f"images/tower_options/tower_options00{floor(self.counter)}")
             rect = options_image.get_rect(midbottom = self.rect.midbottom)
-            rect.y += 75
+            rect.y += 75 - up
             surface.blit(options_image, rect)
 
     def draw_range(self, surface):
-        pass
+        if self.showed_options:
+            surface2 = pygame.Surface((2 * 150, 2 * 150), pygame.SRCALPHA)
+            pygame.draw.circle(surface2, (0, 255, 0, 48), (150, 150), 150)
+            circle_center = (self.rect.center[0] - 150, self.rect.center[1] - 150 + 15)
+            surface.blit(surface2, circle_center)
 
 
 

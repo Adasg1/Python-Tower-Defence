@@ -65,28 +65,31 @@ class Tower(TowerSprite, TowerStats):
             self.handle_disable_effect()
 
     def draw_options(self, surface):
+        up = 0
+        if self.rect.midbottom[1] > 670:
+            up = 50
         if self.counter > 0:
 
             options_image = AssetManager.get_image("images/tower_options/upgrade_sell")
             rect = options_image.get_rect(midbottom=self.rect.midbottom)
-            rect.y += 50
+            rect.y += 50 - up
             surface.blit(options_image, rect)
             if self.get_upgrade_cost() <= self.game_stats.get_money:
                 color = (0, 255, 0)
             else:
                 color = (255, 0, 0)
             upgrade_cost_text = self.font.render(f'{self.get_upgrade_cost()}', True, color)
-            upgrade_rect = upgrade_cost_text.get_rect(center=self.rect.midtop)
-            upgrade_rect.y += 16
+            upgrade_rect = upgrade_cost_text.get_rect(center=self.rect.midbottom)
+            upgrade_rect.y -= 100 + up
             surface.blit(upgrade_cost_text, upgrade_rect)
             sell_price_text = self.font.render(f'{self.get_sell_amount()}', True, (0, 255, 0))
             sell_rect = sell_price_text.get_rect(center=self.rect.midbottom)
-            sell_rect.y += 28
+            sell_rect.y += 28 - up
             surface.blit(sell_price_text, sell_rect)
             super().draw_stats(surface, pos=(self.rect.right+10, self.rect.top))
 
     def draw_range(self, surface):
-        if self.type is not None and self.showed_options:
+        if self.showed_options:
             surface2 = pygame.Surface((2 * self.range, 2 * self.range), pygame.SRCALPHA)
             pygame.draw.circle(surface2, (0, 255, 0, 48), (self.range, self.range), self.range)
             circle_center = (self.rect.center[0] - self.range, self.rect.center[1] - self.range + 15)

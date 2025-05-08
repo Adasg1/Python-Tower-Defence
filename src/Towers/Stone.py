@@ -69,8 +69,11 @@ class Stone(Tower):
     def get_monster_in_range(self):
         monsters_in_range = []
         for monster in self.monsters:
-            tower_pos = pygame.Vector2(self.rect.center)
-            dist = tower_pos.distance_to(monster.pos)
+            tower_pos = pygame.Vector2(self.rect.midbottom)
+            tower_pos.y += 15
+            monster_closest_pos = (max(monster.rect.left, min(tower_pos.x, monster.rect.right)),
+                                   max(monster.rect.bottom, min(tower_pos.y, monster.rect.top)))
+            dist = tower_pos.distance_to(monster_closest_pos)
             if not isinstance(monster, FlyingMonster) and not monster.is_dead and dist < self.range:
                 monsters_in_range.append(monster)
         if monsters_in_range:
