@@ -1,19 +1,14 @@
 import sys
 import pygame
 
-from src.EventHandler import EventHandler
-from Mechanics.TowerSpot import TowerSpot
-from src.Towers.Archer import Archer
-from src.Towers.Ice import Ice
-from src.Towers.Stone import Stone
-from src.Towers.Bank import Bank
-from src.Towers.Executor import Executor
+from src.GameManager.EventHandler import EventHandler
 
-from src.Towers.TowerSprite import TowerSprite
-import Mechanics.GameStats as stats
-from Enum.TowerType import TowerType
+from src.GameManager.TowerManager import TowerManager
+
+
+import src.Mechanics.GameStats as stats
 from src.assets.AssetManager import AssetManager
-from Enum.GameState import GameState
+from src.Enum.GameState import GameState
 from src.Waves.WaveLoader import WaveLoader
 
 
@@ -34,13 +29,13 @@ class Game:
         self.font = pygame.font.Font('assets/fonts/LuckiestGuy-Regular.ttf', 100)
         self.game_stats = stats.GameStats()
         self.game_state = GameState.MENU
-        self.event_handler = EventHandler(self)
         self.monsters = pygame.sprite.Group()
-        self.towers = pygame.sprite.Group()
+        self.towers = TowerManager(self.game_stats, self.monsters)
+        self.event_handler = EventHandler(self, self.towers)
 
         self.path = AssetManager.get_csv("map/path")
 
-        self.wave_loader = WaveLoader("Waves/waves.json", self.game_stats, self.towers)
+        self.wave_loader = WaveLoader("Waves/waves.json", self.game_stats, self.towers.towers)
         self.waves = self.wave_loader.waves
         self.last_spawn = pygame.time.get_ticks()
         self.last_wave = 0
@@ -48,13 +43,20 @@ class Game:
         self.wave_delay = True
         self.wave_spawns = False
 
-        spot_coords = AssetManager.get_csv("map/tower_spots")
-        self.tower_spots = []
 
-        for coords in spot_coords:
-            self.tower_spots.append(TowerSpot(coords[0], coords[1]))
-            self.tower_spots[-1].init()
-            self.towers.add(self.tower_spots[-1].tower)
+
+
+    def start(self):
+        while True:
+            match self.game_state:
+                case GameState.MENU:
+                    self.menu()
+                case GameState.RUNNING:
+                    self.run()
+                case GameState.PAUSED:
+                    self.pause()
+                case GameState.GAME_OVER:
+                    self.game_over()
 
     def menu(self):
         while self.game_state == GameState.MENU:
@@ -89,7 +91,7 @@ class Game:
                     self.game_state = GameState.RUNNING
             self.screen.blit(self.background, (0, 0))
             self.draw_monsters()
-            self.draw_towers()
+            self.towers.draw(self.screen)
             self.screen.blit(start_text, rect)
             pygame.display.update()
             self.clock.tick(60)
@@ -110,9 +112,9 @@ class Game:
             self.screen.blit(self.background, (0, 0))
             self.game_stats.draw(self.screen)
             self.draw_monsters()
-            self.draw_towers()
+            self.towers.draw(self.screen)
             self.draw_healthbars()
-            self.draw_options()
+            self.towers.draw_options(self.screen)
             self.screen.blit(paused_text, rect)
             pygame.display.update()
             self.clock.tick(60)
@@ -131,19 +133,18 @@ class Game:
                         monster.healing(self.monsters)
                     if monster.monster_type.monster_name == "treeboss":
                         monster.spawn_monsters(self.monsters)
-                    if monster.monster_type.monster_name == "knightboss":
-                        monster.set_invulnerable()
 
             # update
-            self.monsters.update(self.screen)
+            self.monsters.update()
             self.towers.update()
+
             #draw
             self.screen.blit(self.background, (0, 0))
-            self.draw_range()
+            self.towers.draw_range(self.screen)
             self.draw_monsters()
-            self.draw_towers()
+            self.towers.draw(self.screen)
             self.draw_healthbars()
-            self.draw_options()
+            self.towers.draw_options(self.screen)
             self.screen.blit(self.pause_button, self.pause_button_rect)
             self.draw_wave_info_and_skip(self.screen)
             self.game_stats.draw(self.screen)
@@ -153,9 +154,7 @@ class Game:
             pygame.display.update()
             self.clock.tick(60)
 
-    def draw_range(self):
-        for tower in self.towers:
-            tower.draw_range(self.screen)
+
 
     def draw_monsters(self):
         for monster in self.monsters:
@@ -165,13 +164,6 @@ class Game:
         for monster in self.monsters:
             monster.draw_health_bar(self.screen)
 
-    def draw_towers(self):
-        for tower in self.towers:
-            tower.draw(self.screen)
-
-    def draw_options(self):
-        for tower in self.towers:
-            tower.draw_options(self.screen)
 
     def draw_wave_info_and_skip(self, screen):
         if self.wave_delay:
@@ -183,7 +175,7 @@ class Game:
             bg_pos = (1023, 50)
             screen.blit(self.skip_table_bg, bg_pos)
             timer_font = pygame.font.Font('assets/fonts/LuckiestGuy-Regular.ttf', 20)
-            if self.game_stats.wave > 0:
+            if self.game_stats.get_wave > 0:
                 timer_text = timer_font.render(f"Next wave in: {time_remaining}s", True, (222, 184, 135)) # wyswietlony timer
             else:
                 self.last_wave = now
@@ -195,47 +187,9 @@ class Game:
 
     def reset_game(self):
         self.game_stats.reset_stats()
-        for tower in self.towers:
-            tower.kill()
         for monster in self.monsters:
             monster.kill()
-        for spot in self.tower_spots:
-            spot.init()
-            self.towers.add(spot.tower)
-
-    def upgrade_tower(self, spot, upgrade_cost):
-        spot.tower.hide_options()
-        spot.tower.upgrade()
-        self.game_stats.pay(upgrade_cost)
-
-    def sell_tower(self, spot):
-        spot.tower.hide_options()
-        self.game_stats.earn(spot.tower.cost // 2)
-        spot.tower.sell()
-        spot.tower = TowerSprite(spot.rect.x, spot.rect.y, None)
-        self.towers.add(spot.tower)
-        spot.occupied = False
-
-
-    def place_tower(self, spot, tower_type):
-        spot.tower.hide_options()
-        self.towers.remove(spot.tower)
-        self.game_stats.pay(tower_type.cost)
-        match tower_type:
-            case TowerType.ARCHER:
-                spot.tower = Archer(spot.rect.x, spot.rect.y, self, self.game_stats)
-            case TowerType.ICE:
-                spot.tower = Ice(spot.rect.x, spot.rect.y, self, self.game_stats)
-            case TowerType.STONE:
-                spot.tower = Stone(spot.rect.x, spot.rect.y, self, self.game_stats)
-            case TowerType.BANK:
-                spot.tower = Bank(spot.rect.x, spot.rect.y, self, self.game_stats)
-            case TowerType.EXECUTOR:
-                spot.tower = Executor(spot.rect.x, spot.rect.y, self, self.game_stats)
-
-        spot.tower.set_tower_image(spot.rect.x, spot.rect.y)
-        self.towers.add(spot.tower)
-        spot.occupied = True
+        self.towers.reset()
 
     def spawn_monsters_from_wave(self):
         now = pygame.time.get_ticks()
@@ -262,11 +216,12 @@ class Game:
                 self.wave_delay = True
                 self.wave_spawns = False
                 self.game_stats.get_afterwave_earnings()
+                self.game_stats.next_wave()
 
     def start_next_wave(self):
         self.wave_delay = False
         self.wave_spawns = True
-        self.game_stats.wave += 1
+
 
     def is_game_over(self):
         if self.game_stats.get_hp <= 0:

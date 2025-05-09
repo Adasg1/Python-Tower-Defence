@@ -14,11 +14,11 @@ class KnightBoss(Monster):
     def set_invulnerable(self):
         now = pygame.time.get_ticks()
         if self.is_invulnerable and now - self.last_invulnerability_change > self.invulnerability_duration:
-            #print("vuln")
+            print("vuln")
             self.is_invulnerable = False
             self.last_invulnerability_change = now
         elif not self.is_invulnerable and now - self.last_invulnerability_change > self.invulnerability_cooldown:
-            #print("invuln")
+            print("invuln")
             self.is_invulnerable = True
             self.last_invulnerability_change = now
 
@@ -27,3 +27,9 @@ class KnightBoss(Monster):
             self.heal(damage)
         else:
             super().get_damage(damage)
+
+    def update(self):
+        if not self.is_dead:
+            self.set_invulnerable()
+        super().update()
+

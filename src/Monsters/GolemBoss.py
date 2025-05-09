@@ -24,8 +24,8 @@ class GolemBoss(Monster):
                 random.choice(towers_to_disable).disable(self.disable_duration)
             self.last_disable_time = now
 
-    def update(self, screen):
-        super().update(screen)
+    def update(self):
+        super().update()
         self.disable_towers()
 
 

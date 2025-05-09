@@ -52,16 +52,15 @@ class Monster(MonsterSprite):
         self.is_dead = True
         self.game_stats.earn(self.value)
 
-    def update(self, screen):
+    def update(self):
         if self.health > 0:
             self.move()
         if self.health <= 0 and not self.is_dead:
             self.die()
             self.is_dead = True
-
         self.slow_update()
         if self.current_point == len(self.path) - 1:
-            MonsterSprite.kill(self) # tu bedzie bicie żyć graczowi
+            MonsterSprite.kill(self)
             self.game_stats.take_damage(1)
             return
 
