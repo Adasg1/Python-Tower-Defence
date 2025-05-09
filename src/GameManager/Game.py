@@ -175,7 +175,7 @@ class Game:
             bg_pos = (1023, 50)
             screen.blit(self.skip_table_bg, bg_pos)
             timer_font = pygame.font.Font('assets/fonts/LuckiestGuy-Regular.ttf', 20)
-            if self.game_stats.get_wave > 0:
+            if self.game_stats.get_wave > 1:
                 timer_text = timer_font.render(f"Next wave in: {time_remaining}s", True, (222, 184, 135)) # wyswietlony timer
             else:
                 self.last_wave = now
@@ -202,9 +202,6 @@ class Game:
                         self.monsters.add(next_monster)
                         self.last_spawn = now
                     elif len(self.waves) > 0:
-                        if len(self.waves) > 1:
-                            for i in range(0, 28):
-                                self.waves.pop(0)
                         self.waves.pop(0)
                         self.wave_spawns = False
                         print("wave ended")

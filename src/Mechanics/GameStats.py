@@ -44,7 +44,6 @@ class GameStats:
 
     def draw(self, screen):
 
-
         screen.blit(self.bar_image, (930, -68))
 
         screen.blit(self.heart_image, (950, 8))
