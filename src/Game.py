@@ -247,14 +247,14 @@ class Game:
                         next_monster = self.waves[0].get_next_monster()
                         self.monsters.add(next_monster)
                         self.last_spawn = now
-                    else:
+                    elif len(self.waves) > 0:
                         self.waves.pop(0)
-                        if len(self.waves) == 0:
-                            print("wygrana - koniec fal")
-                            self.game_state = GameState.GAME_OVER
                         self.wave_spawns = False
                         print("wave ended")
             elif len(self.monsters) == 0:
+                if len(self.waves) == 0:
+                    print("wygrana - koniec fal")
+                    self.game_state = GameState.GAME_OVER
                 self.last_wave = now
                 self.wave_delay = True
                 self.wave_spawns = False
