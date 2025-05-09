@@ -2,11 +2,12 @@ from src.Towers.Tower import Tower
 from src.Enum.TowerType import TowerType
 
 class Bank(Tower):
-    def __init__(self, x, y, game, game_stats):
-        super().__init__(x, y, TowerType.BANK, game, game_stats,None,None,  2, 200)
+    def __init__(self, x, y, monsters, game_stats):
+        super().__init__(x, y, TowerType.BANK, monsters, game_stats,None,None,  2, 200)
         self.cooldown = 0
         self.earnings = 40
         self.money_given = True
+        self.wave_count = self.game_stats.get_wave
 
     def upgrade_stats(self):
         earn_up = self.get_next_upgrade_values()
@@ -21,11 +22,9 @@ class Bank(Tower):
 
     def use(self):
         # logika uzywania wiezy
-        if self.money_given and self.game.wave_spawns:
-            self.money_given = False
-        if self.game.wave_delay and not self.money_given:
+        if self.wave_count != self.game_stats.get_wave:
             self.earn()
-            self.money_given = True
+            self.wave_count = self.game_stats.get_wave
 
 
     def earn(self):

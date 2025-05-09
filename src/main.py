@@ -1,20 +1,9 @@
-from Game import Game
-from Enum.GameState import GameState
+from src.GameManager.Game import Game
 
 
 def main():
     game = Game()
-
-    while True:
-        match game.game_state:
-            case GameState.MENU:
-                game.menu()
-            case GameState.RUNNING:
-                game.run()
-            case GameState.PAUSED:
-                game.pause()
-            case GameState.GAME_OVER:
-                game.game_over()
+    game.start()
 
 if __name__ == '__main__':
     main()

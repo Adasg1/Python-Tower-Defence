@@ -1,9 +1,9 @@
 import sys
 import pygame
 
-from Enum.TowerType import TowerType
-from Enum.GameState import GameState
-import Mechanics.GameStats as stats
+from src.Enum.TowerType import TowerType
+from src.Enum.GameState import GameState
+import src.Mechanics.GameStats as stats
 
 
 def handle_exit(event):
@@ -13,8 +13,9 @@ def handle_exit(event):
 
 
 class EventHandler:
-    def __init__(self, game):
+    def __init__(self, game, towers_manager):
         self.game = game
+        self.towers_manager = towers_manager
 
     def running_game(self):
         for event in pygame.event.get():
@@ -27,7 +28,7 @@ class EventHandler:
                     if self.game.skip_button_rect.collidepoint(mouse_pos):
                         self.game.start_next_wave()
                         return
-                    for spot in self.game.tower_spots:
+                    for spot in self.towers_manager.spots:
                         if not spot.occupied:
                             if spot.rect.collidepoint(mouse_pos) and not spot.tower.showed_options:
                                 spot.tower.show_options()
@@ -64,7 +65,7 @@ class EventHandler:
                                     if tower_type:
                                         print(tower_type)
                                         if tower_type.cost <= self.game.game_stats.get_money:
-                                            self.game.place_tower(spot, tower_type)
+                                            self.towers_manager.place_tower(spot, tower_type)
                                         else:
                                             print("Not enough money")
                                 else:
@@ -73,6 +74,9 @@ class EventHandler:
                             if spot.rect.collidepoint(mouse_pos) and not spot.tower.showed_options:
                                 spot.tower.show_options()
                             elif spot.tower.showed_options:
+                                up = 0
+                                if spot.tower.rect.midbottom[1] > 670:
+                                    up = 50
                                 options_rect = pygame.Rect(
                                     0,
                                     0,
@@ -80,7 +84,7 @@ class EventHandler:
                                     200
                                 )
                                 options_rect.midbottom = spot.tower.rect.midbottom
-                                options_rect.y += 50
+                                options_rect.y += 50 - up
 
                                 if options_rect.collidepoint(mouse_pos):
                                     rel_x = mouse_pos[0] - options_rect.x
@@ -88,11 +92,11 @@ class EventHandler:
                                     if 70 < rel_x < 120 and 10 < rel_y < 60:
                                         upgrade_cost = spot.tower.get_upgrade_cost()
                                         if upgrade_cost <= self.game.game_stats.get_money:
-                                            self.game.upgrade_tower(spot, upgrade_cost)
+                                            self.towers_manager.upgrade_tower(spot, upgrade_cost)
                                         else:
                                             print("Not enough money")
 
                                     if 70 < rel_x < 120 and 140 < rel_y < 190:
-                                        self.game.sell_tower(spot)
+                                        self.towers_manager.sell_tower(spot)
                                 else:
                                     spot.tower.hide_options()

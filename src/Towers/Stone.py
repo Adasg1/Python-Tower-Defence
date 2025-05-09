@@ -7,8 +7,8 @@ from src.Enum.TowerType import TowerType
 from src.assets.AssetManager import AssetManager
 
 class Stone(Tower):
-    def __init__(self, x, y, game, game_stats):
-        super().__init__(x, y, TowerType.STONE, game, game_stats,40, 150, 0.5, 150)
+    def __init__(self, x, y, monsters, game_stats):
+        super().__init__(x, y, TowerType.STONE, monsters, game_stats,40, 150, 0.5, 150)
         self.stones = pygame.sprite.Group()
         self.shot = False
         self.back_elem = AssetManager.get_image("images/towers/back_elem_lvl1")
