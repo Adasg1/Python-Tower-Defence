@@ -7,12 +7,11 @@ from src.assets.AssetManager import AssetManager
 
 
 class Tower(TowerSprite, TowerStats):
-    def __init__(self, x, y, tower_type, game, game_stats, damage, range, firerate, cost):
+    def __init__(self, x, y, tower_type, monsters, game_stats, damage, range, firerate, cost):
         TowerStats.__init__(self, game_stats, damage, range, firerate, cost)
         TowerSprite.__init__(self, x, y, tower_type)
-        self.game = game
         self.cooldown = 0
-        self.monsters = self.game.monsters
+        self.monsters = monsters
         self.disabled = False
         self.disable_timer = 0
         self.font = pygame.font.Font("assets/fonts/CarterOne-Regular.ttf", 13)
@@ -38,7 +37,7 @@ class Tower(TowerSprite, TowerStats):
             if dist <= self.range and not monster.is_dead:
                 monsters_in_range.append(monster)
         if monsters_in_range:
-            target = max(monsters_in_range, key=lambda point: point.current_point)
+            target = max(monsters_in_range, key=lambda m: m.distance_on_path)
             return target
         return None
 
