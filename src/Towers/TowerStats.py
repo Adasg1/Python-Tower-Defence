@@ -16,17 +16,11 @@ class TowerStats:
 
     def upgrade_stats(self):
         self.level += 1
-        dmg_up, rng_up, fire_up = self.get_next_upgrade_values()
+        dmg_up, rng_up, rate_up = self.get_next_upgrade_values()
 
         self.damage += dmg_up
         self.range += rng_up
-        self.firerate += fire_up
-
-    def get_next_upgrade_values(self):
-        damage_up = int(self.damage * 0.2)
-        range_up = 20 if self.level<=5 else 0
-        firerate_up = 0.1
-        return damage_up, range_up, firerate_up
+        self.firerate += rate_up
 
     def get_stat_lines(self):
         dmg_up, rng_up, fire_up = self.get_next_upgrade_values()

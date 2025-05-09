@@ -16,6 +16,12 @@ class Executor(Tower):
         self.elem_rect.y -= 45
         self.thunderbolts = pygame.sprite.Group()
 
+    def get_next_upgrade_values(self):
+        damage_up = int(self.damage * 0.4)
+        range_up = 20 if self.level <= 5 else 0
+        firerate_up = 0.1
+        return damage_up, range_up, firerate_up
+
     def shoot(self, monster):
         self.thunderbolts.add(ThunderBolt(self.elem_rect.center[0], self.elem_rect.center[1], monster, self.damage))
 

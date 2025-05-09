@@ -6,7 +6,7 @@ class GameStats:
     def __init__(self):
         pygame.font.init()
         self._hp = 100
-        self._money = 100
+        self._money = 5000
         self.wave = 0
         self.font = pygame.font.Font("assets/fonts/LuckiestGuy-Regular.ttf", 20)
         self.bar_image = AssetManager.get_image("images/game_stats/table", (400, 120))

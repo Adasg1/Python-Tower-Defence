@@ -37,14 +37,21 @@ class Stone(Tower):
         self.upgrade_elem_image(self.level)
 
     def upgrade_stats(self):
-        super().upgrade_stats()
-        expl_up = self.get_next_upgrade_values_stone()
+        dmg_up, rng_up, rate_up, expl_up = self.get_next_upgrade_values()
 
+        self.level += 1
+        self.damage += dmg_up
+        self.range += rng_up
+        self.firerate += rate_up
         self.explosion_area += expl_up
 
-    def get_next_upgrade_values_stone(self):
+    def get_next_upgrade_values(self):
+        damage_up = int(self.damage * 0.2)
+        range_up = 20 if self.level<=5 else 0
+        firerate_up = 0.1
         explosion_up = 10 if self.level <=5 else 0
-        return explosion_up
+
+        return damage_up, range_up, firerate_up, explosion_up
 
     def handle_shoot_animation(self):
         if self.shot:
@@ -117,10 +124,15 @@ class Stone(Tower):
         self.stones.draw(surface)
 
     def get_stat_lines(self):
-        lines = super().get_stat_lines()
         expl = self.explosion_area//2
-        expl_up = self.get_next_upgrade_values_stone()//2
-        lines.append(f"Explosion: {expl} (+{expl_up})")
-        return lines
+        dmg_up, rng_up, rate_up, expl_up = self.get_next_upgrade_values()
+        expl_up//=2
+        return [
+            f"Level: {self.level} (+1)",
+            f"Damage: {self.damage} (+{dmg_up})",
+            f"Range: {self.range} (+{rng_up})",
+            f"Rate: {self.firerate:.2f}/s (+{rate_up})",
+            f"Explosion: {expl} (+{expl_up})"
+        ]
 
 

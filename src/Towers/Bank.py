@@ -8,16 +8,13 @@ class Bank(Tower):
         self.earnings = 40
         self.money_given = True
 
-    def upgrade(self):
-        super().upgrade()
-
     def upgrade_stats(self):
-        earn_up = self.get_next_upgrade_values_bank()
+        earn_up = self.get_next_upgrade_values()
 
         self.level += 1
         self.earnings += earn_up
 
-    def get_next_upgrade_values_bank(self):
+    def get_next_upgrade_values(self):
         earnings = 5
 
         return earnings
@@ -44,7 +41,7 @@ class Bank(Tower):
         pass
 
     def get_stat_lines(self):
-        earn_up = self.get_next_upgrade_values_bank()
+        earn_up = self.get_next_upgrade_values()
         return [
             f"Level: {self.level} (+1)",
             f"$ per wave: {self.earnings} (+{earn_up})",

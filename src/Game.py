@@ -248,6 +248,9 @@ class Game:
                         self.monsters.add(next_monster)
                         self.last_spawn = now
                     elif len(self.waves) > 0:
+                        if len(self.waves) > 1:
+                            for i in range(0, 28):
+                                self.waves.pop(0)
                         self.waves.pop(0)
                         self.wave_spawns = False
                         print("wave ended")
