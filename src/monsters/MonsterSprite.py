@@ -5,7 +5,7 @@ from src.assets.AssetManager import AssetManager
 
 
 class MonsterSprite(pygame.sprite.Sprite):
-    def __init__(self, monster, monster_type):
+    def __init__(self, monster, monster_type, width):
         super().__init__()
         self.monster = monster
         self.name = monster_type.monster_name
@@ -26,9 +26,9 @@ class MonsterSprite(pygame.sprite.Sprite):
         self.load_animation("walk", self.walkframe_count)
         self.load_animation("die", self.dieframe_count)
         self.set_animation("walk")
-        self.x_offset = random.randint(-20, 20)
-        self.y_offset = random.randint(-20, 20)
-        self.rect.midbottom = (self.monster.pos[0] + self.x_offset, self.monster.pos[1] + self.y_offset)
+        self.x_offset = random.randint(-15, 15)
+        self.y_offset = random.randint(-15, 15)
+        self.width = width # Zmienna dodana z powodu żle zrobionych assetów, pozwala na lepsze hitboxy oraz prawidłowe "flipowanie" obrazków
 
     def load_animation(self, anim_type, frame_count):
         keys = [f"images/monsters/{self.name}/{anim_type}_{i:03d}" for i in range(frame_count)]
@@ -65,6 +65,17 @@ class MonsterSprite(pygame.sprite.Sprite):
             new_keys.append(new_key)
         self.animation_keys[self.current_animation] = new_keys
 
+        # Zmiana na obroconą klatke, aby uniknąć teleportacji, gdy bedzie opzonienie w animacji podczas obrotu
+        key = self.animation_keys[self.current_animation][self.current_frame]
+        self.image = AssetManager.get_image(key)
+
+    def center(self): #Prawdziwy środek monster
+        if self.facing_right:
+            return self.rect.left + self.rect.width / 2, self.rect.center[1]
+        else:
+            return self.rect.right - self.rect.width / 2, self.rect.center[1]
+
+
     def update_health_bar(self):
         health_ratio = self.monster.health / self.monster.max_health
         self.current_health_width = int(self.bar_width * health_ratio)
@@ -79,14 +90,19 @@ class MonsterSprite(pygame.sprite.Sprite):
             pygame.draw.rect(surface, (0, 255, 0), (x, y, self.current_health_width, self.bar_height))
 
     def update(self):
-        self.rect.midbottom = (self.monster.pos[0] + self.x_offset, self.monster.pos[1] + self.y_offset)
-        self.handle_animation()
         if self.monster.direction.x < 0 and self.facing_right:
             self.flip_frames()
             self.facing_right = False
         elif self.monster.direction.x > 0 and not self.facing_right:
             self.flip_frames()
             self.facing_right = True
+        self.handle_animation()
+        if self.facing_right:
+            self.rect.bottomleft = (self.monster.pos[0] - self.width // 2 + self.x_offset, self.monster.pos[1] + self.y_offset)
+        else:
+            self.rect.bottomright = (self.monster.pos[0] + self.width // 2 + self.x_offset, self.monster.pos[1] + self.y_offset)
+
+
 
     def draw(self, surface):
         surface.blit(self.image, self.rect)
@@ -97,5 +113,4 @@ class MonsterSprite(pygame.sprite.Sprite):
             self.set_animation("die")
             if not self.facing_right:
                 self.flip_frames()
-            self.rect.midbottom = self.monster.pos
             self.image = AssetManager.get_image(self.animation_keys[self.current_animation][self.current_frame])

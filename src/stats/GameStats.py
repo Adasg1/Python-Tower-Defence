@@ -56,5 +56,5 @@ class GameStats:
         screen.blit(money_text, (1080, 12))
         screen.blit(self.money_image, (1040, 8))
 
-        wave_text = self.font.render(f'wave: {self._wave} / 30', True, (222, 184, 135))
+        wave_text = self.font.render(f'wave: {self._wave} / 35', True, (222, 184, 135))
         screen.blit(wave_text, (1150, 12))

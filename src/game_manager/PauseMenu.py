@@ -2,11 +2,13 @@ import pygame
 
 from src.enum.GameState import GameState
 from src.assets.AssetManager import AssetManager
-from src.game_manager.EventHandler import handle_exit
+
 
 class PauseMenu:
     def __init__(self, game):
         self.game = game
+        self.music_image = AssetManager.get_image('images/buttons/button_music', (80, 80))
+        self.music_rect = self.music_image.get_rect(topleft=(10, 10))
         self.font = pygame.font.Font('assets/fonts/LuckiestGuy-Regular.ttf', 100)
         self.paused_text = self.font.render('PAUSED', True, (222, 184, 135))
         self.table_image = AssetManager.get_image('images/buttons/table')
@@ -26,6 +28,7 @@ class PauseMenu:
         screen.blit(self.play_image, self.play_image_rect)
         screen.blit(self.menu_image, self.menu_image_rect)
         screen.blit(self.restart_image, self.restart_image_rect)
+        screen.blit(self.music_image, self.music_rect)
 
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -40,6 +43,16 @@ class PauseMenu:
                     if self.menu_image_rect.collidepoint(mouse_pos):
                         self.game.reset_game()
                         self.game.game_state = GameState.MENU
+                    if self.music_rect.collidepoint(mouse_pos):
+                        if self.game.music_enabled:
+                            self.game.music_enabled = False
+                            pygame.mixer.music.pause()
+                            self.music_image = AssetManager.get_image('images/buttons/button_music_off', (80, 80))
+                        else:
+                            self.game.music_enabled = True
+                            pygame.mixer.music.unpause()
+                            self.music_image = AssetManager.get_image('images/buttons/button_music', (80, 80))
+
 
 
 

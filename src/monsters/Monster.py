@@ -4,15 +4,15 @@ from src.monsters.MonsterSprite import MonsterSprite
 
 
 class Monster(MonsterSprite):
-    def __init__(self, path_points, game_stats, hp_multiplier, monster_type, health, speed, value):
+    def __init__(self, path_points, game_stats, hp_multiplier, monsters, monster_type, health, speed, value, width, is_boss):
         self.path = path_points
         self.pos = pygame.Vector2(self.path[0])
-        MonsterSprite.__init__(self, self, monster_type)
         self.health = health*hp_multiplier
         self.speed = speed
         self.base_speed = speed
         self.value = value
         self.monster_type = monster_type
+        self.monsters = monsters
         self.game_stats = game_stats
         self.current_point = 0
         self.distance_on_path = 0
@@ -26,7 +26,12 @@ class Monster(MonsterSprite):
         self.is_invulnerable = False
         self.is_slowed = False
         self.slowed_timer = 0
-        MonsterSprite.__init__(self, self, monster_type)
+        self._is_boss = is_boss
+        MonsterSprite.__init__(self, self, monster_type, width)
+
+    @property
+    def is_boss(self):
+        return self._is_boss
 
     def compute_path_data(self):
         for i in range(len(self.path) - 1):
@@ -57,24 +62,30 @@ class Monster(MonsterSprite):
             self.move()
         if self.health <= 0 and not self.is_dead:
             self.die()
-            self.is_dead = True
         self.slow_update()
         if self.current_point == len(self.path) - 1:
+            if not self.is_boss:
+                self.game_stats.take_damage(1)
+
+            else:
+                self.game_stats.take_damage(50)
+                from src.monsters.KnightBoss import KnightBoss
+                if isinstance(self, KnightBoss):
+                    self.game_stats.take_damage(50)
             MonsterSprite.kill(self)
-            self.game_stats.take_damage(1)
             return
+        MonsterSprite.update_health_bar(self)
         super().update()
 
     def get_damage(self, damage):
         self.health -= damage
-        MonsterSprite.update_health_bar(self)
+
 
     def heal(self, amount):
         if self.health + amount < self.max_health:
             self.health += amount
         else:
             self.health = self.max_health
-        MonsterSprite.update_health_bar(self)
 
     def slow_update(self):
         if self.slowed_timer == 0:
@@ -86,7 +97,6 @@ class Monster(MonsterSprite):
 
     def get_slowed(self, slow_ratio, slow_time):
         self.slowed_timer = slow_time * 60
-        if not self.is_slowed:
-            self.speed = self.base_speed * slow_ratio
-            self.is_slowed = True
+        self.speed = self.base_speed * slow_ratio
+        self.is_slowed = True
 

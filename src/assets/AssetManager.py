@@ -24,8 +24,8 @@ class AssetManager:
             "images/monsters/treeboss": (150, 150),
             "images/monsters/knightboss": (150, 150),
             "images/monsters/golemboss": (150, 150),
+            "images/monsters/yettiboss": (150, 150),
             "images/tower_options": (200, 200),
-            "images/towers/elems": (24, 40),
         }
 
         for root, dirs, files in os.walk(base_folder):
@@ -48,9 +48,7 @@ class AssetManager:
                     else:
                         scale = image.get_size()
                         m = 2/3
-                        image = pygame.transform.smoothscale(image, (scale[0]*m, scale[1]*m))
-
-
+                        image = pygame.transform.smoothscale(image, (int(scale[0]*m), int(scale[1]*m)))
 
                     cls._images[key] = image
                     #print(f"Załadowano obraz: {key}")
@@ -63,6 +61,7 @@ class AssetManager:
         image = cls._images[key]
         if scale:
             image = pygame.transform.smoothscale(image, scale)
+
         return image
 
     @classmethod

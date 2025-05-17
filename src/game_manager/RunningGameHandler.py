@@ -1,23 +1,48 @@
 import sys
 import pygame
 
+from src.assets.AssetManager import AssetManager
 from src.enum.TowerType import TowerType
 from src.enum.GameState import GameState
-import src.mechanics.GameStats as stats
+from src.utils.exit_handler import handle_exit
 
 
-def handle_exit(event):
-    if event.type == pygame.QUIT:
-        pygame.quit()
-        sys.exit()
-
-
-class EventHandler:
+class RunningGameHandler:
     def __init__(self, game, towers_manager):
         self.game = game
         self.towers_manager = towers_manager
+        self.skip_table_bg = AssetManager.get_image("images/game_stats/skip_table", (260, 55))
+        self.skip_button = AssetManager.get_image("images/game_stats/skip_button", (55, 55))
+        self.skip_button_rect = pygame.Rect(0, 0, 55, 55)
+        self.pause_button = AssetManager.get_image("images/game_stats/button_pause", (65, 65))
+        self.pause_button_rect = self.pause_button.get_rect()
+        self.pause_button_rect.topleft = (5, 5)
 
-    def running_game(self):
+    def draw(self, screen):
+        screen.blit(self.pause_button, self.pause_button_rect)
+        self.draw_wave_info_and_skip(screen)
+
+    def draw_wave_info_and_skip(self, screen):
+        if self.game.wave_delay:
+            now = pygame.time.get_ticks()
+            time_remaining = max(0, 15 - (now - self.game.last_wave) // 1000)
+            if time_remaining <= 0:
+                self.game.start_next_wave()
+
+            bg_pos = (1023, 50)
+            screen.blit(self.skip_table_bg, bg_pos)
+            timer_font = pygame.font.Font('assets/fonts/LuckiestGuy-Regular.ttf', 20)
+            if self.game.game_stats.get_wave > 1:
+                timer_text = timer_font.render(f"Next wave in: {time_remaining}s", True, (222, 184, 135)) # wyswietlony timer
+            else:
+                self.game.last_wave = now
+                timer_text = timer_font.render(f"Start First Wave", True,(222, 184, 135))  # wyswietlony timer
+            screen.blit(timer_text, (bg_pos[0] + 25, bg_pos[1] + 18))
+
+            self.skip_button_rect.topleft = (bg_pos[0] + 205, bg_pos[1])  # przycisk skip
+            screen.blit(self.skip_button, self.skip_button_rect.topleft)
+
+    def handle_event(self):
         for event in pygame.event.get():
             handle_exit(event)
             mouse_pos = pygame.mouse.get_pos()
@@ -25,13 +50,13 @@ class EventHandler:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
 
-                    if self.game.pause_button_rect.collidepoint(mouse_pos):
+                    if self.pause_button_rect.collidepoint(mouse_pos):
                         self.game.game_state = GameState.PAUSED
-                    if self.game.skip_button_rect.collidepoint(mouse_pos):
+                    if self.skip_button_rect.collidepoint(mouse_pos):
                         self.game.start_next_wave()
                         return
 
-                    for spell in self.game.spells:
+                    for spell in self.game.spells.spells:
                         if spell.rect.collidepoint(mouse_pos) and spell.is_unlocked:
                             if not spell.is_toggled and not spell.is_on_cooldown():
                                 spell.is_toggled = True

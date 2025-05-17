@@ -14,10 +14,10 @@ class IceShard(Projectile):
         self.rect.center = (x, y)
 
     def update(self):
-        direction = (self.target.rect.center - self.projectile_pos).normalize()
+        direction = (self.target.center() - self.projectile_pos).normalize()
         self.projectile_pos += direction * self.speed
         self.rect.center = self.projectile_pos
-        if self.rect.collidepoint(self.target.rect.center):
+        if self.rect.collidepoint(self.target.center()):
             self.target.get_damage(self.damage)
-            self.on_hit(self.target.rect.center)
+            self.on_hit(self.target.center())
             self.destroy()

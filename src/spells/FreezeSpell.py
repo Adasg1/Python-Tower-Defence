@@ -26,15 +26,12 @@ class FreezeSpell(Spell):
         self.spell_anim_rect.y += 55
         self.spell_anim_rect.x += 20
 
+    def effect(self, monster):
+        monster.get_slowed(0, self.freeze_time)
 
-    def hit(self, hit_point):
-        for monster in self.monsters:
-            hit_vec = pygame.Vector2(hit_point)
-            #Skorygowanie współrzędnych by trafiały poprawnie
-            hit_vec.y -= 55
-            hit_vec.x -= 20
-            monster_closest_pos = (max(monster.rect.left, min(hit_vec[0], monster.rect.right)),
-                                   max(monster.rect.top, min(hit_vec[1], monster.rect.bottom)))
-            dist = hit_vec.distance_to(monster_closest_pos)
-            if dist <= self.range:
-                monster.get_slowed(0, self.freeze_time)
+    def get_hit_vec(self, hit_point):
+        hit_vec = pygame.Vector2(hit_point)
+        # Skorygowanie pozycji
+        hit_vec.y -= 55
+        hit_vec.x -= 20
+        return hit_vec

@@ -14,6 +14,7 @@ class TowerStats:
         self.cost = cost
         self.game_stats = game_stats
 
+
     def upgrade_stats(self):
         self.level += 1
         dmg_up, rng_up, rate_up = self.get_next_upgrade_values()

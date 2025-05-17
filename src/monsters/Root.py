@@ -2,5 +2,6 @@ from src.enum.MonsterType import MonsterType
 from src.monsters.Monster import Monster
 
 class Root(Monster):
-    def __init__(self, path_points, game_stats, hp_multiplier):
-        super().__init__(path_points, game_stats, hp_multiplier, monster_type=MonsterType.ROOT, health=150, speed=1.1, value=1)
+    def __init__(self, path_points, game_stats, monsters, hp_multiplier, distance):
+        super().__init__(path_points, game_stats, hp_multiplier, monsters, monster_type=MonsterType.ROOT, health=15, speed=1.1, value=1, width=70, is_boss=False)
+        self.distance_on_path = distance

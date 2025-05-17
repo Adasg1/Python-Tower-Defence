@@ -8,10 +8,15 @@ from src.spells.Spell import Spell
 class StoneSpell(Spell):
     def __init__(self, monsters):
         super().__init__(monsters, range=65, spell_type="stone", button_pos=(1230, 260), unlock_wave=6)
+        self.base_damage = 100
         self.damage = 100
 
+    def reset(self):
+        super().reset()
+        self.damage = self.base_damage
+
     def update_damage(self):
-        self.damage += 150
+        self.damage += 20
 
     def update(self):
         if self.animation:
@@ -34,15 +39,12 @@ class StoneSpell(Spell):
         # przesuniecie spowodowane źle zrobionymi assetami i spadaniem
         self.spell_anim_rect.y -= 70
 
+    def effect(self, monster):
+        monster.get_damage(self.damage)
 
-    def hit(self, hit_point):
-        for monster in self.monsters:
-            hit_vec = pygame.Vector2(hit_point)
-            #Skorygowanie pozycji
-            hit_vec.y -= 60
-            monster_closest_pos = (max(monster.rect.left, min(hit_vec[0], monster.rect.right)),
-                                   max(monster.rect.top, min(hit_vec[1], monster.rect.bottom)))
-            dist = hit_vec.distance_to(monster_closest_pos)
-            print(dist)
-            if dist <= self.range:
-                monster.get_damage(self.damage)
+    def get_hit_vec(self, hit_point):
+        hit_vec = pygame.Vector2(hit_point)
+        # Skorygowanie pozycji
+        hit_vec.y -= 60
+        return hit_vec
+
