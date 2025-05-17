@@ -5,7 +5,7 @@ class Bank(Tower):
     def __init__(self, x, y, monsters, game_stats):
         super().__init__(x, y, TowerType.BANK, monsters, game_stats,None,None,  2, 200)
         self.cooldown = 0
-        self.earnings = 40
+        self.earnings = 35
         self.money_given = True
         self.wave_count = self.game_stats.get_wave
 
@@ -16,7 +16,7 @@ class Bank(Tower):
         self.earnings += earn_up
 
     def get_next_upgrade_values(self):
-        earnings = 5
+        earnings = 15*self.level
 
         return earnings
 

@@ -9,11 +9,16 @@ from src.spells.Spell import Spell
 class ZipSpell(Spell):
     def __init__(self, monsters):
         super().__init__(monsters, range=45, spell_type="zip", button_pos=(1230, 460), unlock_wave=26)
-        self.damage = 1000
+        self.base_damage = 100
+        self.damage = 750
         self.freeze_time = 1
 
+    def reset(self):
+        super().reset()
+        self.damage = self.base_damage
+
     def update_damage(self):
-        self.damage += 50
+        self.damage += 25
 
     def update(self):
         if self.animation:
@@ -33,16 +38,13 @@ class ZipSpell(Spell):
         self.spell_anim_rect.y += 55
         self.spell_anim_rect.x += 20
 
+    def effect(self, monster):
+        monster.get_damage(self.damage)
+        monster.get_slowed(0, self.freeze_time)
 
-    def hit(self, hit_point):
-        for monster in self.monsters:
-            hit_vec = pygame.Vector2(hit_point)
-            # Skorygowanie przesunięcia
-            hit_vec.y -= 55
-            hit_vec.x -= 20
-            monster_closest_pos = (max(monster.rect.left, min(hit_vec[0], monster.rect.right)),
-                                   max(monster.rect.top, min(hit_vec[1], monster.rect.bottom)))
-            dist = hit_vec.distance_to(monster_closest_pos)
-            if dist <= self.range:
-                monster.get_damage(self.damage)
-                monster.get_slowed(0, self.freeze_time)
+    def get_hit_vec(self, hit_point):
+        hit_vec = pygame.Vector2(hit_point)
+        # Skorygowanie pozycji
+        hit_vec.y -= 55
+        hit_vec.x -= 20
+        return hit_vec

@@ -1,7 +1,7 @@
 import pygame
 
 from src.enum.TowerType import TowerType
-from src.mechanics.TowerSpot import TowerSpot
+from src.towers.TowerSpot import TowerSpot
 from src.towers.TowerSprite import TowerSprite
 from src.towers.Archer import Archer
 from src.towers.Ice import Ice

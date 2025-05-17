@@ -5,12 +5,13 @@ from src.enum.MonsterType import MonsterType
 from src.monsters.Monster import Monster
 
 class GolemBoss(Monster):
-    def __init__(self, path_points, game_stats, towers, hp_multiplier):
-        super().__init__(path_points, game_stats, hp_multiplier, monster_type=MonsterType.GOLEMBOSS, health=1000, speed=0.6, value=100)
+    def __init__(self, path_points, game_stats, towers, monsters, hp_multiplier, distance=0):
+        super().__init__(path_points, game_stats, hp_multiplier, monsters, monster_type=MonsterType.GOLEMBOSS, health=1000, speed=0.6, value=100, width=100, is_boss=True)
         self.disable_cooldown = 5000
         self.disable_duration = 150
         self.last_disable_time = pygame.time.get_ticks()
         self.towers = towers
+        self.distance_on_path = distance
 
     def disable_towers(self):
         now = pygame.time.get_ticks()

@@ -4,19 +4,38 @@ import pygame
 from src.assets.AssetManager import AssetManager
 from src.enum.MonsterType import MonsterType
 from src.monsters.Monster import Monster
+from src.monsters.Root import Root
+
 
 class TreeBoss(Monster):
-    def __init__(self, path_points, game_stats, hp_multiplier):
-        super().__init__(path_points, game_stats, hp_multiplier, monster_type=MonsterType.TREEBOSS, health=1000, speed=0.8, value=100)
+    def __init__(self, path_points, game_stats, monsters, hp_multiplier,  distance=0):
+        super().__init__(path_points, game_stats, hp_multiplier, monsters, monster_type=MonsterType.TREEBOSS, health=1000, speed=0.8, value=100, width=92, is_boss=True)
         self.spawn_cooldown = 5000
         self.last_spawn_time = pygame.time.get_ticks()
         self.hp_multiplier = hp_multiplier
+        self.load_animation("specialty", 20)
+        print(self.animation_keys)
+        self.specialty_animation = "specialty"
+        self.specialty_frame = 0
+        self.specialty_image = None
+        self.specialty_rect = None
+        self.spawning = False
+        self.distance_on_path = distance
+
+    def set_specialty_animation(self, pos):
+        self.specialty_animation = "specialty"
+        self.specialty_frame = 0
+        key = self.animation_keys["specialty"][0]
+        self.specialty_image = AssetManager.get_image(key)
+        self.specialty_rect = self.specialty_image.get_rect(center=pos)
 
     def spawn_monsters(self, monsters, num_monsters = 3):
         now = pygame.time.get_ticks()
         if now - self.last_spawn_time > self.spawn_cooldown:
+            self.spawning = True
+            self.set_specialty_animation(self.center())
             for _ in range(num_monsters):
-                root = Monster(self.path, self.game_stats, self.hp_multiplier, MonsterType.ROOT, health=30, speed = 1.1, value=0)
+                root = Root(self.path, self.game_stats, self.monsters, self.hp_multiplier, self.distance_on_path)
                 spawn_x = self.pos.x
                 spawn_y = self.pos.y
                 spawn_position = (spawn_x, spawn_y)
@@ -31,8 +50,31 @@ class TreeBoss(Monster):
 
     def handle_spawn_animation(self):
         if self.time_since_last_animation >= self.animation_delay:
-            self.current_frame = (self.current_frame + 1) % len(self.animation_keys[self.current_animation])
-            key = self.animation_keys[self.current_animation][self.current_frame]
-            self.image = AssetManager.get_image(key)
-            self.time_since_last_animation = 0
-        self.time_since_last_animation += 1
+            self.specialty_frame = (self.specialty_frame + 1) % len(self.animation_keys[self.specialty_animation])
+            key = self.animation_keys[self.specialty_animation][self.specialty_frame]
+            self.specialty_image = AssetManager.get_image(key)
+            if self.specialty_frame == 19:
+                self.spawning = False
+
+    def draw(self, surface):
+        super().draw(surface)
+        if self.spawning:
+            surface.blit(self.specialty_image, self.specialty_rect)
+
+    def update(self):
+        super().update()
+        if self.spawning:
+            if not self.facing_right:
+                self.flip_specialty_frames()
+            self.handle_spawn_animation()
+
+    def flip_specialty_frames(self):
+        if self.spawning:
+            new_specialty_keys = []
+            for key in self.animation_keys[self.specialty_animation]:
+                image = AssetManager.get_image(key)
+                flipped = pygame.transform.flip(image, True, False)
+                new_key = f"{key}_flipped"
+                AssetManager._images[new_key] = flipped
+                new_specialty_keys.append(new_key)
+            self.animation_keys[self.specialty_animation] = new_specialty_keys

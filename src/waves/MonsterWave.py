@@ -3,6 +3,7 @@ import pygame
 from src.monsters.GolemBoss import GolemBoss
 from src.monsters.Healer import HealerMonster
 from src.monsters.KnightBoss import KnightBoss
+from src.monsters.YettiBoss import YettiBoss
 from src.monsters.Quick import QuickMonster
 from src.monsters.Tank import TankMonster
 from src.monsters.TreeBoss import TreeBoss
@@ -17,36 +18,38 @@ MONSTER_CLASSES = {
     "TankMonster": TankMonster,
     "QuickMonster": QuickMonster,
     "HealerMonster": HealerMonster,
-    "KnightBoss": KnightBoss,
+    "YettiBoss": YettiBoss,
     "TreeBoss": TreeBoss,
-    "GolemBoss": GolemBoss
+    "GolemBoss": GolemBoss,
+    "KnightBoss": KnightBoss
 }
 
 
 class MonsterWave:
-    def __init__(self, monsters, game_stats, towers, spawn_interval):
+    def __init__(self, monsters_data, game_stats, towers, spawn_interval, monsters):
         self.path = AssetManager.get_csv("map/path")
-        self.monsters_data = monsters
+        self.monsters_data = monsters_data
+        self.monsters = monsters
         self.game_stats = game_stats
         self.towers = towers
         self.spawn_interval = spawn_interval
-        self.monsters_queue = self._create_monster_queue(monsters)
+        self.monsters_queue = self._create_monster_queue(monsters_data)
         self.remaining_monsters = len(self.monsters_queue)
 
 
-    def _create_monster_queue(self, monsters):
+    def _create_monster_queue(self, monsters_data):
         queue = []
-        for monster_data in monsters:
+        for monster_data in monsters_data:
             monster_type = monster_data.get("type")
             count = monster_data.get("count")
             hp_multiplier = monster_data.get("hp_multiplier")
             MonsterClass = MONSTER_CLASSES.get(monster_type)
 
             for _ in range(count):
-                if monster_type == "GolemBoss":
-                    monster = MonsterClass(self.path, self.game_stats, self.towers, hp_multiplier=hp_multiplier)
+                if monster_type == "GolemBoss" or monster_type == "KnightBoss":
+                    monster = MonsterClass(self.path, self.game_stats, self.towers, self.monsters, hp_multiplier=hp_multiplier)
                 else:
-                    monster = MonsterClass(self.path, self.game_stats, hp_multiplier=hp_multiplier)
+                    monster = MonsterClass(self.path, self.game_stats, self.monsters, hp_multiplier=hp_multiplier)
                 queue.append(monster)
         return queue
 

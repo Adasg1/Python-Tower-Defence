@@ -10,6 +10,7 @@ class MonsterType(Enum):
     TREEBOSS = ("treeboss", 10, 11)
     KNIGHTBOSS = ("knightboss", 20, 11)
     GOLEMBOSS = ("golemboss", 19, 11)
+    YETTIBOSS = ("yettiboss", 20, 11)
 
     def __init__(self, name, walkframe_count, dieframe_count):
         self.monster_name = name

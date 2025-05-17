@@ -10,15 +10,16 @@ from src.assets.AssetManager import AssetManager
 class Ice(Tower):
     def __init__(self, x, y, monsters, game_stats):
         super().__init__(x, y, TowerType.ICE, monsters, game_stats,25, 150, 1, 150)
-        self.elem = AssetManager.get_image("images/towers/elems/ice_elem")
+        self.elem = AssetManager.get_image("images/towers/elems/ice_elem", (20, 34))
         self.elem_rect = self.elem.get_rect()
         self.elem_rect.midbottom = self.rect.midtop
-        self.elem_rect.y -= 10
         self.ice_shards = pygame.sprite.Group()
         self.slowness = 0.85
 
     def upgrade(self):
         super().upgrade()
+        if self.level == 3:
+            self.elem_rect.y -= 40
 
     def upgrade_stats(self):
         dmg_up, rng_up, rate_up, slow_up = self.get_next_upgrade_values()
@@ -32,7 +33,7 @@ class Ice(Tower):
     def get_next_upgrade_values(self):
         damage_up = int(self.damage * 0.2)
         range_up = 20 if self.level<=5 else 0
-        firerate_up = 0.1
+        firerate_up = 0.15
         slow_down = 0.05 if self.level <= 8 else 0
         return damage_up, range_up, firerate_up, slow_down
 
@@ -40,7 +41,8 @@ class Ice(Tower):
         self.ice_shards.add(IceShard(self.elem_rect.center[0], self.elem_rect.center[1], monster, self.damage, self.slow_enemies))
 
     def slow_enemies(self, pos):
-        slow_area = pygame.Rect(pos[0],pos[1], 80,80)
+        slow_area = pygame.Rect(0, 0 , 80,80)
+        slow_area.center = pos
         for monster in self.monsters:
             if monster.rect.colliderect(slow_area):
                 monster.get_slowed(self.slowness, 3)

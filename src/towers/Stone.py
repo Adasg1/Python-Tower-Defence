@@ -5,6 +5,7 @@ from src.projectiles.StoneSprite import StoneSprite
 from src.towers.Tower import Tower
 from src.enum.TowerType import TowerType
 from src.assets.AssetManager import AssetManager
+from src.utils.targeting_utils import dist_to_monster
 
 class Stone(Tower):
     def __init__(self, x, y, monsters, game_stats):
@@ -78,13 +79,12 @@ class Stone(Tower):
         for monster in self.monsters:
             tower_pos = pygame.Vector2(self.rect.center)
             tower_pos.y += 15
-            monster_closest_pos = (max(monster.rect.left, min(tower_pos.x, monster.rect.right)),
-                                   max(monster.rect.bottom, min(tower_pos.y, monster.rect.top)))
-            dist = tower_pos.distance_to(monster_closest_pos)
+
+            dist = dist_to_monster(monster, tower_pos)
             if not isinstance(monster, FlyingMonster) and not monster.is_dead and dist < self.range:
                 monsters_in_range.append(monster)
         if monsters_in_range:
-            target = max(monsters_in_range, key=lambda point: point.current_point)
+            target = max(monsters_in_range, key=lambda m: m.distance_on_path)
             return target
         return None
 
@@ -92,10 +92,10 @@ class Stone(Tower):
         if not isinstance(monster, FlyingMonster):
             self.shot = True
             self.target = monster
-            print(f"{self.target}")
 
     def area_damage(self, pos):
-        damage_area = pygame.Rect(pos[0],pos[1], self.explosion_area,self.explosion_area)
+        damage_area = pygame.Rect(0, 0, self.explosion_area, self.explosion_area).copy()
+        damage_area.center = pos
         for monster in self.monsters:
 
             if not isinstance(monster, FlyingMonster) and monster.rect.colliderect(damage_area):

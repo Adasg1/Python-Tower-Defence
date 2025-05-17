@@ -1,0 +1,63 @@
+import pygame
+
+from src.assets.AssetManager import AssetManager
+from src.enum.MonsterType import MonsterType
+from src.monsters.Monster import Monster
+
+class YettiBoss(Monster):
+    def __init__(self, path_points, game_stats, monsters, hp_multiplier, distance=0):
+        super().__init__(path_points, game_stats, hp_multiplier, monsters, monster_type=MonsterType.YETTIBOSS, health=500, speed=0.7, value=100, width=88, is_boss=True)
+        self.is_invulnerable = False
+        self.invulnerability_cooldown = 5000
+        self.invulnerability_duration = 2500
+        self.last_invulnerability_change = pygame.time.get_ticks()
+        self.load_animation("specialty_walk", self.walkframe_count)
+        self.distance_on_path = distance
+
+    def set_invulnerable(self):
+        now = pygame.time.get_ticks()
+        if self.is_invulnerable and now - self.last_invulnerability_change > self.invulnerability_duration:
+            print("vuln")
+            self.is_invulnerable = False
+            self.set_animation("walk")
+            self.last_invulnerability_change = now
+        elif not self.is_invulnerable and now - self.last_invulnerability_change > self.invulnerability_cooldown:
+            print("invuln")
+            self.is_invulnerable = True
+            self.set_animation("specialty_walk")
+            self.last_invulnerability_change = now
+
+    def flip_frames(self):
+        anim_types = ["walk", "specialty_walk", "die"]
+        for anim_type in anim_types:
+            new_keys = []
+            for key in self.animation_keys[anim_type]:
+                image = AssetManager.get_image(key)
+                flipped = pygame.transform.flip(image, True, False)
+                new_key = f"{key}_flipped"
+                AssetManager._images[new_key] = flipped
+                new_keys.append(new_key)
+            self.animation_keys[anim_type] = new_keys
+
+        # Zmiana na obroconą klatke, aby uniknąć teleportacji, gdy bedzie opzonienie w animacji podczas obrotu
+        key = self.animation_keys[self.current_animation][self.current_frame]
+        self.image = AssetManager.get_image(key)
+
+    def get_damage(self, damage):
+        if self.is_invulnerable:
+            self.heal(damage)
+        else:
+            super().get_damage(damage)
+
+    def update(self):
+        if not self.is_dead:
+            self.set_invulnerable()
+        super().update()
+
+    # Nadpisanie die z powodu zmiany logiki flip_frames dla tego Bossa
+    def die(self):
+        if not self.monster.is_dead:
+            self.set_animation("die")
+            self.image = AssetManager.get_image(self.animation_keys[self.current_animation][self.current_frame])
+        self.is_dead = True
+        self.game_stats.earn(self.value)

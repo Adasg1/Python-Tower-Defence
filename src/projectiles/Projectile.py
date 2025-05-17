@@ -13,10 +13,10 @@ class Projectile(pygame.sprite.Sprite):
         self.speed = 7
 
     def update(self):
-        direction = (self.target.rect.center - self.projectile_pos).normalize()
+        direction = (self.target.center() - self.projectile_pos).normalize()
         self.projectile_pos += direction * self.speed
         self.rect.center = self.projectile_pos
-        if self.rect.collidepoint(self.target.rect.center):
+        if self.rect.collidepoint(self.target.center()):
             self.target.get_damage(self.damage)
             self.destroy()
 

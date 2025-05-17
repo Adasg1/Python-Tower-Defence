@@ -1,9 +1,12 @@
+from math import floor
+
 import pygame
 
 from src.towers.TowerSprite import TowerSprite
 from src.towers.TowerStats import TowerStats
 from src.enum.TowerType import TowerType as tt
 from src.assets.AssetManager import AssetManager
+from src.utils.targeting_utils import dist_to_monster
 
 
 class Tower(TowerSprite, TowerStats):
@@ -15,10 +18,16 @@ class Tower(TowerSprite, TowerStats):
         self.disabled = False
         self.disable_timer = 0
         self.font = pygame.font.Font("assets/fonts/CarterOne-Regular.ttf", 13)
+        self.disable_effect = AssetManager.get_image("images/monsters/golemboss/specialty_000")
+        self.disable_effect_rect = self.disable_effect.get_rect(center=self.rect.center)
+        self.disable_effect_frame = 0
 
     def upgrade(self):
         self.upgrade_stats()
         super().upgrade_image(self.level)
+
+    def shoot(self, monster):
+        pass
 
     def use(self):
         monster = self.get_monster_in_range()
@@ -32,9 +41,7 @@ class Tower(TowerSprite, TowerStats):
         for monster in self.monsters:
             tower_pos = pygame.Vector2(self.rect.center)
             tower_pos.y += 15
-            monster_closest_pos = (max(monster.rect.left, min(tower_pos[0], monster.rect.right)),
-                                   max(monster.rect.top, min(tower_pos[1], monster.rect.bottom)))
-            dist = tower_pos.distance_to(monster_closest_pos)
+            dist = dist_to_monster(monster, tower_pos)
             if dist <= self.range and not monster.is_dead:
                 monsters_in_range.append(monster)
         if monsters_in_range:
@@ -47,9 +54,19 @@ class Tower(TowerSprite, TowerStats):
         self.disable_timer = time
 
     def handle_disable_effect(self):
+        if self.disable_effect_frame > 9:
+            self.disable_effect_frame = 0
         self.disable_timer -= 1
+        self.disable_effect = AssetManager.get_image(f"images/monsters/golemboss/specialty_00{floor(self.disable_effect_frame)}", (150, 100))
+        self.disable_effect_frame +=0.25
         if self.disable_timer <= 0:
             self.disabled = False
+
+    def draw(self, surface):
+        super().draw(surface)
+        if self.disabled:
+            surface.blit(self.disable_effect, self.disable_effect_rect)
+
 
     def update(self):
         if self.counter != 0:

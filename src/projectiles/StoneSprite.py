@@ -13,9 +13,9 @@ class StoneSprite(Projectile):
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
         self.hit = False
-
+        self.target = monster
         self.start_pos = Vector2(x, y)
-        self.target_pos = Vector2(monster.rect.center)
+        self.target_pos = monster.center()
 
         self.total_time = dist(self.start_pos, self.target_pos) / 5
         self.gravity = Vector2(0, 0.5)  # siła grawitacji
@@ -30,18 +30,20 @@ class StoneSprite(Projectile):
             self.destroy()
         else:
             self.image = AssetManager.get_image(f"images/projectiles/stone/stone_{floor(self.break_frame)}")
-            self.rect = self.image.get_rect()
-            self.rect.center = self.target_pos.copy()
 
 
     def update(self):
         if not self.hit:
+            current_target_pos = Vector2(self.target.center())
+            direction_to_target = (current_target_pos - self.projectile_pos).normalize()
+            additional_velocity = Vector2(direction_to_target.x, 0)
             self.velocity += self.gravity
             self.projectile_pos += self.velocity
+            self.projectile_pos += additional_velocity * 0.2
             self.rect.center = self.projectile_pos
             self.fly_time += 1
             if self.fly_time >= self.total_time:
-                self.on_hit(self.target_pos)
+                self.on_hit(self.rect.center)
                 self.hit = True
         else:
             self.break_animation()

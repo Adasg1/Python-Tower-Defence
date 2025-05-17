@@ -1,11 +1,13 @@
 import pygame
 
 from src.assets.AssetManager import AssetManager
+from src.utils.targeting_utils import dist_to_monster
 
 
 class Spell:
     def __init__(self, monsters, range, spell_type, button_pos, unlock_wave):
         self.is_toggled = False
+        self.type = spell_type
         self.image = AssetManager.get_image(f'images/buttons/disabled_{spell_type}_spell', (80, 80))
         self.unlocked_image_path = f'images/buttons/{spell_type}_spell'
         self.rect = self.image.get_rect(center=(button_pos))
@@ -16,7 +18,7 @@ class Spell:
         self.font = pygame.font.Font('assets/fonts/CarterOne-Regular.ttf', 25)
         self.monsters = monsters
         self.animation = False
-        self.cooldown = 40
+        self.cooldown = 60
         self.cd_remaining = 0
         self.unlock_wave = unlock_wave
         self.frame = 0
@@ -25,6 +27,14 @@ class Spell:
 
     def update_damage(self):
         pass
+
+    def reset(self):
+        self.is_toggled = False
+        self.image = AssetManager.get_image(f'images/buttons/disabled_{self.type}_spell', (80, 80))
+        self.animation = False
+        self.cd_remaining = 0
+        self.is_unlocked = False
+        self.frame = 0
 
     def unlock(self):
         self.is_unlocked = True
@@ -47,6 +57,13 @@ class Spell:
             cd_rect = cooldown_text.get_rect(center = self.rect.center)
             surface.blit(cooldown_text, cd_rect)
 
+    def effect(self, monster):
+        pass
+
+    def get_hit_vec(self, hit_point):
+        hit_vec = pygame.Vector2(hit_point)
+        return hit_vec
+
     def use(self, mouse_pos):
         if self.cd_remaining == 0:
             self.animation = True
@@ -58,3 +75,10 @@ class Spell:
             pygame.draw.circle(self.range_surface, (255, 0, 0, 48), (self.range, self.range), self.range)
             circle_center = (mause_pos[0] - self.range, mause_pos[1] - self.range)
             surface.blit(self.range_surface, circle_center)
+
+    def hit(self, hit_point):
+        for monster in self.monsters:
+            hit_vec = self.get_hit_vec(hit_point)
+            dist = dist_to_monster(monster, hit_vec)
+            if dist <= self.range:
+                self.effect(monster)
