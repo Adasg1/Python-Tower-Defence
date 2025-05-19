@@ -33,25 +33,24 @@ class PauseMenu:
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
-                if event.button == 1:
-                    mouse_pos = pygame.mouse.get_pos()
-                    if self.play_image_rect.collidepoint(mouse_pos):
-                        self.game.game_state = GameState.RUNNING
-                    if self.restart_image_rect.collidepoint(mouse_pos):
-                        self.game.reset_game()
-                        self.game.game_state = GameState.RUNNING
-                    if self.menu_image_rect.collidepoint(mouse_pos):
-                        self.game.reset_game()
-                        self.game.game_state = GameState.MENU
-                    if self.music_rect.collidepoint(mouse_pos):
-                        if self.game.music_enabled:
-                            self.game.music_enabled = False
-                            pygame.mixer.music.pause()
-                            self.music_image = AssetManager.get_image('images/buttons/button_music_off', (80, 80))
-                        else:
-                            self.game.music_enabled = True
-                            pygame.mixer.music.unpause()
-                            self.music_image = AssetManager.get_image('images/buttons/button_music', (80, 80))
+                mouse_pos = pygame.mouse.get_pos()
+                if self.play_image_rect.collidepoint(mouse_pos):
+                    self.game.game_state = GameState.RUNNING
+                elif self.restart_image_rect.collidepoint(mouse_pos):
+                    self.game.reset_game()
+                    self.game.game_state = GameState.RUNNING
+                elif self.menu_image_rect.collidepoint(mouse_pos):
+                    self.game.reset_game()
+                    self.game.game_state = GameState.MENU
+                elif self.music_rect.collidepoint(mouse_pos):
+                    if self.game.music_enabled:
+                        self.game.music_enabled = False
+                        pygame.mixer.music.pause()
+                        self.music_image = AssetManager.get_image('images/buttons/button_music_off', (80, 80))
+                    else:
+                        self.game.music_enabled = True
+                        pygame.mixer.music.unpause()
+                        self.music_image = AssetManager.get_image('images/buttons/button_music', (80, 80))
 
 
 

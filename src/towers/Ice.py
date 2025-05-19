@@ -39,6 +39,9 @@ class Ice(Tower):
 
     def shoot(self, monster):
         self.ice_shards.add(IceShard(self.elem_rect.center[0], self.elem_rect.center[1], monster, self.damage, self.slow_enemies))
+        monster.damage_to_receive += self.damage
+        if monster.health - monster.damage_to_receive <= 0:
+            monster.will_die = True
 
     def slow_enemies(self, pos):
         slow_area = pygame.Rect(0, 0 , 80,80)

@@ -6,12 +6,12 @@ from src.monsters.MonsterSprite import MonsterSprite
 
 
 class HealerMonster(Monster):
-    def __init__(self, path_points, game_stats, monsters, hp_multiplier):
-        super().__init__(path_points, game_stats, hp_multiplier, monsters, monster_type=MonsterType.HEALER, health=200, speed=1.0, value=15, width=46, is_boss=False)
+    def __init__(self, path_points, game_stats, monsters, hp_multiplier, value_multiplier):
+        super().__init__(path_points, game_stats, monsters, monster_type=MonsterType.HEALER, health=200*hp_multiplier, speed=1.0, value=int(15*value_multiplier), width=46, is_boss=False)
         self.heal_radius = 75
         self.heal_amount = 70
-        self.heal_cooldown = 5000
-        self.last_heal_time = pygame.time.get_ticks()
+        self.heal_cooldown = 300
+        self.ticks_since_last_heal = 0
 
     def heal_monsters(self, monsters):
         for monster in monsters:
@@ -20,8 +20,8 @@ class HealerMonster(Monster):
                 MonsterSprite.update_health_bar(self)
 
     def healing(self, monsters):
-        now = pygame.time.get_ticks()
-        if now - self.last_heal_time > self.heal_cooldown:
+        self.ticks_since_last_heal += 1
+        if self.ticks_since_last_heal > self.heal_cooldown:
             self.heal_monsters(monsters)
-            self.last_heal_time = now
+            self.ticks_since_last_heal = 0
 

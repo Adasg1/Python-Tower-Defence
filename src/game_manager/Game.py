@@ -2,6 +2,7 @@ import sys
 import pygame
 
 from src.game_manager.RunningGameHandler import RunningGameHandler
+from src.game_manager.start_menu import StartMenu
 from src.game_manager.EndGameMenu import EndGameMenu
 from src.game_manager.PauseMenu import PauseMenu
 from src.game_manager.spell_manager import SpellManager
@@ -43,26 +44,28 @@ class Game:
         pygame.mixer.music.play(-1)
         self.music_enabled = True
 
+        self.difficulty = "normal"
         self.clock = pygame.time.Clock()
-        self.background = AssetManager.get_image("images/game_background",(1280, 720))
+        self.background = AssetManager.get_image("images/game_background")
         self.game_stats = stats.GameStats()
         self.game_state = GameState.MENU
-        self.monsters = pygame.sprite.Group()
-        self.towers = TowerManager(self.game_stats, self.monsters)
-        self.spells = SpellManager(self.game_stats, self.monsters)
-        self.running_game_handler = RunningGameHandler(self, self.towers)
+        self.start_menu = StartMenu(self)
         self.pause_menu = PauseMenu(self)
         self.end_game_menu = EndGameMenu(self)
 
-
         self.path = AssetManager.get_csv("map/path")
-        self.wave_loader = WaveLoader("waves/waves.json", self.game_stats, self.towers.towers, self.monsters)
+
+    def init_game(self): # do inicjalizacji pojedynczej rozgrywki
+        self.monsters = pygame.sprite.Group()
+        self.towers = TowerManager(self.game_stats, self.monsters)
+        self.running_game_handler = RunningGameHandler(self, self.towers)
+        self.spells = SpellManager(self.game_stats, self.monsters)
+        self.wave_loader = WaveLoader("waves/waves.json", self.game_stats, self.towers.towers, self.monsters, self.difficulty)
         self.waves = self.wave_loader.waves
-        self.last_spawn = pygame.time.get_ticks()
-        self.last_wave = 0
+        self.ticks_since_last_spawn = 0
+        self.ticks_since_last_wave = 0
         self.wave_delay = True
         self.wave_spawns = False
-
 
     def start(self):
         while True:
@@ -79,17 +82,9 @@ class Game:
     def menu(self):
         while self.game_state == GameState.MENU:
             for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
-                if event.type == pygame.MOUSEBUTTONDOWN or event.type == pygame.KEYDOWN:
-                    self.game_state = GameState.RUNNING
-
-            self.screen.blit(self.background, (0, 0))
-            start_text = self.font.render('Press to start a game', True, (181, 53, 53))
-            rect = start_text.get_rect()
-            rect.center = (640, 360)
-            self.screen.blit(start_text, rect)
+                handle_exit(event)
+                self.start_menu.handle_event(event)
+            self.start_menu.draw(self.screen)
             pygame.display.update()
             self.clock.tick(60)
 
@@ -171,24 +166,19 @@ class Game:
         for monster in self.monsters:
             monster.draw_health_bar(self.screen)
 
-
     def reset_game(self):
+        self.init_game()
         self.game_stats.reset_stats()
-        for monster in self.monsters:
-            monster.kill()
-        self.towers.reset()
-        self.spells.reset()
 
     def spawn_monsters_from_wave(self):
-        now = pygame.time.get_ticks()
         if not self.wave_delay:
             if self.wave_spawns:
-                spawn_interval = self.waves[0].spawn_interval
-                if now - self.last_spawn > spawn_interval:
+                self.ticks_since_last_spawn += 1
+                if self.ticks_since_last_spawn >= self.waves[0].spawn_interval:
                     if self.waves[0].remaining_monsters > 0:
                         next_monster = self.waves[0].get_next_monster()
                         self.monsters.add(next_monster)
-                        self.last_spawn = now
+                        self.ticks_since_last_spawn = 0
                     elif len(self.waves) > 0:
                         self.waves.pop(0)
                         self.wave_spawns = False
@@ -197,7 +187,7 @@ class Game:
                 if len(self.waves) == 0:
                     print("wygrana - koniec fal")
                     self.game_state = GameState.END_OVER
-                self.last_wave = now
+                self.ticks_since_last_wave = 0
                 self.wave_delay = True
                 self.wave_spawns = False
                 self.game_stats.get_afterwave_earnings()

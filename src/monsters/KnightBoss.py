@@ -10,8 +10,8 @@ from src.monsters.YettiBoss import YettiBoss
 
 
 class KnightBoss(Monster):
-    def __init__(self, path_points, game_stats, towers, monsters, hp_multiplier):
-        super().__init__(path_points, game_stats, hp_multiplier, monsters, monster_type=MonsterType.KNIGHTBOSS, health=15000, speed=0.3, value=100, width=88, is_boss=True)
+    def __init__(self, path_points, game_stats, towers, monsters, hp_multiplier, value_multiplier):
+        super().__init__(path_points, game_stats, monsters, monster_type=MonsterType.KNIGHTBOSS, health=15000*hp_multiplier, speed=0.3, value=int(100*value_multiplier), width=88, is_boss=True)
         self.phase = 0
         self.towers = towers
         self.is_regenerating = False
@@ -42,11 +42,11 @@ class KnightBoss(Monster):
 
     def spawn_boss(self):
         if self.phase == 0:
-            boss = YettiBoss(self.path, self.game_stats, self.monsters, 15, distance=self.distance_on_path)
+            boss = YettiBoss(self.path, self.game_stats, self.monsters, 15, 1.0 ,distance=self.distance_on_path)
         elif self.phase == 1:
-            boss = TreeBoss(self.path, self.game_stats, self.monsters, 15, distance=self.distance_on_path)
+            boss = TreeBoss(self.path, self.game_stats, self.monsters, 15, 1.0, distance=self.distance_on_path)
         elif self.phase == 2:
-            boss = GolemBoss(self.path, self.game_stats, self.towers, self.monsters, 15, distance=self.distance_on_path)
+            boss = GolemBoss(self.path, self.game_stats, self.towers, self.monsters, 15, 1.0, distance=self.distance_on_path)
 
         spawn_position = (self.pos.x, self.pos.y)
         target = self.target

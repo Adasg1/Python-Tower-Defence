@@ -57,11 +57,10 @@ class EndGameMenu():
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
-                if event.button == 1:
-                    mouse_pos = pygame.mouse.get_pos()
-                    if self.restart_image_rect.collidepoint(mouse_pos):
-                        self.game.reset_game()
-                        self.game.game_state = GameState.RUNNING
-                    if self.menu_image_rect.collidepoint(mouse_pos):
-                        self.game.reset_game()
-                        self.game.game_state = GameState.MENU
+                mouse_pos = pygame.mouse.get_pos()
+                if self.restart_image_rect.collidepoint(mouse_pos):
+                    self.game.reset_game()
+                    self.game.game_state = GameState.RUNNING
+                elif self.menu_image_rect.collidepoint(mouse_pos):
+                    self.game.reset_game()
+                    self.game.game_state = GameState.MENU
