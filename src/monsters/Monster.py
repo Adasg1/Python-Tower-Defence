@@ -19,6 +19,7 @@ class Monster(MonsterSprite):
         self.direction = pygame.Vector2(1, 0)
         self.is_dead = False
         self.max_health = self.health
+        self.will_die = False
         self.segment_lengths = []
         self.path_total_length = 0
         self.compute_path_data()
@@ -86,6 +87,7 @@ class Monster(MonsterSprite):
             self.health += amount
         else:
             self.health = self.max_health
+        self.will_die = False
 
     def slow_update(self):
         if self.slowed_timer == 0:

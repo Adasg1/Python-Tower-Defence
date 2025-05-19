@@ -42,7 +42,7 @@ class Tower(TowerSprite, TowerStats):
             tower_pos = pygame.Vector2(self.rect.center)
             tower_pos.y += 15
             dist = dist_to_monster(monster, tower_pos)
-            if dist <= self.range and not monster.is_dead:
+            if dist <= self.range and not monster.is_dead and not monster.will_die:
                 monsters_in_range.append(monster)
         if monsters_in_range:
             target = max(monsters_in_range, key=lambda m: m.distance_on_path)

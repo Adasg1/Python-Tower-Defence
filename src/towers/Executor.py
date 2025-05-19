@@ -24,6 +24,8 @@ class Executor(Tower):
 
     def shoot(self, monster):
         self.thunderbolts.add(ThunderBolt(self.elem_rect.center[0], self.elem_rect.center[1], monster, self.damage))
+        if monster.health - self.damage <= 0:
+            monster.will_die = True
 
     def update(self):
         self.thunderbolts.update()
