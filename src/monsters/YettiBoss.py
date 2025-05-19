@@ -8,24 +8,24 @@ class YettiBoss(Monster):
     def __init__(self, path_points, game_stats, monsters, hp_multiplier, distance=0):
         super().__init__(path_points, game_stats, hp_multiplier, monsters, monster_type=MonsterType.YETTIBOSS, health=500, speed=0.7, value=100, width=88, is_boss=True)
         self.is_invulnerable = False
-        self.invulnerability_cooldown = 5000
-        self.invulnerability_duration = 2500
-        self.last_invulnerability_change = pygame.time.get_ticks()
+        self.invuln_cooldown = 380
+        self.invuln_duration = 160
+        self.ticks_since_last_invuln_change = 0
         self.load_animation("specialty_walk", self.walkframe_count)
         self.distance_on_path = distance
 
     def set_invulnerable(self):
-        now = pygame.time.get_ticks()
-        if self.is_invulnerable and now - self.last_invulnerability_change > self.invulnerability_duration:
+        self.ticks_since_last_invuln_change += 1
+        if self.is_invulnerable and self.ticks_since_last_invuln_change > self.invuln_duration:
             print("vuln")
             self.is_invulnerable = False
             self.set_animation("walk")
-            self.last_invulnerability_change = now
-        elif not self.is_invulnerable and now - self.last_invulnerability_change > self.invulnerability_cooldown:
+            self.ticks_since_last_invuln_change = 0
+        elif not self.is_invulnerable and self.ticks_since_last_invuln_change > self.invuln_cooldown:
             print("invuln")
             self.is_invulnerable = True
             self.set_animation("specialty_walk")
-            self.last_invulnerability_change = now
+            self.ticks_since_last_invuln_change = 0
 
     def flip_frames(self):
         anim_types = ["walk", "specialty_walk", "die"]

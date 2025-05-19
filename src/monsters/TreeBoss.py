@@ -10,8 +10,8 @@ from src.monsters.Root import Root
 class TreeBoss(Monster):
     def __init__(self, path_points, game_stats, monsters, hp_multiplier,  distance=0):
         super().__init__(path_points, game_stats, hp_multiplier, monsters, monster_type=MonsterType.TREEBOSS, health=1000, speed=0.8, value=100, width=92, is_boss=True)
-        self.spawn_cooldown = 5000
-        self.last_spawn_time = pygame.time.get_ticks()
+        self.spawn_cooldown = 360
+        self.ticks_since_last_spawn = 0
         self.hp_multiplier = hp_multiplier
         self.load_animation("specialty", 20)
         print(self.animation_keys)
@@ -30,8 +30,8 @@ class TreeBoss(Monster):
         self.specialty_rect = self.specialty_image.get_rect(center=pos)
 
     def spawn_monsters(self, monsters, num_monsters = 3):
-        now = pygame.time.get_ticks()
-        if now - self.last_spawn_time > self.spawn_cooldown:
+        self.ticks_since_last_spawn += 1
+        if self.ticks_since_last_spawn > self.spawn_cooldown:
             self.spawning = True
             self.set_specialty_animation(self.center())
             for _ in range(num_monsters):
@@ -46,7 +46,7 @@ class TreeBoss(Monster):
                 root.current_point = current_point
                 monsters.add(root)
 
-            self.last_spawn_time = now
+            self.ticks_since_last_spawn = 0
 
     def handle_spawn_animation(self):
         if self.time_since_last_animation >= self.animation_delay:

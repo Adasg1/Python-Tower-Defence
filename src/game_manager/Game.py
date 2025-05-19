@@ -58,10 +58,11 @@ class Game:
         self.path = AssetManager.get_csv("map/path")
         self.wave_loader = WaveLoader("waves/waves.json", self.game_stats, self.towers.towers, self.monsters)
         self.waves = self.wave_loader.waves
-        self.last_spawn = pygame.time.get_ticks()
-        self.last_wave = 0
+        self.ticks_since_last_spawn = 0
+        self.ticks_since_last_wave = 0
         self.wave_delay = True
         self.wave_spawns = False
+
 
 
     def start(self):
@@ -180,15 +181,14 @@ class Game:
         self.spells.reset()
 
     def spawn_monsters_from_wave(self):
-        now = pygame.time.get_ticks()
         if not self.wave_delay:
             if self.wave_spawns:
-                spawn_interval = self.waves[0].spawn_interval
-                if now - self.last_spawn > spawn_interval:
+                self.ticks_since_last_spawn += 1
+                if self.ticks_since_last_spawn >= self.waves[0].spawn_interval:
                     if self.waves[0].remaining_monsters > 0:
                         next_monster = self.waves[0].get_next_monster()
                         self.monsters.add(next_monster)
-                        self.last_spawn = now
+                        self.ticks_since_last_spawn = 0
                     elif len(self.waves) > 0:
                         self.waves.pop(0)
                         self.wave_spawns = False
@@ -197,7 +197,7 @@ class Game:
                 if len(self.waves) == 0:
                     print("wygrana - koniec fal")
                     self.game_state = GameState.END_OVER
-                self.last_wave = now
+                self.ticks_since_last_wave = 0
                 self.wave_delay = True
                 self.wave_spawns = False
                 self.game_stats.get_afterwave_earnings()

@@ -24,18 +24,17 @@ class RunningGameHandler:
 
     def draw_wave_info_and_skip(self, screen):
         if self.game.wave_delay:
-            now = pygame.time.get_ticks()
-            time_remaining = max(0, 15 - (now - self.game.last_wave) // 1000)
-            if time_remaining <= 0:
+            self.game.ticks_since_last_wave += 1
+            if self.game.ticks_since_last_wave >= 900:
                 self.game.start_next_wave()
 
             bg_pos = (1023, 50)
             screen.blit(self.skip_table_bg, bg_pos)
             timer_font = pygame.font.Font('assets/fonts/LuckiestGuy-Regular.ttf', 20)
             if self.game.game_stats.get_wave > 1:
+                time_remaining = (900 - self.game.ticks_since_last_wave)//60 + 1
                 timer_text = timer_font.render(f"Next wave in: {time_remaining}s", True, (222, 184, 135)) # wyswietlony timer
             else:
-                self.game.last_wave = now
                 timer_text = timer_font.render(f"Start First Wave", True,(222, 184, 135))  # wyswietlony timer
             screen.blit(timer_text, (bg_pos[0] + 25, bg_pos[1] + 18))
 
