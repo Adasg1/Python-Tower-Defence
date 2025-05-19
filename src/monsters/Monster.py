@@ -4,10 +4,10 @@ from src.monsters.MonsterSprite import MonsterSprite
 
 
 class Monster(MonsterSprite):
-    def __init__(self, path_points, game_stats, hp_multiplier, monsters, monster_type, health, speed, value, width, is_boss):
+    def __init__(self, path_points, game_stats, monsters, monster_type, health, speed, value, width, is_boss):
         self.path = path_points
         self.pos = pygame.Vector2(self.path[0])
-        self.health = health*hp_multiplier
+        self.health = health
         self.speed = speed
         self.base_speed = speed
         self.value = value
@@ -18,8 +18,9 @@ class Monster(MonsterSprite):
         self.distance_on_path = 0
         self.direction = pygame.Vector2(1, 0)
         self.is_dead = False
-        self.max_health = self.health
         self.will_die = False
+        self.damage_to_receive = 0
+        self.max_health = self.health
         self.segment_lengths = []
         self.path_total_length = 0
         self.compute_path_data()
@@ -80,6 +81,7 @@ class Monster(MonsterSprite):
 
     def get_damage(self, damage):
         self.health -= damage
+        self.damage_to_receive -= damage
 
 
     def heal(self, amount):

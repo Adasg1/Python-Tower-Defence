@@ -8,8 +8,8 @@ from src.monsters.Root import Root
 
 
 class TreeBoss(Monster):
-    def __init__(self, path_points, game_stats, monsters, hp_multiplier,  distance=0):
-        super().__init__(path_points, game_stats, hp_multiplier, monsters, monster_type=MonsterType.TREEBOSS, health=1000, speed=0.8, value=100, width=92, is_boss=True)
+    def __init__(self, path_points, game_stats, monsters, hp_multiplier, value_multiplier,  distance=0):
+        super().__init__(path_points, game_stats, monsters, monster_type=MonsterType.TREEBOSS, health=1000*hp_multiplier, speed=0.8, value=int(100*value_multiplier), width=92, is_boss=True)
         self.spawn_cooldown = 360
         self.ticks_since_last_spawn = 0
         self.hp_multiplier = hp_multiplier

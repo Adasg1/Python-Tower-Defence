@@ -5,8 +5,8 @@ from src.enum.MonsterType import MonsterType
 from src.monsters.Monster import Monster
 
 class GolemBoss(Monster):
-    def __init__(self, path_points, game_stats, towers, monsters, hp_multiplier, distance=0):
-        super().__init__(path_points, game_stats, hp_multiplier, monsters, monster_type=MonsterType.GOLEMBOSS, health=1000, speed=0.6, value=100, width=100, is_boss=True)
+    def __init__(self, path_points, game_stats, towers, monsters, hp_multiplier, value_multiplier, distance=0):
+        super().__init__(path_points, game_stats, monsters, monster_type=MonsterType.GOLEMBOSS, health=1000*hp_multiplier, speed=0.6, value=int(10*value_multiplier), width=100, is_boss=True)
         self.disable_cooldown = 300
         self.disable_duration = 150
         self.ticks_since_last_disable = 0

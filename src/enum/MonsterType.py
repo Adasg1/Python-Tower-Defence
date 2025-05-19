@@ -1,7 +1,7 @@
 from enum import Enum
 
 class MonsterType(Enum):
-    BASIC = ("basic", 20, 14)
+    BASIC = ("basic", 20, 14) # nazwa, ilosc klatek walk, ilosc klatek die
     TANK = ("tank", 10, 10)
     FLYING = ("flying", 10, 10)
     HEALER = ("healer", 20, 11)

@@ -27,7 +27,8 @@ class Archer(Tower):
         else:
             self.archer.sprite.facing_direction = "right"
         self.arrows.add(Arrow(arrow_pos[0], arrow_pos[1], monster, self.damage))
-        if monster.health - self.damage <= 0:
+        monster.damage_to_receive += self.damage
+        if monster.health - monster.damage_to_receive <= 0:
             monster.will_die = True
 
 

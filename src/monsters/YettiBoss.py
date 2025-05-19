@@ -5,8 +5,8 @@ from src.enum.MonsterType import MonsterType
 from src.monsters.Monster import Monster
 
 class YettiBoss(Monster):
-    def __init__(self, path_points, game_stats, monsters, hp_multiplier, distance=0):
-        super().__init__(path_points, game_stats, hp_multiplier, monsters, monster_type=MonsterType.YETTIBOSS, health=500, speed=0.7, value=100, width=88, is_boss=True)
+    def __init__(self, path_points, game_stats, monsters, hp_multiplier, value_multiplier, distance=0):
+        super().__init__(path_points, game_stats, monsters, monster_type=MonsterType.YETTIBOSS, health=500*hp_multiplier, speed=0.7, value=int(100*value_multiplier), width=88, is_boss=True)
         self.is_invulnerable = False
         self.invuln_cooldown = 380
         self.invuln_duration = 160
