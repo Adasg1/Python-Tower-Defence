@@ -13,15 +13,20 @@ class HealerMonster(Monster):
         self.heal_cooldown = 300
         self.ticks_since_last_heal = 0
 
-    def heal_monsters(self, monsters):
-        for monster in monsters:
+    def heal_monsters(self):
+        for monster in self.monsters:
             if not monster.is_dead and monster.health < monster.max_health and self.distance_on_path + self.heal_radius > monster.distance_on_path > self.distance_on_path - self.heal_radius:
                 monster.heal(self.heal_amount)
                 MonsterSprite.update_health_bar(self)
 
-    def healing(self, monsters):
+    def healing(self):
         self.ticks_since_last_heal += 1
         if self.ticks_since_last_heal > self.heal_cooldown:
-            self.heal_monsters(monsters)
+            self.heal_monsters()
             self.ticks_since_last_heal = 0
+
+    def update(self):
+        super().update()
+        if not self.is_dead:
+            self.healing()
 

@@ -51,7 +51,7 @@ class RunningGameHandler:
 
                     if self.pause_button_rect.collidepoint(mouse_pos):
                         self.game.game_state = GameState.PAUSED
-                    if self.skip_button_rect.collidepoint(mouse_pos):
+                    if self.skip_button_rect.collidepoint(mouse_pos) and self.game.wave_delay:
                         self.game.start_next_wave()
                         return
 

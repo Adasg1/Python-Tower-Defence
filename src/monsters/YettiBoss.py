@@ -6,7 +6,7 @@ from src.monsters.Monster import Monster
 
 class YettiBoss(Monster):
     def __init__(self, path_points, game_stats, monsters, hp_multiplier, value_multiplier, distance=0):
-        super().__init__(path_points, game_stats, monsters, monster_type=MonsterType.YETTIBOSS, health=500*hp_multiplier, speed=0.7, value=int(100*value_multiplier), width=88, is_boss=True)
+        super().__init__(path_points, game_stats, monsters, monster_type=MonsterType.YETTIBOSS, health=500*hp_multiplier, speed=0.7, value=int(100*value_multiplier), width=84, is_boss=True)
         self.is_invulnerable = False
         self.invuln_cooldown = 380
         self.invuln_duration = 160
@@ -17,12 +17,12 @@ class YettiBoss(Monster):
     def set_invulnerable(self):
         self.ticks_since_last_invuln_change += 1
         if self.is_invulnerable and self.ticks_since_last_invuln_change > self.invuln_duration:
-            print("vuln")
+            #print("vuln")
             self.is_invulnerable = False
             self.set_animation("walk")
             self.ticks_since_last_invuln_change = 0
         elif not self.is_invulnerable and self.ticks_since_last_invuln_change > self.invuln_cooldown:
-            print("invuln")
+            #print("invuln")
             self.is_invulnerable = True
             self.set_animation("specialty_walk")
             self.ticks_since_last_invuln_change = 0

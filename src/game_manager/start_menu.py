@@ -75,6 +75,6 @@ class StartMenu():
 
     def start_game_with_difficulty(self, difficulty):   # do zrobienia
         self.game.difficulty = difficulty
-        self.game.init_game()
+        self.game.init_wave()
         self.game.game_state = GameState.RUNNING
         self.show_difficulties = False
