@@ -11,7 +11,7 @@ from src.monsters.YettiBoss import YettiBoss
 
 class KnightBoss(Monster):
     def __init__(self, path_points, game_stats, towers, monsters, hp_multiplier, value_multiplier):
-        super().__init__(path_points, game_stats, monsters, monster_type=MonsterType.KNIGHTBOSS, health=15000*hp_multiplier, speed=0.3, value=int(100*value_multiplier), width=88, is_boss=True)
+        super().__init__(path_points, game_stats, monsters, monster_type=MonsterType.KNIGHTBOSS, health=15000*hp_multiplier, speed=0.3, value=int(100*value_multiplier), width=80, is_boss=True)
         self.phase = 0
         self.towers = towers
         self.is_regenerating = False

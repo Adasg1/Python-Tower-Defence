@@ -28,12 +28,9 @@ class Monster(MonsterSprite):
         self.is_invulnerable = False
         self.is_slowed = False
         self.slowed_timer = 0
-        self._is_boss = is_boss
-        MonsterSprite.__init__(self, self, monster_type, width)
+        MonsterSprite.__init__(self, self, monster_type, width, is_boss)
 
-    @property
-    def is_boss(self):
-        return self._is_boss
+
 
     def compute_path_data(self):
         for i in range(len(self.path) - 1):

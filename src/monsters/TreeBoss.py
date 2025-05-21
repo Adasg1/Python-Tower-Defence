@@ -29,7 +29,7 @@ class TreeBoss(Monster):
         self.specialty_image = AssetManager.get_image(key)
         self.specialty_rect = self.specialty_image.get_rect(center=pos)
 
-    def spawn_monsters(self, monsters, num_monsters = 3):
+    def spawn_monsters(self, num_monsters = 3):
         self.ticks_since_last_spawn += 1
         if self.ticks_since_last_spawn > self.spawn_cooldown:
             self.spawning = True
@@ -44,7 +44,7 @@ class TreeBoss(Monster):
                 root.pos = spawn_position
                 root.target = target
                 root.current_point = current_point
-                monsters.add(root)
+                self.monsters.add(root)
 
             self.ticks_since_last_spawn = 0
 
@@ -63,6 +63,8 @@ class TreeBoss(Monster):
 
     def update(self):
         super().update()
+        if not self.is_dead:
+            self.spawn_monsters()
         if self.spawning:
             if not self.facing_right:
                 self.flip_specialty_frames()

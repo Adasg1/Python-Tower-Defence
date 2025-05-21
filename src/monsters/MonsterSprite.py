@@ -5,7 +5,7 @@ from src.assets.AssetManager import AssetManager
 
 
 class MonsterSprite(pygame.sprite.Sprite):
-    def __init__(self, monster, monster_type, width):
+    def __init__(self, monster, monster_type, width, is_boss):
         super().__init__()
         self.monster = monster
         self.name = monster_type.monster_name
@@ -29,6 +29,11 @@ class MonsterSprite(pygame.sprite.Sprite):
         self.x_offset = random.randint(-15, 15)
         self.y_offset = random.randint(-15, 15)
         self.width = width # Zmienna dodana z powodu żle zrobionych assetów, pozwala na lepsze hitboxy oraz prawidłowe "flipowanie" obrazków
+        self._is_boss = is_boss
+
+    @property
+    def is_boss(self):
+        return self._is_boss
 
     def load_animation(self, anim_type, frame_count):
         keys = [f"images/monsters/{self.name}/{anim_type}_{i:03d}" for i in range(frame_count)]
@@ -82,8 +87,14 @@ class MonsterSprite(pygame.sprite.Sprite):
 
     def draw_health_bar(self, surface):
         if self.monster.health > 0:
-            x = self.rect.centerx - self.bar_width / 2 - 10
+            x = self.center()[0] - self.bar_width / 2
             y = self.rect.top - self.bar_height - 5
+
+            k = 25 if self._is_boss else 10 #skorygowanie pozycji healthbaru
+            if self.facing_right:
+                x -= k
+            else:
+                x += k
 
             pygame.draw.rect(surface, (255, 0, 0), (x, y, self.bar_width, self.bar_height))
 

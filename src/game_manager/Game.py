@@ -18,6 +18,7 @@ from src.utils.exit_handler import handle_exit
 class Game:
     def __init__(self):
 
+        #Inicjalizacja
         pygame.init()
         pygame.font.init()
         self.icon = pygame.image.load('assets/images/icon.png')
@@ -33,7 +34,6 @@ class Game:
         self.screen.blit(loading_text, loading_text.get_rect(center=(640, 360)))
         pygame.display.update()
         pygame.event.pump()  # Zapobiega zawieszeniu
-
 
         AssetManager.load_assets()
 
@@ -52,14 +52,14 @@ class Game:
         self.start_menu = StartMenu(self)
         self.pause_menu = PauseMenu(self)
         self.end_game_menu = EndGameMenu(self)
-
-        self.path = AssetManager.get_csv("map/path")
-
-    def init_game(self): # do inicjalizacji pojedynczej rozgrywki
         self.monsters = pygame.sprite.Group()
         self.towers = TowerManager(self.game_stats, self.monsters)
         self.running_game_handler = RunningGameHandler(self, self.towers)
         self.spells = SpellManager(self.game_stats, self.monsters)
+        self.path = AssetManager.get_csv("map/path")
+
+    def init_wave(self): # do inicjalizacji fali
+
         self.wave_loader = WaveLoader("waves/waves.json", self.game_stats, self.towers.towers, self.monsters, self.difficulty)
         self.waves = self.wave_loader.waves
         self.ticks_since_last_spawn = 0
@@ -129,14 +129,6 @@ class Game:
 
             self.spawn_monsters_from_wave()
 
-            #To raczej do przeniesienia
-            for monster in self.monsters:
-                if not monster.is_dead:
-                    if monster.monster_type.monster_name == "healer":
-                        monster.healing(self.monsters)
-                    if monster.monster_type.monster_name == "treeboss":
-                        monster.spawn_monsters(self.monsters)
-
             # update
             self.monsters.update()
             self.towers.update()
@@ -167,8 +159,12 @@ class Game:
             monster.draw_health_bar(self.screen)
 
     def reset_game(self):
-        self.init_game()
         self.game_stats.reset_stats()
+        for monster in self.monsters:
+            monster.kill()
+        self.towers.reset()
+        self.spells.reset()
+        self.init_wave()
 
     def spawn_monsters_from_wave(self):
         if not self.wave_delay:
