@@ -178,10 +178,8 @@ class Game:
                     elif len(self.waves) > 0:
                         self.waves.pop(0)
                         self.wave_spawns = False
-                        print("wave ended")
             elif len(self.monsters) == 0:
                 if len(self.waves) == 0:
-                    print("wygrana - koniec fal")
                     self.game_state = GameState.END_OVER
                 self.ticks_since_last_wave = 0
                 self.wave_delay = True

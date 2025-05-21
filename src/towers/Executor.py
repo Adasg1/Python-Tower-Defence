@@ -1,5 +1,7 @@
 import pygame.image
 
+from src.monsters.KnightBoss import KnightBoss
+from src.monsters.YettiBoss import YettiBoss
 from src.projectiles.Projectile import Projectile
 from src.projectiles.ThunderBolt import ThunderBolt
 from src.towers.Tower import Tower
@@ -25,7 +27,7 @@ class Executor(Tower):
     def shoot(self, monster):
         self.thunderbolts.add(ThunderBolt(self.elem_rect.center[0], self.elem_rect.center[1], monster, self.damage))
         monster.damage_to_receive += self.damage
-        if monster.health - monster.damage_to_receive <= 0:
+        if monster.health - monster.damage_to_receive <= 0 and not isinstance(monster, (YettiBoss, KnightBoss)):
             monster.will_die = True
 
     def update(self):

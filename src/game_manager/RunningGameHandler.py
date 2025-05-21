@@ -97,7 +97,6 @@ class RunningGameHandler:
                                         tower_type = TowerType.EXECUTOR
 
                                     if tower_type:
-                                        print(tower_type)
                                         if tower_type.cost <= self.game.game_stats.get_money:
                                             self.towers_manager.place_tower(spot, tower_type)
                                         else:

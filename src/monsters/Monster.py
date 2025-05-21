@@ -89,7 +89,7 @@ class Monster(MonsterSprite):
         self.will_die = False
 
     def slow_update(self):
-        if self.slowed_timer == 0:
+        if not self.speed == 0 and self.slowed_timer == 0:
             self.speed = self.base_speed
             self.is_slowed = False
         if self.is_slowed:

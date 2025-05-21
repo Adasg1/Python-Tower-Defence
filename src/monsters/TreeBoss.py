@@ -14,13 +14,13 @@ class TreeBoss(Monster):
         self.ticks_since_last_spawn = 0
         self.hp_multiplier = hp_multiplier
         self.load_animation("specialty", 20)
-        print(self.animation_keys)
         self.specialty_animation = "specialty"
         self.specialty_frame = 0
         self.specialty_image = None
         self.specialty_rect = None
         self.spawning = False
         self.distance_on_path = distance
+        self.flipped = False
 
     def set_specialty_animation(self, pos):
         self.specialty_animation = "specialty"
@@ -66,17 +66,16 @@ class TreeBoss(Monster):
         if not self.is_dead:
             self.spawn_monsters()
         if self.spawning:
-            if not self.facing_right:
-                self.flip_specialty_frames()
             self.handle_spawn_animation()
 
-    def flip_specialty_frames(self):
-        if self.spawning:
-            new_specialty_keys = []
-            for key in self.animation_keys[self.specialty_animation]:
+    def flip_frames(self):
+        anim_types = ["walk", "specialty", "die"]
+        for anim_type in anim_types:
+            new_keys = []
+            for key in self.animation_keys[anim_type]:
                 image = AssetManager.get_image(key)
                 flipped = pygame.transform.flip(image, True, False)
                 new_key = f"{key}_flipped"
                 AssetManager._images[new_key] = flipped
-                new_specialty_keys.append(new_key)
-            self.animation_keys[self.specialty_animation] = new_specialty_keys
+                new_keys.append(new_key)
+            self.animation_keys[anim_type] = new_keys

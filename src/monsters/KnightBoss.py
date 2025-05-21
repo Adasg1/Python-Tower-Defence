@@ -85,3 +85,16 @@ class KnightBoss(Monster):
             self.current_frame = 0
             self.is_regenerating = True
             self.spawn_boss()
+
+
+    def flip_frames(self):
+        anim_types = ["walk", "specialty", "specialty_2", "die"]
+        for anim_type in anim_types:
+            new_keys = []
+            for key in self.animation_keys[anim_type]:
+                image = AssetManager.get_image(key)
+                flipped = pygame.transform.flip(image, True, False)
+                new_key = f"{key}_flipped"
+                AssetManager._images[new_key] = flipped
+                new_keys.append(new_key)
+            self.animation_keys[anim_type] = new_keys
