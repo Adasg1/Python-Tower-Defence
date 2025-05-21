@@ -23,7 +23,10 @@ class GameStats:
     def get_wave(self): return self._wave
 
     def take_damage(self, damage):
-        self._hp -= damage
+        if self._hp - damage > 0:
+            self._hp -= damage
+        else:
+            self._hp = 0
 
     def earn(self, amount):
         self._money += amount

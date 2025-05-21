@@ -26,10 +26,13 @@ class MonsterSprite(pygame.sprite.Sprite):
         self.load_animation("walk", self.walkframe_count)
         self.load_animation("die", self.dieframe_count)
         self.set_animation("walk")
-        self.x_offset = random.randint(-15, 15)
-        self.y_offset = random.randint(-15, 15)
         self.width = width # Zmienna dodana z powodu żle zrobionych assetów, pozwala na lepsze hitboxy oraz prawidłowe "flipowanie" obrazków
         self._is_boss = is_boss
+        self.x_offset = random.randint(-10, 10)
+        if self._is_boss:
+            self.y_offset = random.randint(20, 25)
+        else:
+            self.y_offset = random.randint(-12, 15)
 
     @property
     def is_boss(self):
