@@ -8,7 +8,7 @@ from src.spells.Spell import Spell
 class FreezeSpell(Spell):
     def __init__(self, monsters):
         super().__init__(monsters, range=85, spell_type='freeze', button_pos=(1230, 360), unlock_wave=16)
-        self.freeze_time = 3
+        self.freeze_time = 4
 
     def update(self):
         if self.animation:

@@ -18,6 +18,7 @@ class KnightBoss(Monster):
         self.is_invulnerable = False
         self.load_animation("specialty", 20)
         self.load_animation("specialty_2", 20)
+        self.flipped = False
 
     def regenerate(self):
         if self.is_regenerating:
@@ -85,3 +86,18 @@ class KnightBoss(Monster):
             self.current_frame = 0
             self.is_regenerating = True
             self.spawn_boss()
+        if not self.facing_right and not self.flipped:
+            self.flip_specialty_frames()
+            self.flipped = True
+
+    def flip_specialty_frames(self):
+        anim_types = ["specialty", "specialty_2"]
+        for anim_type in anim_types:
+            new_keys = []
+            for key in self.animation_keys[anim_type]:
+                image = AssetManager.get_image(key)
+                flipped = pygame.transform.flip(image, True, False)
+                new_key = f"{key}_flipped"
+                AssetManager._images[new_key] = flipped
+                new_keys.append(new_key)
+            self.animation_keys[anim_type] = new_keys

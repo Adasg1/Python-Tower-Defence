@@ -8,13 +8,17 @@ class StartMenu():
         self.game = game
         self.font = pygame.font.Font('assets/fonts/LuckiestGuy-Regular.ttf', 100)
 
+        self.title_image = AssetManager.get_image('images/interface/title', (520, 270))
+        self.title_rect = self.title_image.get_rect(center=(640, 200))
         self.play_image = AssetManager.get_image('images/buttons/button_play', (160, 160))
-        self.play_rect = self.play_image.get_rect(center=(640, 360))
+        self.play_rect = self.play_image.get_rect(center=(640, 460))
         self.bg_image = AssetManager.get_image('images/backgrounds/menu')
         self.music_image = AssetManager.get_image('images/buttons/button_music', (80, 80))
         self.music_rect = self.music_image.get_rect(topleft=(10, 10))
 
         # choose difficulty assets
+        self.goback_image = AssetManager.get_image('images/buttons/button_left', (80, 80))
+        self.goback_rect = self.goback_image.get_rect(topleft=(10, 90))
         self.window_image = AssetManager.get_image('images/buttons/window', (290, 440))
         self.window_rect = self.window_image.get_rect(center=(640, 390))
         self.table_image = AssetManager.get_image('images/buttons/table2', (455, 580))
@@ -34,8 +38,10 @@ class StartMenu():
         screen.blit(self.bg_image, (0, 0))
         screen.blit(self.music_image, self.music_rect)
         if not self.show_difficulties:
+            screen.blit(self.title_image, self.title_rect)
             screen.blit(self.play_image, self.play_rect)
         else:
+            screen.blit(self.goback_image, self.goback_rect)
             screen.blit(self.table_image, self.table_rect)
             screen.blit(self.window_image, self.window_rect)
             screen.blit(self.header_image, self.header_rect)
@@ -54,6 +60,8 @@ class StartMenu():
                     elif self.music_rect.collidepoint(mouse_pos):
                         self.toggle_music()
                 else:
+                    if self.goback_rect.collidepoint(mouse_pos):
+                        self.show_difficulties = False
                     if self.easy_rect.collidepoint(mouse_pos):   # wybór trudności
                         self.start_game_with_difficulty("easy")
                     elif self.normal_rect.collidepoint(mouse_pos):

@@ -56,12 +56,16 @@ class RunningGameHandler:
                         return
 
                     for spell in self.game.spells.spells:
-                        if spell.rect.collidepoint(mouse_pos) and spell.is_unlocked:
+                        if spell.is_toggled:
+                            if spell.rect.collidepoint(mouse_pos):
+                                spell.is_toggled = False
+                            else:
+                                spell.is_toggled = False
+                                spell.use(mouse_pos)
+                        elif spell.rect.collidepoint(mouse_pos) and spell.is_unlocked:
                             if not spell.is_toggled and not spell.is_on_cooldown():
                                 spell.is_toggled = True
-                        if spell.is_toggled and not spell.rect.collidepoint(mouse_pos):
-                            spell.is_toggled = False
-                            spell.use(mouse_pos)
+
                     for spot in self.towers_manager.spots:
                         if not spot.occupied:
                             if spot.rect.collidepoint(mouse_pos) and not spot.tower.showed_options:
@@ -97,11 +101,10 @@ class RunningGameHandler:
                                         tower_type = TowerType.EXECUTOR
 
                                     if tower_type:
-                                        print(tower_type)
                                         if tower_type.cost <= self.game.game_stats.get_money:
                                             self.towers_manager.place_tower(spot, tower_type)
-                                        else:
-                                            print("Not enough money")
+                                        #else:
+                                            #print("Not enough money")
                                 else:
                                     spot.tower.hide_options()
                         else:
@@ -127,8 +130,8 @@ class RunningGameHandler:
                                         upgrade_cost = spot.tower.get_upgrade_cost()
                                         if upgrade_cost <= self.game.game_stats.get_money:
                                             self.towers_manager.upgrade_tower(spot, upgrade_cost)
-                                        else:
-                                            print("Not enough money")
+                                        #else:
+                                            #print("Not enough money")
 
                                     if 70 < rel_x < 120 and 140 < rel_y < 190:
                                         self.towers_manager.sell_tower(spot)

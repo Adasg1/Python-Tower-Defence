@@ -21,7 +21,6 @@ class GolemBoss(Monster):
                 if tower.type is not None and self.pos.distance_to(tower.rect.center) < 300:
                     towers_to_disable.append(tower)
             if towers_to_disable:
-                print("disable")
                 random.choice(towers_to_disable).disable(self.disable_duration)
             self.ticks_since_last_disable = 0
 

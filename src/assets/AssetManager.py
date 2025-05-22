@@ -56,7 +56,6 @@ class AssetManager:
     @classmethod
     def get_image(cls, key, scale=None):
         if key not in cls._images:
-            print(f"Ostrzeżenie: Nie znaleziono obrazu o kluczu '{key}'")
             return None
         image = cls._images[key]
         if scale:
@@ -81,8 +80,8 @@ class AssetManager:
 
     @classmethod
     def get_csv(cls, key):
-        if key not in cls._csv_data:
-            print(f"Nie znaleziono pliku CSV o kluczu '{key}'")
+        #if key not in cls._csv_data:
+            #print(f"Nie znaleziono pliku CSV o kluczu '{key}'")
         return cls._csv_data.get(key)
 
 

@@ -46,7 +46,7 @@ class TowerManager:
 
     def sell_tower(self, spot):
         spot.tower.hide_options()
-        self.game_stats.earn(spot.tower.cost // 2)
+        self.game_stats.earn(spot.tower.get_sell_amount())
         spot.tower.sell()
         spot.tower = TowerSprite(spot.rect.x, spot.rect.y, None)
         self.towers.add(spot.tower)

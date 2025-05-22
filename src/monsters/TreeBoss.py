@@ -14,13 +14,13 @@ class TreeBoss(Monster):
         self.ticks_since_last_spawn = 0
         self.hp_multiplier = hp_multiplier
         self.load_animation("specialty", 20)
-        print(self.animation_keys)
         self.specialty_animation = "specialty"
         self.specialty_frame = 0
         self.specialty_image = None
         self.specialty_rect = None
         self.spawning = False
         self.distance_on_path = distance
+        self.flipped = False
 
     def set_specialty_animation(self, pos):
         self.specialty_animation = "specialty"
@@ -66,8 +66,9 @@ class TreeBoss(Monster):
         if not self.is_dead:
             self.spawn_monsters()
         if self.spawning:
-            if not self.facing_right:
+            if not self.facing_right and not self.flipped:
                 self.flip_specialty_frames()
+                self.flipped = True
             self.handle_spawn_animation()
 
     def flip_specialty_frames(self):
