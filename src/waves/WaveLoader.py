@@ -16,7 +16,7 @@ class WaveLoader:
             with open(self.json_file_path, "r") as file:
                 data = json.load(file)
         except json.JSONDecodeError:
-            print(f"Error: Failed to decode JSON from {self.json_file_path}.")
+            #print(f"Error: Failed to decode JSON from {self.json_file_path}.")
             return []
 
         waves = []

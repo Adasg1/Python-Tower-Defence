@@ -38,7 +38,7 @@ class Spell:
 
     def unlock(self):
         self.is_unlocked = True
-        print(self.unlocked_image_path)
+        #print(self.unlocked_image_path)
         self.image = AssetManager.get_image(self.unlocked_image_path, (80, 80))
 
     def is_on_cooldown(self):

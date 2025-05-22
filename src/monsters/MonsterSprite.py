@@ -34,6 +34,18 @@ class MonsterSprite(pygame.sprite.Sprite):
         else:
             self.y_offset = random.randint(-12, 15)
 
+    def update_rect_position(self):
+        if self.facing_right:
+            self.rect.bottomleft = (
+                self.monster.pos[0] - self.width // 2 + self.x_offset,
+                self.monster.pos[1] + self.y_offset
+            )
+        else:
+            self.rect.bottomright = (
+                self.monster.pos[0] + self.width // 2 + self.x_offset,
+                self.monster.pos[1] + self.y_offset
+            )
+
     @property
     def is_boss(self):
         return self._is_boss
@@ -48,6 +60,7 @@ class MonsterSprite(pygame.sprite.Sprite):
         key = self.animation_keys[anim_type][0]
         self.image = AssetManager.get_image(key)
         self.rect = self.image.get_rect()
+        #print(self.rect, self.monster.pos)
 
     def handle_animation(self):
         if self.time_since_last_animation >= self.animation_delay:
@@ -83,7 +96,6 @@ class MonsterSprite(pygame.sprite.Sprite):
         else:
             return self.rect.right - self.rect.width / 2, self.rect.center[1]
 
-
     def update_health_bar(self):
         health_ratio = self.monster.health / self.monster.max_health
         self.current_health_width = int(self.bar_width * health_ratio)
@@ -111,16 +123,10 @@ class MonsterSprite(pygame.sprite.Sprite):
             self.flip_frames()
             self.facing_right = True
         self.handle_animation()
-        if self.facing_right:
-            self.rect.bottomleft = (self.monster.pos[0] - self.width // 2 + self.x_offset, self.monster.pos[1] + self.y_offset)
-        else:
-            self.rect.bottomright = (self.monster.pos[0] + self.width // 2 + self.x_offset, self.monster.pos[1] + self.y_offset)
-
-
 
     def draw(self, surface):
+        self.update_rect_position()
         surface.blit(self.image, self.rect)
-
 
     def die(self):
         if not self.monster.is_dead:

@@ -28,6 +28,7 @@ class Monster(MonsterSprite):
         self.is_invulnerable = False
         self.is_slowed = False
         self.slowed_timer = 0
+        self.freezed = False
         MonsterSprite.__init__(self, self, monster_type, width, is_boss)
 
 
@@ -61,11 +62,11 @@ class Monster(MonsterSprite):
             self.move()
         if self.health <= 0 and not self.is_dead:
             self.die()
-        self.slow_update()
+        if self.is_slowed:
+            self.slow_update()
         if self.current_point == len(self.path) - 1:
             if not self.is_boss:
                 self.game_stats.take_damage(1)
-
             else:
                 self.game_stats.take_damage(50)
                 from src.monsters.KnightBoss import KnightBoss
@@ -80,7 +81,6 @@ class Monster(MonsterSprite):
         self.health -= damage
         self.damage_to_receive -= damage
 
-
     def heal(self, amount):
         if self.health + amount < self.max_health:
             self.health += amount
@@ -89,12 +89,11 @@ class Monster(MonsterSprite):
         self.will_die = False
 
     def slow_update(self):
-        if not self.speed == 0 and self.slowed_timer == 0:
+        if self.slowed_timer == 0:
             self.speed = self.base_speed
             self.is_slowed = False
-        if self.is_slowed:
+        else:
             self.slowed_timer -= 1
-
 
     def get_slowed(self, slow_ratio, slow_time):
         self.slowed_timer = slow_time * 60
