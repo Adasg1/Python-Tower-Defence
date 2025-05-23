@@ -6,7 +6,7 @@ from src.monsters.Monster import Monster
 
 class YettiBoss(Monster):
     def __init__(self, path_points, game_stats, monsters, hp_multiplier, value_multiplier, distance=0):
-        super().__init__(path_points, game_stats, monsters, monster_type=MonsterType.YETTIBOSS, health=500*hp_multiplier, speed=0.7, value=int(100*value_multiplier), width=84, is_boss=True)
+        super().__init__(path_points, game_stats, monsters, monster_type=MonsterType.YETTIBOSS, health=500*hp_multiplier, speed=0.7, value=int(50*value_multiplier), width=84, is_boss=True)
         self.is_invulnerable = False
         self.invuln_cooldown = 380
         self.invuln_duration = 160

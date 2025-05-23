@@ -2,15 +2,19 @@ import sys
 import pygame
 
 from src.assets.AssetManager import AssetManager
-from src.enum.TowerType import TowerType
 from src.enum.GameState import GameState
+from src.enum.TowerType import TowerType
+from src.game_manager.GameContext import GameContext
+from src.game_manager.WaveManager import WaveManager
 from src.utils.exit_handler import handle_exit
 
 
 class RunningGameHandler:
-    def __init__(self, game, towers_manager):
-        self.game = game
-        self.towers_manager = towers_manager
+    def __init__(self, game_context, wave_manager, towers_manager, spells_manager):
+        self.context = game_context
+        self.towers = towers_manager
+        self.waves = wave_manager
+        self.spells = spells_manager
         self.skip_table_bg = AssetManager.get_image("images/game_stats/skip_table", (260, 55))
         self.skip_button = AssetManager.get_image("images/game_stats/skip_button", (55, 55))
         self.skip_button_rect = pygame.Rect(0, 0, 55, 55)
@@ -23,16 +27,16 @@ class RunningGameHandler:
         self.draw_wave_info_and_skip(screen)
 
     def draw_wave_info_and_skip(self, screen):
-        if self.game.wave_delay:
-            self.game.ticks_since_last_wave += 1
-            if self.game.ticks_since_last_wave >= 900:
-                self.game.start_next_wave()
+        if self.waves.wave_delay:
+            self.waves.ticks_since_last_wave += 1
+            if self.waves.ticks_since_last_wave >= 900:
+                self.waves.start_next_wave()
 
             bg_pos = (1023, 50)
             screen.blit(self.skip_table_bg, bg_pos)
             timer_font = pygame.font.Font('assets/fonts/LuckiestGuy-Regular.ttf', 20)
-            if self.game.game_stats.get_wave > 1:
-                time_remaining = (900 - self.game.ticks_since_last_wave)//60 + 1
+            if self.context.game_stats.get_wave > 1:
+                time_remaining = (900 - self.waves.ticks_since_last_wave)//60 + 1
                 timer_text = timer_font.render(f"Next wave in: {time_remaining}s", True, (222, 184, 135)) # wyswietlony timer
             else:
                 timer_text = timer_font.render(f"Start First Wave", True,(222, 184, 135))  # wyswietlony timer
@@ -50,12 +54,12 @@ class RunningGameHandler:
                 if event.button == 1:
 
                     if self.pause_button_rect.collidepoint(mouse_pos):
-                        self.game.game_state = GameState.PAUSED
-                    if self.skip_button_rect.collidepoint(mouse_pos) and self.game.wave_delay:
-                        self.game.start_next_wave()
+                        self.context.game_state = GameState.PAUSED
+                    if self.skip_button_rect.collidepoint(mouse_pos) and self.waves.wave_delay:
+                        self.waves.start_next_wave()
                         return
 
-                    for spell in self.game.spells.spells:
+                    for spell in self.spells.spells:
                         if spell.is_toggled:
                             if spell.rect.collidepoint(mouse_pos):
                                 spell.is_toggled = False
@@ -66,7 +70,7 @@ class RunningGameHandler:
                             if not spell.is_toggled and not spell.is_on_cooldown():
                                 spell.is_toggled = True
 
-                    for spot in self.towers_manager.spots:
+                    for spot in self.towers.spots:
                         if not spot.occupied:
                             if spot.rect.collidepoint(mouse_pos) and not spot.tower.showed_options:
                                 spot.tower.show_options()
@@ -101,8 +105,8 @@ class RunningGameHandler:
                                         tower_type = TowerType.EXECUTOR
 
                                     if tower_type:
-                                        if tower_type.cost <= self.game.game_stats.get_money:
-                                            self.towers_manager.place_tower(spot, tower_type)
+                                        if tower_type.cost <= self.context.game_stats.get_money:
+                                            self.towers.place_tower(spot, tower_type)
                                         #else:
                                             #print("Not enough money")
                                 else:
@@ -128,12 +132,12 @@ class RunningGameHandler:
                                     rel_y = mouse_pos[1] - options_rect.y
                                     if 70 < rel_x < 120 and 10 < rel_y < 60:
                                         upgrade_cost = spot.tower.get_upgrade_cost()
-                                        if upgrade_cost <= self.game.game_stats.get_money:
-                                            self.towers_manager.upgrade_tower(spot, upgrade_cost)
+                                        if upgrade_cost <= self.context.game_stats.get_money:
+                                            self.towers.upgrade_tower(spot, upgrade_cost)
                                         #else:
                                             #print("Not enough money")
 
                                     if 70 < rel_x < 120 and 140 < rel_y < 190:
-                                        self.towers_manager.sell_tower(spot)
+                                        self.towers.sell_tower(spot)
                                 else:
                                     spot.tower.hide_options()

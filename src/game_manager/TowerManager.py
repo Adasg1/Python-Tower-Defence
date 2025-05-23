@@ -12,9 +12,9 @@ from src.assets.AssetManager import AssetManager
 
 
 class TowerManager:
-    def __init__(self, game_stats, monsters):
+    def __init__(self, game_stats):
         self.towers = pygame.sprite.Group()
-        self.monsters = monsters
+        self.monsters = None
         self.game_stats = game_stats
         spot_coords = AssetManager.get_csv("map/tower_spots")
         self.spots = []
@@ -23,6 +23,9 @@ class TowerManager:
             self.spots[-1].init()
             self.towers.add(self.spots[-1].tower)
 
+
+    def set_monsters_reference(self, monsters):
+        self.monsters = monsters
 
     def draw_range(self, screen):
         for tower in self.towers:

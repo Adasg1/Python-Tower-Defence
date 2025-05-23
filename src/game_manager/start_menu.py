@@ -2,13 +2,16 @@ import pygame
 
 from src.enum.GameState import GameState
 from src.assets.AssetManager import AssetManager
+from src.enum.difficulty import Difficulty
+
 
 class StartMenu():
-    def __init__(self, game):
-        self.game = game
+    def __init__(self, game_context, waves_manager):
+        self.context = game_context
+        self.waves = waves_manager
         self.font = pygame.font.Font('assets/fonts/LuckiestGuy-Regular.ttf', 100)
 
-        self.title_image = AssetManager.get_image('images/interface/title', (520, 270))
+        self.title_image = AssetManager.get_image('images/interface/title', (600, 160))
         self.title_rect = self.title_image.get_rect(center=(640, 200))
         self.play_image = AssetManager.get_image('images/buttons/button_play', (160, 160))
         self.play_rect = self.play_image.get_rect(center=(640, 460))
@@ -23,7 +26,7 @@ class StartMenu():
         self.window_rect = self.window_image.get_rect(center=(640, 390))
         self.table_image = AssetManager.get_image('images/buttons/table2', (455, 580))
         self.table_rect = self.table_image.get_rect(center=(640, 373))
-        self.header_image = AssetManager.get_image('images/buttons/header_diff', (280, 120))
+        self.header_image = AssetManager.get_image('images/buttons/header_diff', (180, 120))
         self.header_rect = self.header_image.get_rect(center=(640, 145))
         self.easy_image = AssetManager.get_image('images/buttons/button_easy', (240, 120))
         self.easy_rect = self.easy_image.get_rect(center=(640, 265))
@@ -57,32 +60,28 @@ class StartMenu():
                 if not self.show_difficulties:
                     if self.play_rect.collidepoint(mouse_pos):
                         self.show_difficulties = True
-                    elif self.music_rect.collidepoint(mouse_pos):
-                        self.toggle_music()
                 else:
                     if self.goback_rect.collidepoint(mouse_pos):
                         self.show_difficulties = False
                     if self.easy_rect.collidepoint(mouse_pos):   # wybór trudności
-                        self.start_game_with_difficulty("easy")
+                        self.start_game_with_difficulty(Difficulty.EASY)
                     elif self.normal_rect.collidepoint(mouse_pos):
-                        self.start_game_with_difficulty("normal")
+                        self.start_game_with_difficulty(Difficulty.NORMAL)
                     elif self.hard_rect.collidepoint(mouse_pos):
-                        self.start_game_with_difficulty("hard")
-                    elif self.music_rect.collidepoint(mouse_pos):
-                        self.toggle_music()
+                        self.start_game_with_difficulty(Difficulty.HARD)
+                if self.music_rect.collidepoint(mouse_pos):
+                    self.context.music_controller.toggle()
+                    self.update_music_icon()
 
-    def toggle_music(self):
-        if self.game.music_enabled:
-            self.game.music_enabled = False
-            pygame.mixer.music.pause()
-            self.music_image = AssetManager.get_image('images/buttons/button_music_off', (80, 80))
-        else:
-            self.game.music_enabled = True
-            pygame.mixer.music.unpause()
+    def update_music_icon(self):
+        if self.context.music_controller.is_playing():
             self.music_image = AssetManager.get_image('images/buttons/button_music', (80, 80))
+        else:
+            self.music_image = AssetManager.get_image('images/buttons/button_music_off', (80, 80))
+
 
     def start_game_with_difficulty(self, difficulty):   # do zrobienia
-        self.game.difficulty = difficulty
-        self.game.init_wave()
-        self.game.game_state = GameState.RUNNING
+        self.context.set_difficulty(difficulty)
+        self.waves.init_wave()
+        self.context.game_state = GameState.RUNNING
         self.show_difficulties = False

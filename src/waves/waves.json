@@ -4,6 +4,7 @@
         "spawn_interval": 120,
         "monsters": [
           {"type": "BasicMonster", "count": 6, "hp_multiplier": 1.0}
+
         ]
     },
 
@@ -65,7 +66,7 @@
         "spawn_interval": 60,
         "monsters": [
             {"type": "BasicMonster", "count": 10, "hp_multiplier": 2.2},
-            {"type": "FlyingMonster", "count": 10, "hp_multiplier": 1.4},
+            {"type": "FlyingMonster", "count": 10, "hp_multiplier": 1.6},
             {"type": "QuickMonster", "count": 10, "hp_multiplier": 1.6}
         ]
     },
@@ -74,11 +75,12 @@
         "wave": 9,
         "spawn_interval": 42,
         "monsters": [
-            {"type": "BasicMonster", "count": 10, "hp_multiplier": 1.6},
+            {"type": "BasicMonster", "count": 8, "hp_multiplier": 2.0},
             {"type": "HealerMonster", "count": 1, "hp_multiplier": 1.0},
-            {"type": "FlyingMonster", "count": 10, "hp_multiplier": 1.5},
+            {"type": "FlyingMonster", "count": 6, "hp_multiplier": 1.5},
+            {"type": "TankMonster", "count": 6, "hp_multiplier": 1.5},
             {"type": "HealerMonster", "count": 1, "hp_multiplier": 1.0},
-            {"type": "QuickMonster", "count": 10, "hp_multiplier": 1.6}
+            {"type": "QuickMonster", "count": 8, "hp_multiplier": 1.6}
         ]
     },
 
@@ -86,7 +88,7 @@
         "wave": 10,
         "spawn_interval": 60,
         "monsters": [
-            {"type": "TreeBoss", "count": 1, "hp_multiplier": 2.0}
+            {"type": "TreeBoss", "count": 1, "hp_multiplier": 3.0}
         ]
     },
 
@@ -94,21 +96,21 @@
       "wave": 11,
       "spawn_interval": 60,
       "monsters": [
-        {"type": "BasicMonster", "count": 5, "hp_multiplier": 2.0},
-        {"type": "QuickMonster", "count": 2, "hp_multiplier": 1.7},
-        {"type": "BasicMonster", "count": 5, "hp_multiplier": 2.0},
-        {"type": "QuickMonster", "count": 3, "hp_multiplier": 1.7}
+        {"type": "BasicMonster", "count": 5, "hp_multiplier": 2.2},
+        {"type": "QuickMonster", "count": 2, "hp_multiplier": 1.8},
+        {"type": "BasicMonster", "count": 5, "hp_multiplier": 2.2},
+        {"type": "QuickMonster", "count": 3, "hp_multiplier": 1.8}
       ]
     },
     {
       "wave": 12,
       "spawn_interval": 60,
       "monsters": [
-        {"type": "BasicMonster", "count": 3, "hp_multiplier": 2.0},
-        {"type": "FlyingMonster", "count": 2, "hp_multiplier": 1.8},
+        {"type": "BasicMonster", "count": 3, "hp_multiplier": 2.5},
+        {"type": "FlyingMonster", "count": 3, "hp_multiplier": 2.0},
         {"type": "HealerMonster", "count": 1, "hp_multiplier": 1.5},
-        {"type": "BasicMonster", "count": 2, "hp_multiplier": 2.0},
-        {"type": "FlyingMonster", "count": 1, "hp_multiplier": 1.8},
+        {"type": "BasicMonster", "count": 3, "hp_multiplier": 2.5},
+        {"type": "FlyingMonster", "count": 3, "hp_multiplier": 2.0},
         {"type": "HealerMonster", "count": 1, "hp_multiplier": 1.5}
       ]
     },
@@ -116,41 +118,41 @@
       "wave": 13,
       "spawn_interval": 60,
       "monsters": [
-        {"type": "BasicMonster", "count": 3, "hp_multiplier": 2.0},
-        {"type": "TankMonster", "count": 2, "hp_multiplier": 2.4},
-        {"type": "BasicMonster", "count": 3, "hp_multiplier": 2.0},
-        {"type": "TankMonster", "count": 1, "hp_multiplier": 2.4}
+        {"type": "BasicMonster", "count": 5, "hp_multiplier": 2.5},
+        {"type": "TankMonster", "count": 5, "hp_multiplier": 2.5},
+        {"type": "BasicMonster", "count": 5, "hp_multiplier": 2.5},
+        {"type": "TankMonster", "count": 3, "hp_multiplier": 2.5}
       ]
     },
     {
       "wave": 14,
       "spawn_interval": 60,
       "monsters": [
-        {"type": "QuickMonster", "count": 15, "hp_multiplier": 2.2}
+        {"type": "QuickMonster", "count": 15, "hp_multiplier": 2.5}
       ]
     },
     {
       "wave": 15,
       "spawn_interval": 90,
       "monsters": [
-        {"type": "GolemBoss", "count": 1, "hp_multiplier": 5.0}
+        {"type": "GolemBoss", "count": 1, "hp_multiplier": 7.0}
       ]
     },
     {
       "wave": 16,
       "spawn_interval": 60,
       "monsters": [
-        {"type": "TankMonster", "count": 5, "hp_multiplier": 2.4},
-        {"type": "HealerMonster", "count": 1, "hp_multiplier": 1.7},
-        {"type": "TankMonster", "count": 3, "hp_multiplier": 2.4},
-        {"type": "HealerMonster", "count": 1, "hp_multiplier": 1.7}
+        {"type": "TankMonster", "count": 5, "hp_multiplier": 3.0},
+        {"type": "HealerMonster", "count": 1, "hp_multiplier": 2.0},
+        {"type": "TankMonster", "count": 3, "hp_multiplier": 3.0},
+        {"type": "HealerMonster", "count": 1, "hp_multiplier": 2.0}
       ]
     },
     {
       "wave": 17,
       "spawn_interval": 45,
       "monsters": [
-        {"type": "FlyingMonster", "count": 20, "hp_multiplier": 2.3}
+        {"type": "FlyingMonster", "count": 20, "hp_multiplier": 3.0}
       ]
     },
     {
@@ -158,27 +160,27 @@
       "spawn_interval": 60,
       "monsters": [
         {"type": "BasicMonster", "count": 5, "hp_multiplier": 3.5},
-        {"type": "FlyingMonster", "count": 5, "hp_multiplier": 2.8},
-        {"type": "QuickMonster", "count": 5, "hp_multiplier": 2.4},
+        {"type": "FlyingMonster", "count": 5, "hp_multiplier": 3.0},
+        {"type": "QuickMonster", "count": 5, "hp_multiplier": 2.6},
         {"type": "BasicMonster", "count": 5, "hp_multiplier": 3.5},
-        {"type": "FlyingMonster", "count": 5, "hp_multiplier": 2.8},
-        {"type": "QuickMonster", "count": 5, "hp_multiplier": 2.4}
+        {"type": "FlyingMonster", "count": 5, "hp_multiplier": 3.0},
+        {"type": "QuickMonster", "count": 5, "hp_multiplier": 2.6}
       ]
     },
     {
       "wave": 19,
       "spawn_interval": 42,
       "monsters": [
-        {"type": "BasicMonster", "count": 5, "hp_multiplier": 3.5},
-        {"type": "HealerMonster", "count": 1, "hp_multiplier": 2.2},
-        {"type": "FlyingMonster", "count": 5, "hp_multiplier": 2.8},
-        {"type": "HealerMonster", "count": 1, "hp_multiplier": 2.2},
-        {"type": "QuickMonster", "count": 5, "hp_multiplier": 3.4},
-        {"type": "BasicMonster", "count": 5, "hp_multiplier": 3.5},
-        {"type": "HealerMonster", "count": 1, "hp_multiplier": 2.2},
-        {"type": "FlyingMonster", "count": 5, "hp_multiplier": 2.8},
-        {"type": "HealerMonster", "count": 1, "hp_multiplier": 2.2},
-        {"type": "QuickMonster", "count": 5, "hp_multiplier": 3.4}
+        {"type": "BasicMonster", "count": 5, "hp_multiplier": 4.0},
+        {"type": "HealerMonster", "count": 1, "hp_multiplier": 2.5},
+        {"type": "FlyingMonster", "count": 5, "hp_multiplier": 3.0},
+        {"type": "HealerMonster", "count": 1, "hp_multiplier": 2.5},
+        {"type": "QuickMonster", "count": 5, "hp_multiplier": 3.5},
+        {"type": "BasicMonster", "count": 5, "hp_multiplier": 4.0},
+        {"type": "HealerMonster", "count": 1, "hp_multiplier": 2.5},
+        {"type": "FlyingMonster", "count": 5, "hp_multiplier": 3.0},
+        {"type": "HealerMonster", "count": 1, "hp_multiplier": 2.5},
+        {"type": "QuickMonster", "count": 5, "hp_multiplier": 3.5}
       ]
     },
 
@@ -186,7 +188,7 @@
         "wave": 20,
         "spawn_interval": 60,
         "monsters": [
-            {"type": "YettiBoss", "count": 1, "hp_multiplier": 6.0}
+            {"type": "YettiBoss", "count": 1, "hp_multiplier": 9.0}
         ]
     },
 
@@ -194,9 +196,9 @@
         "wave": 21,
         "spawn_interval": 12,
         "monsters": [
-            {"type": "BasicMonster", "count": 15, "hp_multiplier": 3.5},
-            {"type": "QuickMonster", "count": 12, "hp_multiplier": 3.0},
-            {"type": "BasicMonster", "count": 15, "hp_multiplier": 3.5}
+            {"type": "BasicMonster", "count": 15, "hp_multiplier": 4.5},
+            {"type": "QuickMonster", "count": 12, "hp_multiplier": 4.0},
+            {"type": "BasicMonster", "count": 15, "hp_multiplier": 4.5}
         ]
     },
 
@@ -204,8 +206,8 @@
         "wave": 22,
         "spawn_interval": 60,
         "monsters": [
-            {"type": "BasicMonster", "count": 5, "hp_multiplier": 4.0},
-            {"type": "FlyingMonster", "count": 3, "hp_multiplier": 3.5},
+            {"type": "BasicMonster", "count": 10, "hp_multiplier": 5.0},
+            {"type": "FlyingMonster", "count": 6, "hp_multiplier": 4.0},
             {"type": "TankMonster", "count": 5, "hp_multiplier": 5.0}
         ]
     },
@@ -226,7 +228,7 @@
         "wave": 24,
         "spawn_interval": 24,
         "monsters": [
-            {"type": "QuickMonster", "count": 35, "hp_multiplier": 4.5}
+            {"type": "QuickMonster", "count": 35, "hp_multiplier": 5.5}
         ]
     },
 
@@ -234,7 +236,7 @@
         "wave": 25,
         "spawn_interval": 60,
         "monsters": [
-            {"type": "TreeBoss", "count": 1, "hp_multiplier": 10.0}
+            {"type": "TreeBoss", "count": 1, "hp_multiplier": 12.0}
         ]
     },
 
@@ -242,11 +244,11 @@
         "wave": 26,
         "spawn_interval": 60,
         "monsters": [
-            {"type": "TankMonster", "count": 5, "hp_multiplier": 6.0},
+            {"type": "TankMonster", "count": 5, "hp_multiplier": 8.0},
             {"type": "HealerMonster", "count": 1, "hp_multiplier": 6.0},
-            {"type": "TankMonster", "count": 3, "hp_multiplier": 8.0},
+            {"type": "TankMonster", "count": 5, "hp_multiplier": 8.0},
             {"type": "HealerMonster", "count": 1, "hp_multiplier": 6.0},
-            {"type": "TankMonster", "count": 5, "hp_multiplier": 6.0}
+            {"type": "TankMonster", "count": 5, "hp_multiplier": 8.0}
         ]
     },
 
@@ -254,9 +256,13 @@
         "wave": 27,
         "spawn_interval": 45,
         "monsters": [
-            {"type": "FlyingMonster", "count": 20, "hp_multiplier": 8.0},
-            {"type": "HealerMonster", "count": 5, "hp_multiplier": 6.0},
-            {"type": "FlyingMonster", "count": 20, "hp_multiplier": 8.0}
+            {"type": "FlyingMonster", "count": 10, "hp_multiplier": 8.0},
+            {"type": "HealerMonster", "count": 2, "hp_multiplier": 6.0},
+            {"type": "FlyingMonster", "count": 10, "hp_multiplier": 8.0},
+            {"type": "HealerMonster", "count": 1, "hp_multiplier": 6.0},
+            {"type": "FlyingMonster", "count": 10, "hp_multiplier": 8.0},
+            {"type": "HealerMonster", "count": 2, "hp_multiplier": 6.0},
+            {"type": "FlyingMonster", "count": 10, "hp_multiplier": 8.0}
         ]
     },
 
@@ -277,20 +283,20 @@
         "wave": 29,
         "spawn_interval": 42,
         "monsters": [
-            {"type": "BasicMonster", "count": 15, "hp_multiplier": 7.0},
-            {"type": "HealerMonster", "count": 2, "hp_multiplier": 7.0},
-            {"type": "FlyingMonster", "count": 10, "hp_multiplier": 7.0},
-            {"type": "QuickMonster", "count": 15, "hp_multiplier": 7.0},
-            {"type": "HealerMonster", "count": 2, "hp_multiplier": 7.0},
-            {"type": "TankMonster", "count": 8, "hp_multiplier": 7.0},
-            {"type": "HealerMonster", "count": 6, "hp_multiplier": 7.0},
-            {"type": "HealerMonster", "count": 2, "hp_multiplier": 7.0},
-            {"type": "TankMonster", "count": 8, "hp_multiplier": 7.0},
-            {"type": "QuickMonster", "count": 15, "hp_multiplier": 7.0},
-            {"type": "HealerMonster", "count": 2, "hp_multiplier": 7.0},
-            {"type": "FlyingMonster", "count": 10, "hp_multiplier": 7.0},
-            {"type": "BasicMonster", "count": 15, "hp_multiplier": 7.0},
-            {"type": "HealerMonster", "count": 2, "hp_multiplier": 7.0}
+            {"type": "BasicMonster", "count": 15, "hp_multiplier": 8.0},
+            {"type": "HealerMonster", "count": 2, "hp_multiplier": 8.0},
+            {"type": "FlyingMonster", "count": 10, "hp_multiplier": 8.0},
+            {"type": "QuickMonster", "count": 15, "hp_multiplier": 8.0},
+            {"type": "HealerMonster", "count": 2, "hp_multiplier": 8.0},
+            {"type": "TankMonster", "count": 8, "hp_multiplier": 8.0},
+            {"type": "HealerMonster", "count": 6, "hp_multiplier": 8.0},
+            {"type": "HealerMonster", "count": 2, "hp_multiplier": 8.0},
+            {"type": "TankMonster", "count": 8, "hp_multiplier": 8.0},
+            {"type": "QuickMonster", "count": 15, "hp_multiplier": 8.0},
+            {"type": "HealerMonster", "count": 2, "hp_multiplier": 8.0},
+            {"type": "FlyingMonster", "count": 10, "hp_multiplier": 8.0},
+            {"type": "BasicMonster", "count": 15, "hp_multiplier": 8.0},
+            {"type": "HealerMonster", "count": 2, "hp_multiplier": 8.0}
         ]
     },
 
@@ -298,96 +304,96 @@
         "wave": 30,
         "spawn_interval": 60,
         "monsters": [
-            {"type": "GolemBoss", "count": 1, "hp_multiplier": 25.0}
+            {"type": "GolemBoss", "count": 1, "hp_multiplier": 30.0}
         ]
     },
 
     {
         "wave": 31,
-        "spawn_interval": 42,
+        "spawn_interval": 50,
         "monsters": [
-              {"type": "FlyingMonster", "count": 10, "hp_multiplier": 7.3},
-              {"type": "BasicMonster", "count": 12, "hp_multiplier": 7.3},
-              {"type": "HealerMonster", "count": 1, "hp_multiplier": 7.3},
-              {"type": "QuickMonster", "count": 12, "hp_multiplier": 7.3},
-              {"type": "TankMonster", "count": 6, "hp_multiplier": 7.3},
-              {"type": "HealerMonster", "count": 1, "hp_multiplier": 7.3},
-              {"type": "BasicMonster", "count": 10, "hp_multiplier": 7.3},
-              {"type": "FlyingMonster", "count": 8, "hp_multiplier": 7.3},
-              {"type": "HealerMonster", "count": 1, "hp_multiplier": 7.3},
-              {"type": "QuickMonster", "count": 14, "hp_multiplier": 7.3},
-              {"type": "TankMonster", "count": 5, "hp_multiplier": 7.3}
+              {"type": "FlyingMonster", "count": 10, "hp_multiplier": 9.0},
+              {"type": "BasicMonster", "count": 12, "hp_multiplier": 9.0},
+              {"type": "HealerMonster", "count": 1, "hp_multiplier": 9.0},
+              {"type": "QuickMonster", "count": 12, "hp_multiplier": 9.0},
+              {"type": "TankMonster", "count": 6, "hp_multiplier": 9.0},
+              {"type": "HealerMonster", "count": 1, "hp_multiplier": 9.0},
+              {"type": "BasicMonster", "count": 10, "hp_multiplier": 9.0},
+              {"type": "FlyingMonster", "count": 8, "hp_multiplier": 9.0},
+              {"type": "HealerMonster", "count": 1, "hp_multiplier": 9.0},
+              {"type": "QuickMonster", "count": 14, "hp_multiplier": 9.0},
+              {"type": "TankMonster", "count": 5, "hp_multiplier": 9.0}
         ]
     },
 
     {
         "wave": 32,
-        "spawn_interval": 42,
+        "spawn_interval": 45,
         "monsters": [
-            {"type": "QuickMonster", "count": 15, "hp_multiplier": 7.6},
-            {"type": "HealerMonster", "count": 1, "hp_multiplier": 7.6},
-            {"type": "TankMonster", "count": 7, "hp_multiplier": 7.6},
-            {"type": "BasicMonster", "count": 15, "hp_multiplier": 7.6},
-            {"type": "HealerMonster", "count": 1, "hp_multiplier": 7.6},
-            {"type": "FlyingMonster", "count": 12, "hp_multiplier": 7.6},
-            {"type": "QuickMonster", "count": 10, "hp_multiplier": 7.6},
-            {"type": "HealerMonster", "count": 2, "hp_multiplier": 7.6},
-            {"type": "TankMonster", "count": 6, "hp_multiplier": 7.6},
-            {"type": "BasicMonster", "count": 10, "hp_multiplier": 7.6},
-            {"type": "FlyingMonster", "count": 12, "hp_multiplier": 7.6},
-            {"type": "QuickMonster", "count": 10, "hp_multiplier": 7.6},
-            {"type": "HealerMonster", "count": 2, "hp_multiplier": 7.6},
-            {"type": "TankMonster", "count": 6, "hp_multiplier": 7.6},
-            {"type": "BasicMonster", "count": 10, "hp_multiplier": 7.6}
+            {"type": "QuickMonster", "count": 15, "hp_multiplier": 9.5},
+            {"type": "HealerMonster", "count": 1, "hp_multiplier": 9.5},
+            {"type": "TankMonster", "count": 7, "hp_multiplier": 9.5},
+            {"type": "BasicMonster", "count": 15, "hp_multiplier": 9.5},
+            {"type": "HealerMonster", "count": 1, "hp_multiplier": 9.5},
+            {"type": "FlyingMonster", "count": 12, "hp_multiplier": 9.5},
+            {"type": "QuickMonster", "count": 10, "hp_multiplier": 9.5},
+            {"type": "HealerMonster", "count": 2, "hp_multiplier": 9.5},
+            {"type": "TankMonster", "count": 6, "hp_multiplier": 9.5},
+            {"type": "BasicMonster", "count": 10, "hp_multiplier": 9.5},
+            {"type": "FlyingMonster", "count": 12, "hp_multiplier": 9.5},
+            {"type": "QuickMonster", "count": 10, "hp_multiplier": 9.5},
+            {"type": "HealerMonster", "count": 2, "hp_multiplier": 9.5},
+            {"type": "TankMonster", "count": 6, "hp_multiplier": 9.5},
+            {"type": "BasicMonster", "count": 10, "hp_multiplier": 9.5}
         ]
     },
 
 
     {
         "wave": 33,
-        "spawn_interval": 42,
+        "spawn_interval": 45,
         "monsters": [
-            {"type": "FlyingMonster", "count": 12, "hp_multiplier": 8.0},
-            {"type": "HealerMonster", "count": 1, "hp_multiplier": 8.0},
-            {"type": "QuickMonster", "count": 12, "hp_multiplier": 8.0},
-            {"type": "TankMonster", "count": 8, "hp_multiplier": 8.0},
-            {"type": "BasicMonster", "count": 15, "hp_multiplier": 8.0},
-            {"type": "HealerMonster", "count": 2, "hp_multiplier": 8.0},
-            {"type": "FlyingMonster", "count": 10, "hp_multiplier": 8.0},
-            {"type": "QuickMonster", "count": 10, "hp_multiplier": 8.0},
-            {"type": "HealerMonster", "count": 1, "hp_multiplier": 8.0},
-            {"type": "TankMonster", "count": 5, "hp_multiplier": 8.0},
-            {"type": "BasicMonster", "count": 10, "hp_multiplier": 8.0},
-            {"type": "FlyingMonster", "count": 12, "hp_multiplier": 8.0},
-            {"type": "HealerMonster", "count": 1, "hp_multiplier": 8.0},
-            {"type": "QuickMonster", "count": 12, "hp_multiplier": 8.0},
-            {"type": "TankMonster", "count": 8, "hp_multiplier": 8.0},
-            {"type": "BasicMonster", "count": 15, "hp_multiplier": 8.0},
-            {"type": "HealerMonster", "count": 2, "hp_multiplier": 8.0}
+            {"type": "FlyingMonster", "count": 12, "hp_multiplier": 10.0},
+            {"type": "HealerMonster", "count": 1, "hp_multiplier": 10.0},
+            {"type": "QuickMonster", "count": 12, "hp_multiplier": 10.0},
+            {"type": "TankMonster", "count": 8, "hp_multiplier": 10.0},
+            {"type": "BasicMonster", "count": 15, "hp_multiplier": 10.0},
+            {"type": "HealerMonster", "count": 2, "hp_multiplier": 10.0},
+            {"type": "FlyingMonster", "count": 10, "hp_multiplier": 10.0},
+            {"type": "QuickMonster", "count": 10, "hp_multiplier": 10.0},
+            {"type": "HealerMonster", "count": 1, "hp_multiplier": 10.0},
+            {"type": "TankMonster", "count": 5, "hp_multiplier": 10.0},
+            {"type": "BasicMonster", "count": 10, "hp_multiplier": 10.0},
+            {"type": "FlyingMonster", "count": 12, "hp_multiplier": 10.0},
+            {"type": "HealerMonster", "count": 1, "hp_multiplier": 10.0},
+            {"type": "QuickMonster", "count": 12, "hp_multiplier": 10.0},
+            {"type": "TankMonster", "count": 8, "hp_multiplier": 10.0},
+            {"type": "BasicMonster", "count": 15, "hp_multiplier": 10.0},
+            {"type": "HealerMonster", "count": 2, "hp_multiplier": 10.0}
         ]
     },
 
 
     {
         "wave": 34,
-        "spawn_interval": 42,
+        "spawn_interval": 40,
         "monsters": [
-            {"type": "BasicMonster", "count": 18, "hp_multiplier": 9.0},
-            {"type": "QuickMonster", "count": 14, "hp_multiplier": 9.0},
-            {"type": "HealerMonster", "count": 2, "hp_multiplier": 9.0},
-            {"type": "TankMonster", "count": 8, "hp_multiplier": 9.0},
-            {"type": "FlyingMonster", "count": 12, "hp_multiplier": 9.0},
-            {"type": "HealerMonster", "count": 2, "hp_multiplier": 9.0},
-            {"type": "QuickMonster", "count": 15, "hp_multiplier": 9.0},
-            {"type": "BasicMonster", "count": 12, "hp_multiplier": 9.0},
-            {"type": "HealerMonster", "count": 2, "hp_multiplier": 9.0},
-            {"type": "TankMonster", "count": 10, "hp_multiplier": 9.0},
-            {"type": "BasicMonster", "count": 18, "hp_multiplier": 9.0},
-            {"type": "QuickMonster", "count": 14, "hp_multiplier": 9.0},
-            {"type": "HealerMonster", "count": 2, "hp_multiplier": 9.0},
-            {"type": "TankMonster", "count": 8, "hp_multiplier": 9.0},
-            {"type": "FlyingMonster", "count": 12, "hp_multiplier": 9.0},
-            {"type": "HealerMonster", "count": 2, "hp_multiplier": 9.0}
+            {"type": "BasicMonster", "count": 18, "hp_multiplier": 11.0},
+            {"type": "QuickMonster", "count": 14, "hp_multiplier": 11.0},
+            {"type": "HealerMonster", "count": 2, "hp_multiplier": 11.0},
+            {"type": "TankMonster", "count": 8, "hp_multiplier": 11.0},
+            {"type": "FlyingMonster", "count": 12, "hp_multiplier": 11.0},
+            {"type": "HealerMonster", "count": 2, "hp_multiplier": 11.0},
+            {"type": "QuickMonster", "count": 15, "hp_multiplier": 11.0},
+            {"type": "BasicMonster", "count": 12, "hp_multiplier": 11.0},
+            {"type": "HealerMonster", "count": 2, "hp_multiplier": 11.0},
+            {"type": "TankMonster", "count": 10, "hp_multiplier": 11.0},
+            {"type": "BasicMonster", "count": 18, "hp_multiplier": 11.0},
+            {"type": "QuickMonster", "count": 14, "hp_multiplier": 11.0},
+            {"type": "HealerMonster", "count": 2, "hp_multiplier": 11.0},
+            {"type": "TankMonster", "count": 8, "hp_multiplier": 11.0},
+            {"type": "FlyingMonster", "count": 12, "hp_multiplier": 11.0},
+            {"type": "HealerMonster", "count": 2, "hp_multiplier": 11.0}
         ]
     },
 

@@ -6,9 +6,12 @@ from src.spells.ZipSpell import ZipSpell
 
 
 class SpellManager:
-    def __init__(self, game_stats, monsters):
-        self.spells = [StoneSpell(monsters), FreezeSpell(monsters), ZipSpell(monsters)]
+    def __init__(self, game_stats):
+        self.spells = None
         self.game_stats = game_stats
+
+    def set_spells(self, monsters):
+        self.spells = [StoneSpell(monsters), FreezeSpell(monsters), ZipSpell(monsters)]
 
     def reset(self):
         for spell in self.spells:

@@ -5,8 +5,8 @@ from src.assets.AssetManager import AssetManager
 
 
 class PauseMenu:
-    def __init__(self, game):
-        self.game = game
+    def __init__(self, game_context):
+        self.context = game_context
         self.music_image = AssetManager.get_image('images/buttons/button_music', (80, 80))
         self.music_rect = self.music_image.get_rect(topleft=(10, 10))
         self.font = pygame.font.Font('assets/fonts/LuckiestGuy-Regular.ttf', 100)
@@ -35,23 +35,22 @@ class PauseMenu:
             if event.button == 1:
                 mouse_pos = pygame.mouse.get_pos()
                 if self.play_image_rect.collidepoint(mouse_pos):
-                    self.game.game_state = GameState.RUNNING
+                    self.context.game_state = GameState.RUNNING
                 elif self.restart_image_rect.collidepoint(mouse_pos):
-                    self.game.reset_game()
-                    self.game.game_state = GameState.RUNNING
+                    self.context.reset_game()
+                    self.context.game_state = GameState.RUNNING
                 elif self.menu_image_rect.collidepoint(mouse_pos):
-                    self.game.reset_game()
-                    self.game.game_state = GameState.MENU
+                    self.context.reset_game()
+                    self.context.game_state = GameState.MENU
                 elif self.music_rect.collidepoint(mouse_pos):
-                    if self.game.music_enabled:
-                        self.game.music_enabled = False
-                        pygame.mixer.music.pause()
-                        self.music_image = AssetManager.get_image('images/buttons/button_music_off', (80, 80))
-                    else:
-                        self.game.music_enabled = True
-                        pygame.mixer.music.unpause()
-                        self.music_image = AssetManager.get_image('images/buttons/button_music', (80, 80))
+                    self.context.music_controller.toggle()
+                    self.update_music_icon()
 
+    def update_music_icon(self):
+        if self.context.music_controller.is_playing():
+            self.music_image = AssetManager.get_image('images/buttons/button_music', (80, 80))
+        else:
+            self.music_image = AssetManager.get_image('images/buttons/button_music_off', (80, 80))
 
 
 
