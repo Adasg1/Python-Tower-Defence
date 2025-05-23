@@ -1,11 +1,11 @@
 import pygame
 import random
 
-from src.assets.AssetManager import AssetManager
+from src.assets.asset_manager import AssetManager
 
 
 class MonsterSprite(pygame.sprite.Sprite):
-    def __init__(self, monster, monster_type, width, is_boss):
+    def __init__(self, monster, monster_type, width, speed, is_boss):
         super().__init__()
         self.monster = monster
         self.name = monster_type.monster_name
@@ -26,6 +26,7 @@ class MonsterSprite(pygame.sprite.Sprite):
         self.load_animation("walk", self.walkframe_count)
         self.load_animation("die", self.dieframe_count)
         self.set_animation("walk")
+        self.speed = speed
         self.width = width # Zmienna dodana z powodu żle zrobionych assetów, pozwala na lepsze hitboxy oraz prawidłowe "flipowanie" obrazków
         self._is_boss = is_boss
         self.x_offset = random.randint(-10, 10)
@@ -63,18 +64,19 @@ class MonsterSprite(pygame.sprite.Sprite):
         #print(self.rect, self.monster.pos)
 
     def handle_animation(self):
-        if self.time_since_last_animation >= self.animation_delay:
-            if self.monster.is_dead and self.current_frame == len(self.animation_keys[self.current_animation]) - 1:
-                if self.time_since_last_animation<self.animation_delay*15:
-                    self.time_since_last_animation+=1
-                    return
-                else:
-                    self.kill()
-            self.current_frame = (self.current_frame + 1) % len(self.animation_keys[self.current_animation])
-            key = self.animation_keys[self.current_animation][self.current_frame]
-            self.image = AssetManager.get_image(key)
-            self.time_since_last_animation = 0
-        self.time_since_last_animation += 1
+        if self.speed != 0:
+            if self.time_since_last_animation >= self.animation_delay:
+                if self.monster.is_dead and self.current_frame == len(self.animation_keys[self.current_animation]) - 1:
+                    if self.time_since_last_animation<self.animation_delay*15:
+                        self.time_since_last_animation+=1
+                        return
+                    else:
+                        self.kill()
+                self.current_frame = (self.current_frame + 1) % len(self.animation_keys[self.current_animation])
+                key = self.animation_keys[self.current_animation][self.current_frame]
+                self.image = AssetManager.get_image(key)
+                self.time_since_last_animation = 0
+            self.time_since_last_animation += 1
 
     def flip_frames(self):
         new_keys = []

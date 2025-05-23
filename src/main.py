@@ -1,4 +1,4 @@
-from src.game_manager.Game import Game
+from src.game_core.game_engine import Game
 
 
 def main():

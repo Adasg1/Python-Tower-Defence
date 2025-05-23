@@ -1,7 +1,7 @@
 import pygame
 
-from src.assets.AssetManager import AssetManager
-from src.enum.MonsterType import MonsterType
+from src.assets.asset_manager import AssetManager
+from src.enum.monster_type import MonsterType
 from src.monsters.Monster import Monster
 
 class YettiBoss(Monster):

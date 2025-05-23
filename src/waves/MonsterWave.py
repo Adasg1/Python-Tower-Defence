@@ -7,7 +7,7 @@ from src.monsters.YettiBoss import YettiBoss
 from src.monsters.Quick import QuickMonster
 from src.monsters.Tank import TankMonster
 from src.monsters.TreeBoss import TreeBoss
-from src.assets.AssetManager import AssetManager
+from src.assets.asset_manager import AssetManager
 from src.monsters.Basic import BasicMonster
 from src.monsters.Flying import FlyingMonster
 

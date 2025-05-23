@@ -8,7 +8,6 @@ class Monster(MonsterSprite):
         self.path = path_points
         self.pos = pygame.Vector2(self.path[0])
         self.health = health
-        self.speed = speed
         self.base_speed = speed
         self.value = value
         self.monster_type = monster_type
@@ -29,7 +28,7 @@ class Monster(MonsterSprite):
         self.is_slowed = False
         self.slowed_timer = 0
         self.freezed = False
-        MonsterSprite.__init__(self, self, monster_type, width, is_boss)
+        MonsterSprite.__init__(self, self, monster_type, width, speed, is_boss)
 
 
 
@@ -96,7 +95,8 @@ class Monster(MonsterSprite):
             self.slowed_timer -= 1
 
     def get_slowed(self, slow_ratio, slow_time):
-        self.slowed_timer = slow_time * 60
-        self.speed = self.base_speed * slow_ratio
-        self.is_slowed = True
+        if self.speed > self.base_speed*slow_ratio:
+            self.slowed_timer = slow_time * 60
+            self.speed = self.base_speed * slow_ratio
+            self.is_slowed = True
 

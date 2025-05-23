@@ -1,4 +1,4 @@
-from src.enum.MonsterType import MonsterType
+from src.enum.monster_type import MonsterType
 from src.monsters.Monster import Monster
 
 class Root(Monster):
