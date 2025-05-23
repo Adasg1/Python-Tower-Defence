@@ -9,8 +9,8 @@ from src.spells.Spell import Spell
 class ZipSpell(Spell):
     def __init__(self, monsters):
         super().__init__(monsters, range=45, spell_type="zip", button_pos=(1230, 460), unlock_wave=26)
-        self.base_damage = 100
-        self.damage = 750
+        self.base_damage = 700
+        self.damage = 700
         self.freeze_time = 1
 
     def reset(self):

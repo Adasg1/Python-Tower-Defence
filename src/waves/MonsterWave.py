@@ -45,7 +45,7 @@ class MonsterWave:
 
     def _create_monster_queue(self, monsters_data):
         queue = []
-        difficulty_mod = DIFFICULTY_MODIFIERS.get(self.difficulty)
+        difficulty_mod = DIFFICULTY_MODIFIERS.get(self.difficulty.value)
         for monster_data in monsters_data:
             monster_type = monster_data.get("type")
             count = monster_data.get("count")

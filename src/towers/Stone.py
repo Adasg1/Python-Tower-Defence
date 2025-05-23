@@ -48,7 +48,7 @@ class Stone(Tower):
 
     def get_next_upgrade_values(self):
         damage_up = int(self.damage * 0.2)
-        range_up = 20 if self.level<=5 else 0
+        range_up = 15 if self.level<=5 else 0
         firerate_up = 0.1
         explosion_up = 10 if self.level <=5 else 0
 

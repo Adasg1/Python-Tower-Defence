@@ -6,8 +6,8 @@ from src.enum.GameState import GameState
 from src.assets.AssetManager import AssetManager
 
 class EndGameMenu():
-    def __init__(self, game):
-        self.game = game
+    def __init__(self, game_context):
+        self.context = game_context
         self.font = pygame.font.Font('assets/fonts/CarterOne-Regular.ttf', 30)
         self.label = None
         self.label_rect = None
@@ -19,7 +19,6 @@ class EndGameMenu():
         self.window_rect = self.window_image.get_rect(center=(640, 320))
         self.stars_image = AssetManager.get_image('images/buttons/star_4')
         self.stars_rect = self.stars_image.get_rect(center=(640, 290))
-
         self.menu_image = AssetManager.get_image('images/buttons/button_menu')
         self.menu_image_rect = self.menu_image.get_rect(center=(550, 520))
         self.restart_image = AssetManager.get_image('images/buttons/button_restart')
@@ -27,13 +26,13 @@ class EndGameMenu():
 
     def init(self):
 
-        if self.game.game_stats.get_hp > 0:
+        if self.context.game_stats.get_hp > 0:
             self.label = self.font.render("Congratulations :D", True, (222, 184, 135))
             self.label_rect = self.label.get_rect(center=(640, 410))
             self.header = AssetManager.get_image('images/buttons/header_win')
-            if self.game.game_stats.get_hp > 70:
+            if self.context.game_stats.get_hp > 70:
                 self.stars_image = AssetManager.get_image('images/buttons/star_4')
-            elif self.game.game_stats.get_hp > 35:
+            elif self.context.game_stats.get_hp > 35:
                 self.stars_image = AssetManager.get_image('images/buttons/star_3')
             else:
                 self.stars_image = AssetManager.get_image('images/buttons/star_2')
@@ -59,8 +58,8 @@ class EndGameMenu():
             if event.button == 1:
                 mouse_pos = pygame.mouse.get_pos()
                 if self.restart_image_rect.collidepoint(mouse_pos):
-                    self.game.reset_game()
-                    self.game.game_state = GameState.RUNNING
+                    self.context.reset_game()
+                    self.context.game_state = GameState.RUNNING
                 elif self.menu_image_rect.collidepoint(mouse_pos):
-                    self.game.reset_game()
-                    self.game.game_state = GameState.MENU
+                    self.context.reset_game()
+                    self.context.game_state = GameState.MENU

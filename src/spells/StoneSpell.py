@@ -8,15 +8,15 @@ from src.spells.Spell import Spell
 class StoneSpell(Spell):
     def __init__(self, monsters):
         super().__init__(monsters, range=65, spell_type="stone", button_pos=(1230, 260), unlock_wave=6)
-        self.base_damage = 100
-        self.damage = 100
+        self.base_damage = 80
+        self.damage = 80
 
     def reset(self):
         super().reset()
         self.damage = self.base_damage
 
     def update_damage(self):
-        self.damage += 20
+        self.damage += 15
 
     def update(self):
         if self.animation:
