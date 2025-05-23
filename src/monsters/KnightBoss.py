@@ -1,8 +1,8 @@
 import pygame
 import random
 
-from src.assets.AssetManager import AssetManager
-from src.enum.MonsterType import MonsterType
+from src.assets.asset_manager import AssetManager
+from src.enum.monster_type import MonsterType
 from src.monsters.GolemBoss import GolemBoss
 from src.monsters.Monster import Monster
 from src.monsters.TreeBoss import TreeBoss
@@ -29,6 +29,7 @@ class KnightBoss(Monster):
                 self.is_invulnerable = False
                 self.current_animation = "walk"
                 self.current_frame = 0
+                print("we are back")
                 self.speed = self.base_speed
                 self.phase += 1
 
@@ -101,3 +102,7 @@ class KnightBoss(Monster):
                 AssetManager._images[new_key] = flipped
                 new_keys.append(new_key)
             self.animation_keys[anim_type] = new_keys
+
+    def slow_update(self):
+        if not self.is_regenerating:
+            super().slow_update()
