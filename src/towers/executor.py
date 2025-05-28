@@ -9,13 +9,11 @@ from src.assets.asset_manager import AssetManager
 
 
 class Executor(Tower):
-    def __init__(self, x, y, monsters, game_stats):
-        super().__init__(x, y, TowerType.EXECUTOR, monsters, game_stats, damage=65, range=150, fire_rate=0.5, cost=200)
+    def __init__(self, monsters, game_stats, thunderbolts, pos):
+        super().__init__(TowerType.EXECUTOR, monsters, game_stats, pos, damage=65, range=150, fire_rate=0.5, cost=200)
         self.elem = AssetManager.get_image('images/towers/executor_elem')
-        self.elem_rect = self.elem.get_rect()
-        self.elem_rect.midbottom = self.rect.midtop
-        self.elem_rect.y -= 45
-        self.thunderbolts = pygame.sprite.Group()
+        self.elem_rect = self.elem.get_rect(midbottom=(self.rect.midtop[0] - 4, self.rect.midtop[1]))
+        self.thunderbolts = thunderbolts
 
     def get_next_upgrade_values(self):
         damage_up = int(self.damage * 0.35)
@@ -30,10 +28,10 @@ class Executor(Tower):
             monster.will_die = True
 
     def update(self):
-        self.thunderbolts.update()
         super().update()
 
     def draw(self, surface):
         super().draw(surface)
-        self.thunderbolts.draw(surface)
         surface.blit(self.elem, self.elem_rect)
+        if self.disabled:
+            surface.blit(self.disable_effect, self.disable_effect_rect)

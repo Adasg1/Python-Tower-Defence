@@ -1,0 +1,17 @@
+
+
+GREEN = (0, 255, 0)
+
+TRANSLUCENT_GREEN = (0, 255, 0, 48)
+
+RED = (255, 0, 0)
+
+LIGHT_BROWN = (222, 184, 135)
+
+WHITE = (255, 255, 255)
+
+BLACK = (0, 0, 0)
+
+DARK_BLUE = (27, 103, 166)
+
+GREY = (192, 192, 192)

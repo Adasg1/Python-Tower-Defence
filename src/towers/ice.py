@@ -9,12 +9,11 @@ from src.assets.asset_manager import AssetManager
 
 
 class Ice(Tower):
-    def __init__(self, x, y, monsters, game_stats):
-        super().__init__(x, y, TowerType.ICE, monsters, game_stats, damage=30, range=150, fire_rate=1, cost=150)
+    def __init__(self, monsters, game_stats, ice_shards, pos):
+        super().__init__(TowerType.ICE, monsters, game_stats, pos, damage=30, range=150, fire_rate=1, cost=150)
         self.elem = AssetManager.get_image("images/towers/elems/ice_elem", (20, 34))
-        self.elem_rect = self.elem.get_rect()
-        self.elem_rect.midbottom = self.rect.midtop
-        self.ice_shards = pygame.sprite.Group()
+        self.ice_shards = ice_shards
+        self.elem_rect = self.elem.get_rect(midbottom=(self.rect.midtop[0] - 5, self.rect.midtop[1] + 10))
         self.slowness = 0.85
 
     def upgrade(self):
@@ -52,13 +51,13 @@ class Ice(Tower):
                 monster.get_slowed(self.slowness, 3)
 
     def update(self):
-        self.ice_shards.update()
         super().update()
 
     def draw(self, surface):
         super().draw(surface)
-        self.ice_shards.draw(surface)
         surface.blit(self.elem, self.elem_rect)
+        if self.disabled:
+            surface.blit(self.disable_effect, self.disable_effect_rect)
 
     def get_stat_lines(self):
         dmg_up, rng_up, rate_up, slow_up = self.get_next_upgrade_values()

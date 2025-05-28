@@ -4,7 +4,6 @@
         "spawn_interval": 120,
         "monsters": [
           {"type": "BasicMonster", "count": 6, "hp_multiplier": 1.0}
-
         ]
     },
 

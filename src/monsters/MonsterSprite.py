@@ -2,6 +2,7 @@ import pygame
 import random
 
 from src.assets.asset_manager import AssetManager
+from src.constants.colors import GREEN, RED
 
 
 class MonsterSprite(pygame.sprite.Sprite):
@@ -113,9 +114,9 @@ class MonsterSprite(pygame.sprite.Sprite):
             else:
                 x += k
 
-            pygame.draw.rect(surface, (255, 0, 0), (x, y, self.bar_width, self.bar_height))
+            pygame.draw.rect(surface, RED, (x, y, self.bar_width, self.bar_height))
 
-            pygame.draw.rect(surface, (0, 255, 0), (x, y, self.current_health_width, self.bar_height))
+            pygame.draw.rect(surface, GREEN, (x, y, self.current_health_width, self.bar_height))
 
     def update(self):
         if self.monster.direction.x < 0 and self.facing_right:
