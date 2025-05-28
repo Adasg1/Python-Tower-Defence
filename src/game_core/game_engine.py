@@ -1,5 +1,6 @@
 import pygame
 
+from src.constants.colors import WHITE, DARK_BLUE
 from src.enum.difficulty import Difficulty
 from src.game_core.game_context import GameContext
 from src.game_core.running_game_handler import RunningGameHandler
@@ -31,8 +32,8 @@ class Game:
         self.font = pygame.font.Font('assets/fonts/LuckiestGuy-Regular.ttf', 100)
 
         #  ekran ładowania
-        loading_text = self.font.render("Loading...", True, (255, 255, 255))
-        self.screen.fill((27, 103, 166))
+        loading_text = self.font.render("Loading...", True, WHITE)
+        self.screen.fill(DARK_BLUE)
         self.screen.blit(loading_text, loading_text.get_rect(center=(640, 360)))
         pygame.display.update()
         pygame.event.pump()  # Zapobiega zawieszeniu

@@ -1,6 +1,7 @@
 import pygame
 
 from src.assets.asset_manager import AssetManager
+from src.constants.colors import WHITE, TRANSLUCENT_GREEN, GREY
 from src.utils.targeting_utils import dist_to_monster
 
 
@@ -15,14 +16,17 @@ class Spell:
         self.spell_anim_rect = self.spell_anim.get_rect()
         self.range = range
         self.range_surface = pygame.Surface((2 * self.range, 2 * self.range), pygame.SRCALPHA)
-        self.font = pygame.font.Font('assets/fonts/CarterOne-Regular.ttf', 25)
+        self.font = pygame.font.Font('assets/fonts/CarterOne-Regular.ttf', 23)
         self.monsters = monsters
         self.animation = False
         self.cooldown = 6
         self.cd_remaining = 0
         self.unlock_wave = unlock_wave
+        self.unlock_wave_text = self.font.render(f"lvl {self.unlock_wave}", True, GREY)
+        self.text_rect = self.unlock_wave_text.get_rect(center=self.rect.center)
+
         self.frame = 0
-        self.is_unlocked = True
+        self.is_unlocked = False
 
 
     def update_damage(self):
@@ -38,7 +42,6 @@ class Spell:
 
     def unlock(self):
         self.is_unlocked = True
-        #print(self.unlocked_image_path)
         self.image = AssetManager.get_image(self.unlocked_image_path, (80, 80))
 
     def is_on_cooldown(self):
@@ -53,9 +56,11 @@ class Spell:
         if self.animation:
             surface.blit(self.spell_anim, self.spell_anim_rect)
         if self.is_on_cooldown():
-            cooldown_text = self.font.render(f"{self.cd_remaining//60 + 1}", True, (255, 255, 255))
-            cd_rect = cooldown_text.get_rect(center = self.rect.center)
-            surface.blit(cooldown_text, cd_rect)
+            cooldown_text = self.font.render(f"{self.cd_remaining//60 + 1}", True, WHITE)
+            self.text_rect = cooldown_text.get_rect(center=self.rect.center)
+            surface.blit(cooldown_text, self.text_rect)
+        if not self.is_unlocked:
+            surface.blit(self.unlock_wave_text, self.text_rect)
 
     def effect(self, monster):
         pass
@@ -72,7 +77,7 @@ class Spell:
 
     def draw_range(self, surface, mause_pos):
         if self.is_toggled:
-            pygame.draw.circle(self.range_surface, (255, 0, 0, 48), (self.range, self.range), self.range)
+            pygame.draw.circle(self.range_surface, TRANSLUCENT_GREEN, (self.range, self.range), self.range)
             circle_center = (mause_pos[0] - self.range, mause_pos[1] - self.range)
             surface.blit(self.range_surface, circle_center)
 

@@ -8,26 +8,17 @@ from src.assets.asset_manager import AssetManager
 from src.utils.targeting_utils import dist_to_monster
 
 class Stone(Tower):
-    def __init__(self, x, y, monsters, game_stats):
-        super().__init__(x, y, TowerType.STONE, monsters, game_stats, damage=40, range=150, fire_rate=0.5, cost=150)
-        self.stones = pygame.sprite.Group()
+    def __init__(self, monsters, game_stats, stones, pos):
+        super().__init__(TowerType.STONE, monsters, game_stats, pos, damage=40, range=150, fire_rate=0.5, cost=150)
         self.shot = False
         self.back_elem = AssetManager.get_image("images/towers/back_elem_lvl1")
-        self.back_elem_rect = self.back_elem.get_rect()
-        self.back_elem_rect.center = self.rect.center
-        self.back_elem_rect.y -= 29
-        self.back_elem_rect.x -= 2
+        self.back_elem_rect = self.back_elem.get_rect(center=(self.rect.center[0] - 6, self.rect.center[1]))
         self.front_elem = AssetManager.get_image("images/towers/front_elem_lvl1")
-        self.front_elem_rect = self.front_elem.get_rect()
-        self.front_elem_rect.center = self.rect.center
-        self.front_elem_rect.x -= 2
-        self.front_elem_rect.y -= 7
+        self.front_elem_rect = self.front_elem.get_rect(center=(self.rect.center[0] - 6, self.rect.center[1] + 22))
         self.stone = AssetManager.get_image("images/towers/stone_elem")
-        self.stone_rect = self.stone.get_rect()
-        self.stone_rect.center = self.rect.center
-        self.stone_rect.x -= 0
-        self.stone_rect.y -= 30
+        self.stone_rect = self.stone.get_rect(center=(self.rect.center[0] - 4, self.rect.center[1] + 4))
         self.elem_start_pos = self.stone_rect.center[1]
+        self.stones = stones
         self.target = None
         self.elem_speed = 3.5
         self.show_stone = True
@@ -78,7 +69,6 @@ class Stone(Tower):
         monsters_in_range = []
         for monster in self.monsters:
             tower_pos = pygame.Vector2(self.rect.center)
-            tower_pos.y += 15
 
             dist = dist_to_monster(monster, tower_pos)
             if not isinstance(monster, FlyingMonster) and not monster.is_dead and dist < self.range:
@@ -110,7 +100,6 @@ class Stone(Tower):
 
     def update(self):
         super().update()
-        self.stones.update()
         self.handle_shoot_animation()
 
 
@@ -121,7 +110,8 @@ class Stone(Tower):
         if self.show_stone:
             surface.blit(self.stone, self.stone_rect)
         surface.blit(self.front_elem, self.front_elem_rect)
-        self.stones.draw(surface)
+        if self.disabled:
+            surface.blit(self.disable_effect, self.disable_effect_rect)
 
     def get_stat_lines(self):
         expl = self.explosion_area//2

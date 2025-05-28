@@ -1,6 +1,7 @@
 import pygame
 
 from src.assets.asset_manager import AssetManager
+from src.constants.colors import LIGHT_BROWN
 from src.enum.game_state import GameState
 from src.enum.tower_type import TowerType
 from src.utils.exit_handler import handle_exit
@@ -34,9 +35,9 @@ class RunningGameHandler:
             timer_font = pygame.font.Font('assets/fonts/LuckiestGuy-Regular.ttf', 20)
             if self.context.game_stats.get_wave > 1:
                 time_remaining = (900 - self.waves.ticks_since_last_wave)//60 + 1
-                timer_text = timer_font.render(f"Next wave in: {time_remaining}s", True, (222, 184, 135)) # wyswietlony timer
+                timer_text = timer_font.render(f"Next wave in: {time_remaining}s", True, LIGHT_BROWN) # wyswietlony timer
             else:
-                timer_text = timer_font.render(f"Start First Wave", True,(222, 184, 135))  # wyswietlony timer
+                timer_text = timer_font.render(f"Start First Wave", True,LIGHT_BROWN)  # wyswietlony timer
             screen.blit(timer_text, (bg_pos[0] + 25, bg_pos[1] + 18))
 
             self.skip_button_rect.topleft = (bg_pos[0] + 205, bg_pos[1])  # przycisk skip
@@ -69,15 +70,15 @@ class RunningGameHandler:
 
                     for spot in self.towers.spots:
                         if not spot.occupied:
-                            if spot.rect.collidepoint(mouse_pos) and not spot.tower.showed_options:
-                                spot.tower.show_options()
-                            elif spot.tower.showed_options:
+                            if spot.rect.collidepoint(mouse_pos) and not spot.tower_ui.showed_options:
+                                spot.tower_ui.show_options()
+                            elif spot.tower_ui.showed_options:
                                 up = 0
-                                if spot.tower.rect.midbottom[1] > 670:
+                                if spot.rect.midbottom[1] > 670:
                                     up = 50
                                 options_rect = pygame.Rect(
-                                    spot.tower.rect.x - 30,
-                                    spot.tower.rect.y - 60 - up,
+                                    spot.rect.x - 30,
+                                    spot.rect.y - 60 - up,
                                     200,
                                     200
                                 )
@@ -107,11 +108,11 @@ class RunningGameHandler:
                                         #else:
                                             #print("Not enough money")
                                 else:
-                                    spot.tower.hide_options()
+                                    spot.tower_ui.hide_options()
                         else:
-                            if spot.rect.collidepoint(mouse_pos) and not spot.tower.showed_options:
-                                spot.tower.show_options()
-                            elif spot.tower.showed_options:
+                            if spot.rect.collidepoint(mouse_pos) and not spot.tower_ui.showed_options:
+                                spot.tower_ui.show_options()
+                            elif spot.tower_ui.showed_options:
                                 up = 0
                                 if spot.tower.rect.midbottom[1] > 670:
                                     up = 50
@@ -137,4 +138,4 @@ class RunningGameHandler:
                                     if 70 < rel_x < 120 and 140 < rel_y < 190:
                                         self.towers.sell_tower(spot)
                                 else:
-                                    spot.tower.hide_options()
+                                    spot.tower_ui.hide_options()

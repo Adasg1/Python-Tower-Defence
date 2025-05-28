@@ -1,16 +1,31 @@
 import pygame
 
+from src.assets.asset_manager import AssetManager
 from src.towers.tower_sprite import TowerSprite
+from src.towers.tower_ui import TowerUI
 
 
 class TowerSpot:
     def __init__(self, x, y):
-        self.rect = pygame.Rect(x, y, 100, 50)
+        self.image = AssetManager.get_image("images/tower_place")
+        self.rect = self.image.get_rect()
+        self.rect.topleft = (x, y)
         self.occupied = False
-        self.clicked = False
         self.tower = None
+        self.tower_ui = TowerUI(self, self.rect)
 
-    def init(self):
+    def reset(self):
         self.occupied = False
-        self.clicked = False
-        self.tower = TowerSprite(self.rect.x, self.rect.y, None)
+        self.tower = None
+        self.tower_ui.reset()
+
+    def update(self):
+        if self.tower:
+            self.tower.update()
+        self.tower_ui.update()
+
+    def draw(self, screen):
+        if not self.occupied:
+            screen.blit(self.image, self.rect)
+        else:
+            self.tower.draw(screen)

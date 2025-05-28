@@ -2,6 +2,7 @@ from tkinter import Menu
 
 import pygame
 
+from src.constants.colors import LIGHT_BROWN
 from src.enum.game_state import GameState
 from src.assets.asset_manager import AssetManager
 
@@ -27,7 +28,7 @@ class EndGameMenu():
     def init(self):
 
         if self.context.game_stats.get_hp > 0:
-            self.label = self.font.render("Congratulations :D", True, (222, 184, 135))
+            self.label = self.font.render("Congratulations :D", True, LIGHT_BROWN)
             self.label_rect = self.label.get_rect(center=(640, 410))
             self.header = AssetManager.get_image('images/buttons/header_win')
             if self.context.game_stats.get_hp > 70:
@@ -37,7 +38,7 @@ class EndGameMenu():
             else:
                 self.stars_image = AssetManager.get_image('images/buttons/star_2')
         else:
-            self.label = self.font.render("Try again :C", True, (222, 184, 135))
+            self.label = self.font.render("Try again :C", True, LIGHT_BROWN)
             self.label_rect = self.label.get_rect(center=(640, 400))
             self.header = AssetManager.get_image('images/buttons/header_failed')
             self.stars_image = AssetManager.get_image('images/buttons/star_1')

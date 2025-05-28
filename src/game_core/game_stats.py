@@ -1,12 +1,13 @@
 import pygame
 from src.assets.asset_manager import AssetManager
+from src.constants.colors import LIGHT_BROWN
 
 
 class GameStats:
     def __init__(self):
         pygame.font.init()
         self._hp = 100
-        self._money = 100000
+        self._money = 100
         self._wave = 1
         self.font = pygame.font.Font("assets/fonts/LuckiestGuy-Regular.ttf", 20)
         self.bar_image = AssetManager.get_image("images/game_stats/table", (400, 120))
@@ -50,14 +51,14 @@ class GameStats:
         screen.blit(self.bar_image, (930, -68))
 
 
-        heart_text = self.font.render(f'{self._hp}', True, (222, 184, 135))
+        heart_text = self.font.render(f'{self._hp}', True, LIGHT_BROWN)
         screen.blit(heart_text, (990, 12))
         screen.blit(self.heart_image, (950, 8))
 
 
-        money_text = self.font.render(f'{self._money}', True, (222, 184, 135))
+        money_text = self.font.render(f'{self._money}', True, LIGHT_BROWN)
         screen.blit(money_text, (1080, 12))
         screen.blit(self.money_image, (1040, 8))
 
-        wave_text = self.font.render(f'wave: {self._wave} / 35', True, (222, 184, 135))
+        wave_text = self.font.render(f'wave: {self._wave} / 35', True, LIGHT_BROWN)
         screen.blit(wave_text, (1150, 12))

@@ -9,11 +9,10 @@ from src.enum.tower_type import TowerType
 from src.assets.asset_manager import AssetManager
 
 class Archer(Tower):
-    def __init__(self, x, y, monsters, game_stats):
-        super().__init__(x, y, TowerType.ARCHER, monsters, game_stats, damage=30, range=150, fire_rate=1.5, cost=100)
-        self.archer = pygame.sprite.GroupSingle(ArcherSprite(self.rect.midtop[0]-3, self.rect.midtop[1]-25))
-        self.arrows = pygame.sprite.Group()
-        self.arrow_image = AssetManager.get_image("images/projectiles/arrow")
+    def __init__(self, monsters, game_stats, arrows, pos):
+        super().__init__(TowerType.ARCHER, monsters, game_stats, pos, damage=30, range=150, fire_rate=1.5, cost=100)
+        self.archer = pygame.sprite.GroupSingle(ArcherSprite(self.rect.midtop[0]-6, self.rect.midtop[1]+6))
+        self.arrows = arrows
 
     def get_next_upgrade_values(self):
         damage_up = int(self.damage * 0.2)
@@ -35,14 +34,14 @@ class Archer(Tower):
 
 
     def update(self):
-        self.arrows.update()
         self.archer.update()
         super().update()
 
     def draw(self, surface):
         super().draw(surface)
-        self.arrows.draw(surface)
         self.archer.draw(surface)
+        if self.disabled:
+            surface.blit(self.disable_effect, self.disable_effect_rect)
 
 
 

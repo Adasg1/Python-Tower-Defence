@@ -2,8 +2,8 @@ from src.towers.tower import Tower
 from src.enum.tower_type import TowerType
 
 class Bank(Tower):
-    def __init__(self, x, y, monsters, game_stats):
-        super().__init__(x, y, TowerType.BANK, monsters, game_stats, damage=None, range=None, fire_rate=2, cost=200)
+    def __init__(self, monsters, game_stats, pos):
+        super().__init__(TowerType.BANK, monsters, game_stats, pos, damage=None, range=None, fire_rate=2, cost=200)
         self.cooldown = 0
         self.earnings = 35
         self.money_given = True
@@ -35,6 +35,8 @@ class Bank(Tower):
 
     def draw(self, surface):
         super().draw(surface)
+        if self.disabled:
+            surface.blit(self.disable_effect, self.disable_effect_rect)
 
     def draw_range(self, surface):
         pass

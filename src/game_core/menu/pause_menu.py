@@ -1,5 +1,6 @@
 import pygame
 
+from src.constants.colors import LIGHT_BROWN
 from src.enum.game_state import GameState
 from src.assets.asset_manager import AssetManager
 
@@ -10,7 +11,7 @@ class PauseMenu:
         self.music_image = AssetManager.get_image('images/buttons/button_music', (80, 80))
         self.music_rect = self.music_image.get_rect(topleft=(10, 10))
         self.font = pygame.font.Font('assets/fonts/LuckiestGuy-Regular.ttf', 100)
-        self.paused_text = self.font.render('PAUSED', True, (222, 184, 135))
+        self.paused_text = self.font.render('PAUSED', True, LIGHT_BROWN)
         self.table_image = AssetManager.get_image('images/buttons/table')
         self.table_rect = self.table_image.get_rect(center=(640, 360))
         self.text_rect = self.paused_text.get_rect(center=(640, 280))
