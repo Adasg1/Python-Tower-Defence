@@ -72,9 +72,7 @@ class Game:
 
     def menu(self):
         while self.context.game_state == GameState.MENU:
-            for event in pygame.event.get():
-                handle_exit(event)
-                self.start_menu.handle_event(event)
+            self.handle_events(self.start_menu.handle_event)
             self.start_menu.draw(self.screen)
             pygame.display.update()
             self.clock.tick(60)
@@ -83,32 +81,17 @@ class Game:
     def end_game(self):
         self.end_game_menu.init()
         while self.context.game_state == GameState.END_OVER:
-            for event in pygame.event.get():
-                handle_exit(event)
-                self.end_game_menu.handle_event(event)
-            self.screen.blit(self.background, (0, 0))
-            self.waves.draw_monsters()
-            self.towers.draw(self.screen)
-            self.waves.draw_healthbars()
-            self.towers.draw_options(self.screen)
-            self.game_stats.draw(self.screen)
+            self.handle_events(self.end_game_menu.handle_event)
+            self.draw_game_elements()
             self.end_game_menu.draw(self.screen)
             pygame.display.update()
             self.clock.tick(60)
 
 
     def pause(self):
-
         while self.context.game_state == GameState.PAUSED:
-            for event in pygame.event.get():
-                handle_exit(event)
-                self.pause_menu.handle_event(event)
-            self.screen.blit(self.background, (0, 0))
-            self.waves.draw_monsters()
-            self.towers.draw(self.screen)
-            self.waves.draw_healthbars()
-            self.towers.draw_options(self.screen)
-            self.game_stats.draw(self.screen)
+            self.handle_events(self.pause_menu.handle_event)
+            self.draw_game_elements()
             self.pause_menu.draw(self.screen)
             pygame.display.update()
             self.clock.tick(60)
@@ -116,30 +99,18 @@ class Game:
 
     def run(self):
         while self.context.game_state == GameState.RUNNING:
-            self.running_game_handler.handle_event()
-
-            self.waves.spawn_monsters_from_wave()
+            self.handle_events(self.running_game_handler.handle_event)
 
             # update
-            self.waves.monsters.update()
-            self.towers.update()
-            self.spells.update(self.waves.wave_delay) #Byc moze do zmiany po dodaniu jakiegos waveManagera
+            self.update_running_game()
 
             #draw
-            self.screen.blit(self.background, (0, 0))
-            self.towers.draw_range(self.screen)
-            self.waves.draw_monsters()
-            self.towers.draw(self.screen)
-            self.waves.draw_healthbars()
-            self.towers.draw_options(self.screen)
+            self.draw_game_elements()
             self.running_game_handler.draw(self.screen)
-            self.spells.draw(self.screen)
-            self.game_stats.draw(self.screen)
             self.context.is_game_over()
 
             pygame.display.update()
             self.clock.tick(60)
-
 
 
     def reset_game(self):
@@ -150,6 +121,30 @@ class Game:
         self.spells.reset()
         self.waves.init_wave()
 
+
+    def update_running_game(self):
+        self.waves.spawn_monsters_from_wave()
+        self.waves.monsters.update()
+        self.towers.update()
+        self.spells.update(self.waves.wave_delay)
+
+
+    def draw_game_elements(self):
+        self.screen.blit(self.background, (0, 0))
+        self.towers.draw_range(self.screen)
+        self.waves.draw_monsters()
+        self.towers.draw(self.screen)
+        self.waves.draw_healthbars()
+        self.towers.draw_options(self.screen)
+        self.spells.draw(self.screen)
+        self.game_stats.draw(self.screen)
+
+
+    @staticmethod
+    def handle_events(handle_event):
+        for event in pygame.event.get():
+            handle_exit(event)
+            handle_event(event)
 
 
 

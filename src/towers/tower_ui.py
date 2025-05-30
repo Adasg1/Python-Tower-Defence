@@ -65,7 +65,7 @@ class TowerUI:
                                self.spot.tower.range)
             self.circle_center = (self.rect.center[0] - self.spot.tower.range, self.rect.center[1] - self.spot.tower.range)
         up = 0
-        if self.rect.midbottom[1] > 670:
+        if self.spot.rect.midbottom[1] > 670:
             up = 50
         self.options_image = AssetManager.get_image("images/tower_options/upgrade_sell_000")
         self.image_type = "upgrade_sell"

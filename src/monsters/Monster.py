@@ -95,7 +95,7 @@ class Monster(MonsterSprite):
             self.slowed_timer -= 1
 
     def get_slowed(self, slow_ratio, slow_time):
-        if self.speed > self.base_speed*slow_ratio:
+        if self.speed >= self.base_speed*slow_ratio:
             self.slowed_timer = slow_time * 60
             self.speed = self.base_speed * slow_ratio
             self.is_slowed = True

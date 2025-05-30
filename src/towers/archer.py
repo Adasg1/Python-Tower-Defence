@@ -10,7 +10,7 @@ from src.assets.asset_manager import AssetManager
 
 class Archer(Tower):
     def __init__(self, monsters, game_stats, arrows, pos):
-        super().__init__(TowerType.ARCHER, monsters, game_stats, pos, damage=30, range=150, fire_rate=1.5, cost=100)
+        super().__init__(TowerType.ARCHER, monsters, game_stats, pos, damage=30, range=140, fire_rate=1.5, cost=100)
         self.archer = pygame.sprite.GroupSingle(ArcherSprite(self.rect.midtop[0]-6, self.rect.midtop[1]+6))
         self.arrows = arrows
 

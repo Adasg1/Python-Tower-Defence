@@ -10,11 +10,11 @@ from src.assets.asset_manager import AssetManager
 
 class Ice(Tower):
     def __init__(self, monsters, game_stats, ice_shards, pos):
-        super().__init__(TowerType.ICE, monsters, game_stats, pos, damage=30, range=150, fire_rate=1, cost=150)
+        super().__init__(TowerType.ICE, monsters, game_stats, pos, damage=30, range=140, fire_rate=1, cost=150)
         self.elem = AssetManager.get_image("images/towers/elems/ice_elem", (20, 34))
         self.ice_shards = ice_shards
         self.elem_rect = self.elem.get_rect(midbottom=(self.rect.midtop[0] - 5, self.rect.midtop[1] + 10))
-        self.slowness = 0.85
+        self.slowness = 0.80
 
     def upgrade(self):
         super().upgrade()
@@ -34,7 +34,7 @@ class Ice(Tower):
         damage_up = int(self.damage * 0.2)
         range_up = 15 if self.level<=5 else 0
         firerate_up = 0.15
-        slow_down = 0.05 if self.level <= 8 else 0
+        slow_down = 0.06 if self.level <= 6 else 0
         return damage_up, range_up, firerate_up, slow_down
 
     def shoot(self, monster):

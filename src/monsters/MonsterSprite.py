@@ -65,7 +65,7 @@ class MonsterSprite(pygame.sprite.Sprite):
         #print(self.rect, self.monster.pos)
 
     def handle_animation(self):
-        if self.speed != 0:
+        if self.speed != 0 or self.monster.is_dead:
             if self.time_since_last_animation >= self.animation_delay:
                 if self.monster.is_dead and self.current_frame == len(self.animation_keys[self.current_animation]) - 1:
                     if self.time_since_last_animation<self.animation_delay*15:
