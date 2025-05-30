@@ -9,7 +9,7 @@ from src.utils.targeting_utils import dist_to_monster
 
 class Stone(Tower):
     def __init__(self, monsters, game_stats, stones, pos):
-        super().__init__(TowerType.STONE, monsters, game_stats, pos, damage=40, range=150, fire_rate=0.5, cost=150)
+        super().__init__(TowerType.STONE, monsters, game_stats, pos, damage=40, range=140, fire_rate=0.5, cost=150)
         self.shot = False
         self.back_elem = AssetManager.get_image("images/towers/back_elem_lvl1")
         self.back_elem_rect = self.back_elem.get_rect(center=(self.rect.center[0] - 6, self.rect.center[1]))

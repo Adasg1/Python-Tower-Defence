@@ -16,7 +16,7 @@ class StoneSpell(Spell):
         self.damage = self.base_damage
 
     def update_damage(self):
-        self.damage += 15
+        self.damage += 18
 
     def update(self):
         if self.animation:

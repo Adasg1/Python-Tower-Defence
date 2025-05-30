@@ -19,12 +19,11 @@ class Spell:
         self.font = pygame.font.Font('assets/fonts/CarterOne-Regular.ttf', 23)
         self.monsters = monsters
         self.animation = False
-        self.cooldown = 6
+        self.cooldown = 60
         self.cd_remaining = 0
         self.unlock_wave = unlock_wave
         self.unlock_wave_text = self.font.render(f"lvl {self.unlock_wave}", True, GREY)
         self.text_rect = self.unlock_wave_text.get_rect(center=self.rect.center)
-
         self.frame = 0
         self.is_unlocked = False
 
@@ -35,6 +34,7 @@ class Spell:
     def reset(self):
         self.is_toggled = False
         self.image = AssetManager.get_image(f'images/buttons/disabled_{self.type}_spell', (80, 80))
+        self.text_rect = self.unlock_wave_text.get_rect(center=self.rect.center)
         self.animation = False
         self.cd_remaining = 0
         self.is_unlocked = False

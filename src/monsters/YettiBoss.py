@@ -17,12 +17,10 @@ class YettiBoss(Monster):
     def set_invulnerable(self):
         self.ticks_since_last_invuln_change += 1
         if self.is_invulnerable and self.ticks_since_last_invuln_change > self.invuln_duration:
-            #print("vuln")
             self.is_invulnerable = False
             self.set_animation("walk")
             self.ticks_since_last_invuln_change = 0
         elif not self.is_invulnerable and self.ticks_since_last_invuln_change > self.invuln_cooldown:
-            #print("invuln")
             self.is_invulnerable = True
             self.set_animation("specialty_walk")
             self.ticks_since_last_invuln_change = 0

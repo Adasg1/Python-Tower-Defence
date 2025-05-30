@@ -25,7 +25,7 @@ MONSTER_CLASSES = {
 }
 
 DIFFICULTY_MODIFIERS = {
-    "easy": {"hp": 0.8, "value": 1.2},
+    "easy": {"hp": 0.8, "value": 1.3},
     "normal": {"hp": 0.9, "value": 1.2},
     "hard": {"hp": 1.0, "value": 1.0}
 }
