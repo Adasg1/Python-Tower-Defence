@@ -16,6 +16,7 @@ import src.game_core.game_stats as stats
 from src.enum.game_state import GameState
 
 from src.utils.exit_handler import handle_exit
+from src.utils.paths import get_path
 
 
 class Game:
@@ -24,12 +25,12 @@ class Game:
         #Inicjalizacja
         pygame.init()
         pygame.font.init()
-        self.icon = pygame.image.load('assets/images/icon.png')
+        self.icon = pygame.image.load(get_path('assets/images/icon.png'))
         pygame.display.set_caption("Last Bastion - Tower Defence")
         pygame.display.set_icon(self.icon)
         self.screen = pygame.display.set_mode((1280, 720))
         self.clock = pygame.time.Clock()
-        self.font = pygame.font.Font('assets/fonts/LuckiestGuy-Regular.ttf', 100)
+        self.font = pygame.font.Font(get_path('assets/fonts/LuckiestGuy-Regular.ttf'), 100)
 
         #  ekran ładowania
         loading_text = self.font.render("Loading...", True, WHITE)

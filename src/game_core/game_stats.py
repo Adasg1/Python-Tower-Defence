@@ -9,7 +9,7 @@ class GameStats:
         self._hp = 100
         self._money = 100
         self._wave = 1
-        self.font = pygame.font.Font("assets/fonts/LuckiestGuy-Regular.ttf", 20)
+        self.font = AssetManager.get_font("LuckiestGuy-Regular", 20)
         self.bar_image = AssetManager.get_image("images/game_stats/table", (400, 120))
         self.heart_image = AssetManager.get_image("images/game_stats/heart", (32, 24))
         self.money_image = AssetManager.get_image("images/game_stats/money", (32, 24))

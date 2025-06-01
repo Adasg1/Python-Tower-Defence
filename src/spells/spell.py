@@ -16,7 +16,7 @@ class Spell:
         self.spell_anim_rect = self.spell_anim.get_rect()
         self.range = range
         self.range_surface = pygame.Surface((2 * self.range, 2 * self.range), pygame.SRCALPHA)
-        self.font = pygame.font.Font('assets/fonts/CarterOne-Regular.ttf', 23)
+        self.font = AssetManager.get_font('CarterOne-Regular', 23)
         self.monsters = monsters
         self.animation = False
         self.cooldown = 60
