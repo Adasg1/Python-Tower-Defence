@@ -10,11 +10,11 @@ from src.assets.asset_manager import AssetManager
 
 class Ice(Tower):
     def __init__(self, monsters, game_stats, ice_shards, pos):
-        super().__init__(TowerType.ICE, monsters, game_stats, pos, damage=30, range=140, fire_rate=1, cost=150)
+        super().__init__(TowerType.ICE, monsters, game_stats, pos, damage=30, range=150, fire_rate=1, cost=150)
         self.elem = AssetManager.get_image("images/towers/elems/ice_elem", (20, 34))
         self.ice_shards = ice_shards
         self.elem_rect = self.elem.get_rect(midbottom=(self.rect.midtop[0] - 5, self.rect.midtop[1] + 10))
-        self.slowness = 0.80
+        self.slowness = 0.8
 
     def upgrade(self):
         super().upgrade()
@@ -23,7 +23,6 @@ class Ice(Tower):
 
     def upgrade_stats(self):
         dmg_up, rng_up, rate_up, slow_up = self.get_next_upgrade_values()
-
         self.level += 1
         self.damage += dmg_up
         self.range += rng_up
@@ -32,9 +31,9 @@ class Ice(Tower):
 
     def get_next_upgrade_values(self):
         damage_up = int(self.damage * 0.2)
-        range_up = 15 if self.level<=5 else 0
+        range_up = 10 if self.level<=5 else 0
         firerate_up = 0.15
-        slow_down = 0.06 if self.level <= 6 else 0
+        slow_down = 0.06 if self.level <= 5 else 0
         return damage_up, range_up, firerate_up, slow_down
 
     def shoot(self, monster):
@@ -63,6 +62,7 @@ class Ice(Tower):
         dmg_up, rng_up, rate_up, slow_up = self.get_next_upgrade_values()
         slow_up = int(slow_up*100)
         slow = int((1-self.slowness)*100)
+        print(slow)
         return [
             f"Level: {self.level} (+1)",
             f"Damage: {self.damage} (+{dmg_up})",
