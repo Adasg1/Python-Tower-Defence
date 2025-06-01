@@ -3,7 +3,7 @@
         "wave": 1,
         "spawn_interval": 120,
         "monsters": [
-          {"type": "YettiBoss", "count": 1, "hp_multiplier": 1.0}
+          {"type": "BasicMonster", "count": 6, "hp_multiplier": 1.0}
         ]
     },
 
@@ -217,11 +217,13 @@
         "wave": 23,
         "spawn_interval": 60,
         "monsters": [
+            {"type": "HealerMonster", "count": 2, "hp_multiplier": 6.0},
             {"type": "BasicMonster", "count": 10, "hp_multiplier": 6.0},
-            {"type": "HealerMonster", "count": 5, "hp_multiplier": 6.0},
-            {"type": "TankMonster", "count": 5, "hp_multiplier": 6.0},
-            {"type": "HealerMonster", "count": 5, "hp_multiplier": 6.0},
-            {"type": "TankMonster", "count": 5, "hp_multiplier": 6.0}
+            {"type": "HealerMonster", "count": 3, "hp_multiplier": 6.0},
+            {"type": "TankMonster", "count": 6, "hp_multiplier": 6.0},
+            {"type": "HealerMonster", "count": 3, "hp_multiplier": 6.0},
+            {"type": "TankMonster", "count": 6, "hp_multiplier": 6.0},
+            {"type": "HealerMonster", "count": 2, "hp_multiplier": 6.0}
         ]
     },
 
@@ -237,7 +239,7 @@
         "wave": 25,
         "spawn_interval": 60,
         "monsters": [
-            {"type": "TreeBoss", "count": 1, "hp_multiplier": 15.0}
+            {"type": "TreeBoss", "count": 1, "hp_multiplier": 14.0}
         ]
     },
 

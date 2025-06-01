@@ -10,7 +10,7 @@ from src.monsters.Root import Root
 class TreeBoss(Monster):
     def __init__(self, path_points, game_stats, monsters, hp_multiplier, value_multiplier,  distance=0):
         super().__init__(path_points, game_stats, monsters, monster_type=MonsterType.TREEBOSS, health=1000*hp_multiplier, speed=0.8, value=int(50*value_multiplier), width=92, is_boss=True)
-        self.spawn_cooldown = 360
+        self.spawn_cooldown = 480
         self.ticks_since_last_spawn = 0
         self.hp_multiplier = hp_multiplier
         self.load_animation("specialty", 20)
