@@ -62,9 +62,8 @@ class Tower(TowerSprite):
         ]
 
     def upgrade_stats(self):
-        self.level += 1
         dmg_up, rng_up, rate_up = self.get_next_upgrade_values()
-
+        self.level += 1
         self.damage += dmg_up
         self.range += rng_up
         self.fire_rate += rate_up

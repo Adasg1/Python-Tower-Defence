@@ -9,7 +9,7 @@ from src.utils.targeting_utils import dist_to_monster
 
 class Stone(Tower):
     def __init__(self, monsters, game_stats, stones, pos):
-        super().__init__(TowerType.STONE, monsters, game_stats, pos, damage=40, range=140, fire_rate=0.5, cost=150)
+        super().__init__(TowerType.STONE, monsters, game_stats, pos, damage=40, range=150, fire_rate=0.5, cost=150)
         self.shot = False
         self.back_elem = AssetManager.get_image("images/towers/back_elem_lvl1")
         self.back_elem_rect = self.back_elem.get_rect(center=(self.rect.center[0] - 6, self.rect.center[1]))
@@ -22,7 +22,7 @@ class Stone(Tower):
         self.target = None
         self.elem_speed = 3.5
         self.show_stone = True
-        self.explosion_area = 80
+        self.explosion_area = 70
 
     def upgrade(self):
         super().upgrade()
@@ -30,7 +30,6 @@ class Stone(Tower):
 
     def upgrade_stats(self):
         dmg_up, rng_up, rate_up, expl_up = self.get_next_upgrade_values()
-
         self.level += 1
         self.damage += dmg_up
         self.range += rng_up
@@ -39,7 +38,7 @@ class Stone(Tower):
 
     def get_next_upgrade_values(self):
         damage_up = int(self.damage * 0.2)
-        range_up = 15 if self.level<=5 else 0
+        range_up = 10 if self.level<=5 else 0
         firerate_up = 0.1
         explosion_up = 10 if self.level <=5 else 0
 

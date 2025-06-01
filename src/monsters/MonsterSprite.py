@@ -23,18 +23,20 @@ class MonsterSprite(pygame.sprite.Sprite):
         self.bar_width = 50
         self.bar_height = 5
         self.current_health_width = self.bar_width
-        self.animation_delay = 4
-        self.load_animation("walk", self.walkframe_count)
-        self.load_animation("die", self.dieframe_count)
-        self.set_animation("walk")
         self.speed = speed
-        self.width = width # Zmienna dodana z powodu żle zrobionych assetów, pozwala na lepsze hitboxy oraz prawidłowe "flipowanie" obrazków
+        self.width = width  # Zmienna dodana z powodu żle zrobionych assetów, pozwala na lepsze hitboxy oraz prawidłowe "flipowanie" obrazków
         self._is_boss = is_boss
         self.x_offset = random.randint(-10, 10)
         if self._is_boss:
             self.y_offset = random.randint(20, 25)
         else:
             self.y_offset = random.randint(-12, 15)
+        self.animation_delay = 4
+        self.load_animation("walk", self.walkframe_count)
+        self.load_animation("die", self.dieframe_count)
+        self.set_animation("walk")
+
+
 
     def update_rect_position(self):
         if self.facing_right:
@@ -62,7 +64,7 @@ class MonsterSprite(pygame.sprite.Sprite):
         key = self.animation_keys[anim_type][0]
         self.image = AssetManager.get_image(key)
         self.rect = self.image.get_rect()
-        #print(self.rect, self.monster.pos)
+        self.update_rect_position()
 
     def handle_animation(self):
         if self.speed != 0 or self.monster.is_dead:

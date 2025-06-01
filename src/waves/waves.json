@@ -3,7 +3,7 @@
         "wave": 1,
         "spawn_interval": 120,
         "monsters": [
-          {"type": "BasicMonster", "count": 6, "hp_multiplier": 1.0}
+          {"type": "YettiBoss", "count": 1, "hp_multiplier": 1.0}
         ]
     },
 
@@ -237,7 +237,7 @@
         "wave": 25,
         "spawn_interval": 60,
         "monsters": [
-            {"type": "TreeBoss", "count": 1, "hp_multiplier": 15.5}
+            {"type": "TreeBoss", "count": 1, "hp_multiplier": 15.0}
         ]
     },
 
@@ -310,7 +310,7 @@
         "wave": 30,
         "spawn_interval": 60,
         "monsters": [
-            {"type": "GolemBoss", "count": 1, "hp_multiplier": 35.0}
+            {"type": "GolemBoss", "count": 1, "hp_multiplier": 32.0}
         ]
     },
 
