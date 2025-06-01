@@ -7,7 +7,7 @@ from src.monsters.Monster import Monster
 class GolemBoss(Monster):
     def __init__(self, path_points, game_stats, towers, monsters, hp_multiplier, value_multiplier, distance=0):
         super().__init__(path_points, game_stats, monsters, monster_type=MonsterType.GOLEMBOSS, health=1000*hp_multiplier, speed=0.6, value=int(50*value_multiplier), width=90, is_boss=True)
-        self.disable_cooldown = 300
+        self.disable_cooldown = 450
         self.disable_duration = 150
         self.ticks_since_last_disable = 0
         self.towers = towers
