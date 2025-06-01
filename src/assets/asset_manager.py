@@ -3,9 +3,13 @@ import csv
 import pygame
 import os
 
+from src.utils.paths import get_path
+
+
 class AssetManager:
     _images = {}
     _csv_data = {}
+    _fonts = {}
 
     @classmethod
     def load_assets(cls, base_folder="assets"):
@@ -31,7 +35,7 @@ class AssetManager:
         for root, dirs, files in os.walk(base_folder):
             for file in files:
                 if file.lower().endswith((".png", ".jpg", ".jpeg")):
-                    full_path = os.path.join(root, file)
+                    full_path = get_path(os.path.join(root, file))
                     relative_path = os.path.relpath(full_path, base_folder)
                     key = relative_path.replace("\\", "/").rsplit(".", 1)[0]
 
@@ -69,7 +73,7 @@ class AssetManager:
         for root, _, files in os.walk(base_folder):
             for file in files:
                 if file.lower().endswith(".csv"):
-                    full_path = os.path.join(root, file)
+                    full_path = get_path(os.path.join(root, file))
                     relative_path = os.path.relpath(full_path, base_folder).replace("\\", "/")
                     key = relative_path.rsplit(".", 1)[0]
                     with open(full_path, newline='', encoding="utf-8") as csvfile:
@@ -83,5 +87,13 @@ class AssetManager:
         #if key not in cls._csv_data:
             #print(f"Nie znaleziono pliku CSV o kluczu '{key}'")
         return cls._csv_data.get(key)
+
+    @classmethod
+    def get_font(cls, name, size):
+        key = (name, size)
+        if key not in cls._fonts:
+            cls._fonts[key] = pygame.font.Font(get_path(f"assets/fonts/{name}.ttf"), size)
+        return cls._fonts[key]
+
 
 

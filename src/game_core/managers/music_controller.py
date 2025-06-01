@@ -1,12 +1,13 @@
 import pygame
 
 from src.assets.asset_manager import AssetManager
+from src.utils.paths import get_path
 
 
 class MusicController:
     def __init__(self):
         pygame.mixer.init()
-        pygame.mixer.music.load("assets/music/medieval-background-196571.mp3")
+        pygame.mixer.music.load(get_path("assets/music/medieval-background-196571.mp3"))
         pygame.mixer.music.set_volume(0.05)
         pygame.mixer.music.play(-1)
         self._enabled = True

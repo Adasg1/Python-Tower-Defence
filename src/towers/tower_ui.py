@@ -13,8 +13,8 @@ class TowerUI:
         self.frame = 0
         self.base_range = 150
         self.showed_options = False
-        self.font = pygame.font.Font("assets/fonts/CarterOne-Regular.ttf", 13)
-        self.font_2 = pygame.font.Font('assets/fonts/LuckiestGuy-Regular.ttf', 12)
+        self.font = AssetManager.get_font("CarterOne-Regular", 13)
+        self.font_2 = AssetManager.get_font('LuckiestGuy-Regular', 12)
         self.image_type = "tower_options"
         up = 0
         if self.spot.rect.midbottom[1] > 670:

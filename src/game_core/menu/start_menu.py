@@ -9,7 +9,7 @@ class StartMenu():
     def __init__(self, game_context, waves_manager):
         self.context = game_context
         self.waves = waves_manager
-        self.font = pygame.font.Font('assets/fonts/LuckiestGuy-Regular.ttf', 100)
+        self.font = AssetManager.get_font('LuckiestGuy-Regular', 100)
 
         self.title_image = AssetManager.get_image('images/interface/title', (600, 160))
         self.title_rect = self.title_image.get_rect(center=(640, 200))

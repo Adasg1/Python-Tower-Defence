@@ -9,7 +9,7 @@ from src.assets.asset_manager import AssetManager
 class EndGameMenu():
     def __init__(self, game_context):
         self.context = game_context
-        self.font = pygame.font.Font('assets/fonts/CarterOne-Regular.ttf', 30)
+        self.font = AssetManager.get_font("CarterOne-Regular", 30)
         self.label = None
         self.label_rect = None
         self.header = AssetManager.get_image('images/buttons/header_win')

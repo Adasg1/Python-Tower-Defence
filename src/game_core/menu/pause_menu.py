@@ -8,9 +8,9 @@ from src.assets.asset_manager import AssetManager
 class PauseMenu:
     def __init__(self, game_context):
         self.context = game_context
+        self.font = AssetManager.get_font('LuckiestGuy-Regular', 100)
         self.music_image = AssetManager.get_image('images/buttons/button_music', (80, 80))
         self.music_rect = self.music_image.get_rect(topleft=(10, 10))
-        self.font = pygame.font.Font('assets/fonts/LuckiestGuy-Regular.ttf', 100)
         self.paused_text = self.font.render('PAUSED', True, LIGHT_BROWN)
         self.table_image = AssetManager.get_image('images/buttons/table')
         self.table_rect = self.table_image.get_rect(center=(640, 360))

@@ -1,4 +1,6 @@
 import json
+
+from src.utils.paths import get_path
 from src.waves.MonsterWave import MonsterWave
 
 class WaveLoader:
@@ -13,7 +15,7 @@ class WaveLoader:
 
     def load_waves(self):
         try:
-            with open(self.json_file_path, "r") as file:
+            with open(get_path(self.json_file_path), "r") as file:
                 data = json.load(file)
         except json.JSONDecodeError:
             #print(f"Error: Failed to decode JSON from {self.json_file_path}.")

@@ -21,7 +21,7 @@ class WaveManager:
 
 
     def init_wave(self): # do inicjalizacji fali
-        self.wave_loader = WaveLoader("waves/waves.json", self.context.game_stats, self.towers, self.monsters, self.context.difficulty)
+        self.wave_loader = WaveLoader("assets/waves_data/waves.json", self.context.game_stats, self.towers, self.monsters, self.context.difficulty)
         self.waves = self.wave_loader.waves
         self.ticks_since_last_spawn = 0
         self.ticks_since_last_wave = 0
