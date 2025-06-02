@@ -32,10 +32,11 @@ class AssetManager:
             "images/tower_options": (200, 200),
         }
 
+        base_folder = get_path(base_folder)
         for root, dirs, files in os.walk(base_folder):
             for file in files:
                 if file.lower().endswith((".png", ".jpg", ".jpeg")):
-                    full_path = get_path(os.path.join(root, file))
+                    full_path = os.path.join(root, file)
                     relative_path = os.path.relpath(full_path, base_folder)
                     key = relative_path.replace("\\", "/").rsplit(".", 1)[0]
 
@@ -70,13 +71,15 @@ class AssetManager:
     @classmethod
     def load_all_csv_from(cls, base_folder):
         import os
+        base_folder = get_path(base_folder)
         for root, _, files in os.walk(base_folder):
             for file in files:
                 if file.lower().endswith(".csv"):
-                    full_path = get_path(os.path.join(root, file))
+                    full_path = os.path.join(root, file)
                     relative_path = os.path.relpath(full_path, base_folder).replace("\\", "/")
                     key = relative_path.rsplit(".", 1)[0]
                     with open(full_path, newline='', encoding="utf-8") as csvfile:
+                        print(f"[CSV] Próbuję załadować: {relative_path} jako klucz: {key}")
                         reader = csv.DictReader(csvfile)
                         data = [(int(row["x"]), int(row["y"])) for row in reader]  # Współrzędne w formacie (x, y)
                         cls._csv_data[key] = data

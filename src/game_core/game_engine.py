@@ -39,7 +39,7 @@ class Game:
         pygame.display.update()
         pygame.event.pump()  # Zapobiega zawieszeniu
 
-        AssetManager.load_assets()
+        AssetManager.load_assets('assets')
 
         self.clock = pygame.time.Clock()
         self.background = AssetManager.get_image("images/game_background")
