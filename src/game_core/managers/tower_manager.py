@@ -18,7 +18,10 @@ class TowerManager:
         self.monsters = None
         self.game_stats = game_stats
         spot_coords = AssetManager.get_csv("map/tower_spots")
+        print(spot_coords)
         self.spots = []
+        if spot_coords is None:
+            raise FileNotFoundError("Nie udało się załadować tower_spots.csv — sprawdź ścieżkę i spec plik!")
         for coords in spot_coords:
             self.spots.append(TowerSpot(coords[0], coords[1]))
 

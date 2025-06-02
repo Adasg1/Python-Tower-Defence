@@ -13,6 +13,7 @@ class RunningGameHandler:
         self.towers = towers_manager
         self.waves = wave_manager
         self.spells = spells_manager
+        self.timer_font = AssetManager.get_font('LuckiestGuy-Regular', 20)
         self.skip_table_bg = AssetManager.get_image("images/game_stats/skip_table", (260, 55))
         self.skip_button = AssetManager.get_image("images/game_stats/skip_button", (55, 55))
         self.skip_button_rect = pygame.Rect(0, 0, 55, 55)
@@ -32,12 +33,12 @@ class RunningGameHandler:
 
             bg_pos = (1023, 50)
             screen.blit(self.skip_table_bg, bg_pos)
-            timer_font = pygame.font.Font('assets/fonts/LuckiestGuy-Regular.ttf', 20)
+
             if self.context.game_stats.get_wave > 1:
                 time_remaining = (900 - self.waves.ticks_since_last_wave)//60 + 1
-                timer_text = timer_font.render(f"Next wave in: {time_remaining}s", True, LIGHT_BROWN) # wyswietlony timer
+                timer_text = self.timer_font.render(f"Next wave in: {time_remaining}s", True, LIGHT_BROWN) # wyswietlony timer
             else:
-                timer_text = timer_font.render(f"Start First Wave", True,LIGHT_BROWN)  # wyswietlony timer
+                timer_text = self.timer_font.render(f"Start First Wave", True,LIGHT_BROWN)  # wyswietlony timer
             screen.blit(timer_text, (bg_pos[0] + 25, bg_pos[1] + 18))
 
             self.skip_button_rect.topleft = (bg_pos[0] + 205, bg_pos[1])  # przycisk skip
