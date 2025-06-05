@@ -3,10 +3,10 @@ import random
 
 from src.assets.asset_manager import AssetManager
 from src.enum.monster_type import MonsterType
-from src.monsters.GolemBoss import GolemBoss
-from src.monsters.Monster import Monster
-from src.monsters.TreeBoss import TreeBoss
-from src.monsters.YettiBoss import YettiBoss
+from src.monsters.golem_boss import GolemBoss
+from src.monsters.monster import Monster
+from src.monsters.tree_boss import TreeBoss
+from src.monsters.yetti_boss import YettiBoss
 
 
 class KnightBoss(Monster):

@@ -1,8 +1,8 @@
 import pygame
 
 from src.enum.monster_type import MonsterType
-from src.monsters.Monster import Monster
-from src.monsters.MonsterSprite import MonsterSprite
+from src.monsters.monster import Monster
+from src.monsters.monster_sprite import MonsterSprite
 
 
 class HealerMonster(Monster):

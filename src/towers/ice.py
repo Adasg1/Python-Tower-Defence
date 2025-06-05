@@ -1,7 +1,7 @@
 import pygame
 
-from src.monsters.KnightBoss import KnightBoss
-from src.monsters.YettiBoss import YettiBoss
+from src.monsters.knight_boss import KnightBoss
+from src.monsters.yetti_boss import YettiBoss
 from src.projectiles.ice_shard import IceShard
 from src.towers.tower import Tower
 from src.enum.tower_type import TowerType

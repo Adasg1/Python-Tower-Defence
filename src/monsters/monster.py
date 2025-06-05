@@ -1,6 +1,6 @@
 import pygame
 
-from src.monsters.MonsterSprite import MonsterSprite
+from src.monsters.monster_sprite import MonsterSprite
 
 
 class Monster(MonsterSprite):
@@ -68,7 +68,7 @@ class Monster(MonsterSprite):
                 self.game_stats.take_damage(1)
             else:
                 self.game_stats.take_damage(50)
-                from src.monsters.KnightBoss import KnightBoss
+                from src.monsters.knight_boss import KnightBoss
                 if isinstance(self, KnightBoss):
                     self.game_stats.take_damage(50)
             MonsterSprite.kill(self)

@@ -1,7 +1,7 @@
 import json
 
 from src.utils.paths import get_path
-from src.waves.MonsterWave import MonsterWave
+from src.waves.monster_wave import MonsterWave
 
 class WaveLoader:
     def __init__(self, json_file_path, game_stats, towers, monsters, difficulty):

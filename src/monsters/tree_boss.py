@@ -3,8 +3,8 @@ import pygame
 
 from src.assets.asset_manager import AssetManager
 from src.enum.monster_type import MonsterType
-from src.monsters.Monster import Monster
-from src.monsters.Root import Root
+from src.monsters.monster import Monster
+from src.monsters.root import Root
 
 
 class TreeBoss(Monster):

@@ -2,7 +2,7 @@ import pygame
 
 from src.assets.asset_manager import AssetManager
 from src.enum.game_state import GameState
-from src.waves.WaveLoader import WaveLoader
+from src.waves.wave_loader import WaveLoader
 
 
 class WaveManager:
