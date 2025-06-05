@@ -12,13 +12,13 @@ class EndGameMenu():
         self.font = AssetManager.get_font("CarterOne-Regular", 30)
         self.label = None
         self.label_rect = None
-        self.header = AssetManager.get_image('images/buttons/header_win')
+        self.header = AssetManager.get_image('images/interface/header_win')
         self.header_rect = self.header.get_rect(center=(640, 150) )
-        self.table_image = AssetManager.get_image('images/buttons/table2')
+        self.table_image = AssetManager.get_image('images/interface/table2')
         self.table_rect = self.table_image.get_rect(center=(640, 360))
-        self.window_image = AssetManager.get_image('images/buttons/window', (310, 260))
+        self.window_image = AssetManager.get_image('images/interface/window', (310, 260))
         self.window_rect = self.window_image.get_rect(center=(640, 320))
-        self.stars_image = AssetManager.get_image('images/buttons/star_4')
+        self.stars_image = AssetManager.get_image('images/interface/star_4')
         self.stars_rect = self.stars_image.get_rect(center=(640, 290))
         self.menu_image = AssetManager.get_image('images/buttons/button_menu')
         self.menu_image_rect = self.menu_image.get_rect(center=(550, 520))
@@ -30,18 +30,18 @@ class EndGameMenu():
         if self.context.game_stats.get_hp > 0:
             self.label = self.font.render("Congratulations :D", True, LIGHT_BROWN)
             self.label_rect = self.label.get_rect(center=(640, 410))
-            self.header = AssetManager.get_image('images/buttons/header_win')
+            self.header = AssetManager.get_image('images/interface/header_win')
             if self.context.game_stats.get_hp > 70:
-                self.stars_image = AssetManager.get_image('images/buttons/star_4')
+                self.stars_image = AssetManager.get_image('images/interface/star_4')
             elif self.context.game_stats.get_hp > 35:
-                self.stars_image = AssetManager.get_image('images/buttons/star_3')
+                self.stars_image = AssetManager.get_image('images/interface/star_3')
             else:
-                self.stars_image = AssetManager.get_image('images/buttons/star_2')
+                self.stars_image = AssetManager.get_image('images/interface/star_2')
         else:
             self.label = self.font.render("Try again :C", True, LIGHT_BROWN)
             self.label_rect = self.label.get_rect(center=(640, 400))
-            self.header = AssetManager.get_image('images/buttons/header_failed')
-            self.stars_image = AssetManager.get_image('images/buttons/star_1')
+            self.header = AssetManager.get_image('images/interface/header_failed')
+            self.stars_image = AssetManager.get_image('images/interface/star_1')
 
 
 

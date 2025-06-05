@@ -12,7 +12,7 @@ class PauseMenu:
         self.music_image = AssetManager.get_image('images/buttons/button_music', (80, 80))
         self.music_rect = self.music_image.get_rect(topleft=(10, 10))
         self.paused_text = self.font.render('PAUSED', True, LIGHT_BROWN)
-        self.table_image = AssetManager.get_image('images/buttons/table')
+        self.table_image = AssetManager.get_image('images/interface/table')
         self.table_rect = self.table_image.get_rect(center=(640, 360))
         self.text_rect = self.paused_text.get_rect(center=(640, 280))
         self.play_image = AssetManager.get_image('images/buttons/button_play_square')
