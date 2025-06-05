@@ -15,9 +15,9 @@ class RunningGameHandler:
         self.spells = spells_manager
         self.timer_font = AssetManager.get_font('LuckiestGuy-Regular', 20)
         self.skip_table_bg = AssetManager.get_image("images/game_stats/skip_table", (260, 55))
-        self.skip_button = AssetManager.get_image("images/game_stats/skip_button", (55, 55))
+        self.skip_button = AssetManager.get_image("images/buttons/button_skip", (55, 55))
         self.skip_button_rect = pygame.Rect(0, 0, 55, 55)
-        self.pause_button = AssetManager.get_image("images/game_stats/button_pause", (65, 65))
+        self.pause_button = AssetManager.get_image("images/buttons/button_pause", (65, 65))
         self.pause_button_rect = self.pause_button.get_rect()
         self.pause_button_rect.topleft = (5, 5)
 

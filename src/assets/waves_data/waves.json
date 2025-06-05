@@ -3,7 +3,7 @@
         "wave": 1,
         "spawn_interval": 120,
         "monsters": [
-          {"type": "KnightBoss", "count": 1, "hp_multiplier": 0.01}
+          {"type": "BasicMonster", "count": 6, "hp_multiplier": 1.0}
         ]
     },
 
