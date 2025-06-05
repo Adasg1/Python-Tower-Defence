@@ -1,15 +1,15 @@
 import pygame
 
-from src.monsters.GolemBoss import GolemBoss
-from src.monsters.Healer import HealerMonster
-from src.monsters.KnightBoss import KnightBoss
-from src.monsters.YettiBoss import YettiBoss
-from src.monsters.Quick import QuickMonster
-from src.monsters.Tank import TankMonster
-from src.monsters.TreeBoss import TreeBoss
+from src.monsters.golem_boss import GolemBoss
+from src.monsters.healer import HealerMonster
+from src.monsters.knight_boss import KnightBoss
+from src.monsters.yetti_boss import YettiBoss
+from src.monsters.quick import QuickMonster
+from src.monsters.tank import TankMonster
+from src.monsters.tree_boss import TreeBoss
 from src.assets.asset_manager import AssetManager
-from src.monsters.Basic import BasicMonster
-from src.monsters.Flying import FlyingMonster
+from src.monsters.basic import BasicMonster
+from src.monsters.flying import FlyingMonster
 
 
 MONSTER_CLASSES = {
@@ -41,7 +41,6 @@ class MonsterWave:
         self.spawn_interval = spawn_interval
         self.monsters_queue = self._create_monster_queue(monsters_data)
         self.remaining_monsters = len(self.monsters_queue)
-
 
     def _create_monster_queue(self, monsters_data):
         queue = []

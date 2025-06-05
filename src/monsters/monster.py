@@ -1,6 +1,6 @@
 import pygame
 
-from src.monsters.MonsterSprite import MonsterSprite
+from src.monsters.monster_sprite import MonsterSprite
 
 
 class Monster(MonsterSprite):
@@ -57,24 +57,37 @@ class Monster(MonsterSprite):
         self.game_stats.earn(self.value)
 
     def update(self):
+        self.handle_movement()
+        self.handle_death()
+        self.handle_slow()
+        if self.check_end_of_path():
+            return
+        super().update()
+
+    def handle_movement(self):
         if self.health > 0:
             self.move()
+
+    def handle_death(self):
         if self.health <= 0 and not self.is_dead:
             self.die()
+
+    def handle_slow(self):
         if self.is_slowed:
             self.slow_update()
+
+    def check_end_of_path(self):
         if self.current_point == len(self.path) - 1:
-            if not self.is_boss:
-                self.game_stats.take_damage(1)
-            else:
-                self.game_stats.take_damage(50)
-                from src.monsters.KnightBoss import KnightBoss
-                if isinstance(self, KnightBoss):
-                    self.game_stats.take_damage(50)
+            damage = 1 if not self.is_boss else 50
+            self.game_stats.take_damage(damage)
+
+            from src.monsters.knight_boss import KnightBoss # Specjalny przypadek dla KnightBossa
+            if isinstance(self, KnightBoss):
+                self.game_stats.take_damage(100)
+
             MonsterSprite.kill(self)
-            return
-        MonsterSprite.update_health_bar(self)
-        super().update()
+            return True
+        return False
 
     def get_damage(self, damage):
         self.health -= damage

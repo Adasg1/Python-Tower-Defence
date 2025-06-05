@@ -2,7 +2,7 @@ import pygame
 
 from src.assets.asset_manager import AssetManager
 from src.enum.monster_type import MonsterType
-from src.monsters.Monster import Monster
+from src.monsters.monster import Monster
 
 class YettiBoss(Monster):
     def __init__(self, path_points, game_stats, monsters, hp_multiplier, value_multiplier, distance=0):
@@ -54,7 +54,7 @@ class YettiBoss(Monster):
 
     # Nadpisanie die z powodu zmiany logiki flip_frames dla tego Bossa
     def die(self):
-        if not self.monster.is_dead:
+        if not self.is_dead:
             self.set_animation("die")
             self.image = AssetManager.get_image(self.animation_keys[self.current_animation][self.current_frame])
         self.is_dead = True

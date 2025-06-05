@@ -1,8 +1,8 @@
 import pygame
 
 from src.enum.monster_type import MonsterType
-from src.monsters.Monster import Monster
-from src.monsters.MonsterSprite import MonsterSprite
+from src.monsters.monster import Monster
+from src.monsters.monster_sprite import MonsterSprite
 
 
 class HealerMonster(Monster):
@@ -17,7 +17,6 @@ class HealerMonster(Monster):
         for monster in self.monsters:
             if not monster.is_dead and monster.health < monster.max_health and self.distance_on_path + self.heal_radius > monster.distance_on_path > self.distance_on_path - self.heal_radius:
                 monster.heal(self.heal_amount)
-                MonsterSprite.update_health_bar(self)
 
     def healing(self):
         self.ticks_since_last_heal += 1

@@ -1,7 +1,7 @@
 import pygame
 
-from src.monsters.KnightBoss import KnightBoss
-from src.monsters.YettiBoss import YettiBoss
+from src.monsters.knight_boss import KnightBoss
+from src.monsters.yetti_boss import YettiBoss
 from src.projectiles.archer_sprite import ArcherSprite
 from src.projectiles.arrow import Arrow
 from src.towers.tower import Tower

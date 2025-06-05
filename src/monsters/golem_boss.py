@@ -2,7 +2,7 @@ import pygame
 import random
 
 from src.enum.monster_type import MonsterType
-from src.monsters.Monster import Monster
+from src.monsters.monster import Monster
 
 class GolemBoss(Monster):
     def __init__(self, path_points, game_stats, towers, monsters, hp_multiplier, value_multiplier, distance=0):

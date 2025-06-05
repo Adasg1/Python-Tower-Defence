@@ -1,6 +1,6 @@
 import pygame
 
-from src.monsters.Flying import FlyingMonster
+from src.monsters.flying import FlyingMonster
 from src.projectiles.stone_sprite import StoneSprite
 from src.towers.tower import Tower
 from src.enum.tower_type import TowerType

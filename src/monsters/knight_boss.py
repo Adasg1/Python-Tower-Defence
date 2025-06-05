@@ -3,10 +3,10 @@ import random
 
 from src.assets.asset_manager import AssetManager
 from src.enum.monster_type import MonsterType
-from src.monsters.GolemBoss import GolemBoss
-from src.monsters.Monster import Monster
-from src.monsters.TreeBoss import TreeBoss
-from src.monsters.YettiBoss import YettiBoss
+from src.monsters.golem_boss import GolemBoss
+from src.monsters.monster import Monster
+from src.monsters.tree_boss import TreeBoss
+from src.monsters.yetti_boss import YettiBoss
 
 
 class KnightBoss(Monster):
@@ -29,7 +29,6 @@ class KnightBoss(Monster):
                 self.is_invulnerable = False
                 self.current_animation = "walk"
                 self.current_frame = 0
-                print("we are back")
                 self.speed = self.base_speed
                 self.phase += 1
 
@@ -59,20 +58,23 @@ class KnightBoss(Monster):
         self.monsters.add(boss)
 
     def handle_animation(self):
-        if self.current_animation != "specialty" or self.current_frame != 19:
-            if self.time_since_last_animation >= self.animation_delay:
-                if self.monster.is_dead and self.current_frame == len(self.animation_keys[self.current_animation]) - 1:
-                    if self.time_since_last_animation<self.animation_delay*15:
-                        self.time_since_last_animation+=1
-                        return
-                    else:
-                        self.kill()
-                self.current_frame = (self.current_frame + 1) % len(self.animation_keys[self.current_animation])
-                key = self.animation_keys[self.current_animation][self.current_frame]
-                self.image = AssetManager.get_image(key)
-                self.time_since_last_animation = 0
-
+        if self.time_since_last_animation < self.animation_delay:
             self.time_since_last_animation += 1
+            return
+
+        if self.is_dead and self.current_frame == len(self.animation_keys[self.current_animation]) - 1:
+            if self.time_since_last_animation < self.animation_delay * 15:
+                self.time_since_last_animation += 1
+                return
+            else:
+                self.kill()
+                return
+
+        self.current_frame = (self.current_frame + 1) % len(self.animation_keys[self.current_animation])
+        key = self.animation_keys[self.current_animation][self.current_frame]
+        self.image = AssetManager.get_image(key)
+
+        self.time_since_last_animation = 0
 
     def get_damage(self, damage):
         if not self.is_invulnerable:
@@ -82,7 +84,7 @@ class KnightBoss(Monster):
     def update(self):
         super().update()
         self.regenerate()
-        if self.current_frame == 19 and self.current_animation == "specialty_2":
+        if self.current_frame == len(self.animation_keys[self.current_animation]) - 1 and self.current_animation == "specialty_2":
             self.current_animation = "specialty"
             self.current_frame = 0
             self.is_regenerating = True
