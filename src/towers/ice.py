@@ -62,7 +62,6 @@ class Ice(Tower):
         dmg_up, rng_up, rate_up, slow_up = self.get_next_upgrade_values()
         slow_up = int(slow_up*100)
         slow = int((1-self.slowness)*100)
-        print(slow)
         return [
             f"Level: {self.level} (+1)",
             f"Damage: {self.damage} (+{dmg_up})",

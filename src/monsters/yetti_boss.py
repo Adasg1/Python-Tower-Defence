@@ -54,7 +54,7 @@ class YettiBoss(Monster):
 
     # Nadpisanie die z powodu zmiany logiki flip_frames dla tego Bossa
     def die(self):
-        if not self.monster.is_dead:
+        if not self.is_dead:
             self.set_animation("die")
             self.image = AssetManager.get_image(self.animation_keys[self.current_animation][self.current_frame])
         self.is_dead = True

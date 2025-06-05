@@ -17,7 +17,6 @@ class HealerMonster(Monster):
         for monster in self.monsters:
             if not monster.is_dead and monster.health < monster.max_health and self.distance_on_path + self.heal_radius > monster.distance_on_path > self.distance_on_path - self.heal_radius:
                 monster.heal(self.heal_amount)
-                MonsterSprite.update_health_bar(self)
 
     def healing(self):
         self.ticks_since_last_heal += 1

@@ -53,7 +53,7 @@ class TreeBoss(Monster):
             self.specialty_frame = (self.specialty_frame + 1) % len(self.animation_keys[self.specialty_animation])
             key = self.animation_keys[self.specialty_animation][self.specialty_frame]
             self.specialty_image = AssetManager.get_image(key)
-            if self.specialty_frame == 19:
+            if self.specialty_frame == len(self.animation_keys[self.specialty_animation]) - 1: # ostatnia klatka animacji
                 self.spawning = False
 
     def draw(self, surface):
@@ -66,7 +66,10 @@ class TreeBoss(Monster):
         if not self.is_dead:
             self.spawn_monsters()
         if self.spawning:
-            if not self.facing_right and not self.flipped:
+            if self.facing_right and self.flipped:
+                self.flip_specialty_frames()
+                self.flipped = False
+            elif not self.facing_right and not self.flipped:
                 self.flip_specialty_frames()
                 self.flipped = True
             self.handle_spawn_animation()

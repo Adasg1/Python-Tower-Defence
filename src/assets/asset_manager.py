@@ -79,16 +79,15 @@ class AssetManager:
                     relative_path = os.path.relpath(full_path, base_folder).replace("\\", "/")
                     key = relative_path.rsplit(".", 1)[0]
                     with open(full_path, newline='', encoding="utf-8") as csvfile:
-                        print(f"[CSV] Próbuję załadować: {relative_path} jako klucz: {key}")
                         reader = csv.DictReader(csvfile)
                         data = [(int(row["x"]), int(row["y"])) for row in reader]  # Współrzędne w formacie (x, y)
                         cls._csv_data[key] = data
-                        #print(f"Załadowano plik CSV: {key}")
+                        #print(f"Załadowano CSV: {key}")
 
     @classmethod
     def get_csv(cls, key):
         #if key not in cls._csv_data:
-            #print(f"Nie znaleziono pliku CSV o kluczu '{key}'")
+            #print(f"Nie znaleziono pliku '{key}'")
         return cls._csv_data.get(key)
 
     @classmethod
