@@ -1,7 +1,6 @@
 import pygame
-import random
 
-from src.assets.asset_manager import AssetManager
+from assets.asset_manager import AssetManager
 from src.enum.monster_type import MonsterType
 from src.monsters.golem_boss import GolemBoss
 from src.monsters.monster import Monster

@@ -1,5 +1,3 @@
-import pygame
-
 from src.monsters.golem_boss import GolemBoss
 from src.monsters.healer import HealerMonster
 from src.monsters.knight_boss import KnightBoss
@@ -7,7 +5,7 @@ from src.monsters.yetti_boss import YettiBoss
 from src.monsters.quick import QuickMonster
 from src.monsters.tank import TankMonster
 from src.monsters.tree_boss import TreeBoss
-from src.assets.asset_manager import AssetManager
+from assets.asset_manager import AssetManager
 from src.monsters.basic import BasicMonster
 from src.monsters.flying import FlyingMonster
 

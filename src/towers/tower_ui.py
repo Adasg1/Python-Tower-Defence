@@ -1,8 +1,7 @@
 import pygame
 from math import floor
 
-from src.enum.tower_type import TowerType
-from src.assets.asset_manager import AssetManager
+from assets.asset_manager import AssetManager
 from src.constants.colors import TRANSLUCENT_GREEN, LIGHT_BROWN, RED, GREEN
 
 

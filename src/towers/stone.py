@@ -4,7 +4,7 @@ from src.monsters.flying import FlyingMonster
 from src.projectiles.stone_sprite import StoneSprite
 from src.towers.tower import Tower
 from src.enum.tower_type import TowerType
-from src.assets.asset_manager import AssetManager
+from assets.asset_manager import AssetManager
 from src.utils.targeting_utils import dist_to_monster
 
 class Stone(Tower):

@@ -1,7 +1,4 @@
-import pygame
-
-from src.assets.asset_manager import AssetManager
-from src.towers.tower_sprite import TowerSprite
+from assets.asset_manager import AssetManager
 from src.towers.tower_ui import TowerUI
 
 

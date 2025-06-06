@@ -1,6 +1,5 @@
 import pygame
 
-from src.assets.asset_manager import AssetManager
 from src.utils.paths import get_path
 
 

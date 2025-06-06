@@ -1,7 +1,7 @@
 import pygame
 
 from src.enum.game_state import GameState
-from src.assets.asset_manager import AssetManager
+from assets.asset_manager import AssetManager
 from src.enum.difficulty import Difficulty
 
 

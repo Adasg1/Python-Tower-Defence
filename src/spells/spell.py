@@ -1,6 +1,6 @@
 import pygame
 
-from src.assets.asset_manager import AssetManager
+from assets.asset_manager import AssetManager
 from src.constants.colors import WHITE, TRANSLUCENT_GREEN, GREY
 from src.utils.targeting_utils import dist_to_monster
 

@@ -2,7 +2,7 @@ from math import floor
 
 import pygame
 
-from src.assets.asset_manager import AssetManager
+from assets.asset_manager import AssetManager
 from src.spells.spell import Spell
 
 

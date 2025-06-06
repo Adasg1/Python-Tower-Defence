@@ -1,6 +1,6 @@
 import pygame
 from pygame import Vector2
-from src.assets.asset_manager import AssetManager
+
 
 class Projectile(pygame.sprite.Sprite):
     def __init__(self, x, y, monster, damage):

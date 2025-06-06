@@ -1,7 +1,7 @@
 import pygame
 from math import floor
 
-from src.assets.asset_manager import AssetManager
+from assets.asset_manager import AssetManager
 
 
 class ArcherSprite(pygame.sprite.Sprite):

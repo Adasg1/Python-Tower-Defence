@@ -1,10 +1,9 @@
 import pygame
 
-from src.assets.asset_manager import AssetManager
+from assets.asset_manager import AssetManager
 from src.constants.colors import LIGHT_BROWN
 from src.enum.game_state import GameState
 from src.enum.tower_type import TowerType
-from src.utils.exit_handler import handle_exit
 
 
 class RunningGameHandler:

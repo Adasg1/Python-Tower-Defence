@@ -5,7 +5,7 @@ from src.monsters.yetti_boss import YettiBoss
 from src.projectiles.ice_shard import IceShard
 from src.towers.tower import Tower
 from src.enum.tower_type import TowerType
-from src.assets.asset_manager import AssetManager
+from assets.asset_manager import AssetManager
 
 
 class Ice(Tower):

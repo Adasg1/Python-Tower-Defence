@@ -6,7 +6,7 @@ from src.projectiles.archer_sprite import ArcherSprite
 from src.projectiles.arrow import Arrow
 from src.towers.tower import Tower
 from src.enum.tower_type import TowerType
-from src.assets.asset_manager import AssetManager
+
 
 class Archer(Tower):
     def __init__(self, monsters, game_stats, arrows, pos):
