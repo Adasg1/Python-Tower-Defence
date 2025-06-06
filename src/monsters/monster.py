@@ -28,7 +28,7 @@ class Monster(MonsterSprite):
         self.is_slowed = False
         self.slowed_timer = 0
         self.freezed = False
-        MonsterSprite.__init__(self, self, monster_type, width, speed, is_boss)
+        super().__init__(self, monster_type, width, speed, is_boss)
 
 
 
@@ -85,7 +85,7 @@ class Monster(MonsterSprite):
             if isinstance(self, KnightBoss):
                 self.game_stats.take_damage(100)
 
-            MonsterSprite.kill(self)
+            self.kill()
             return True
         return False
 
