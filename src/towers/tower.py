@@ -3,7 +3,6 @@ from math import floor
 import pygame
 
 from src.towers.tower_sprite import TowerSprite
-from src.assets.asset_manager import AssetManager
 from src.utils.targeting_utils import dist_to_monster
 
 

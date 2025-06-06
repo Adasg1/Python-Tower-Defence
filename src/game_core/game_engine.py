@@ -11,7 +11,7 @@ from src.game_core.menu.end_game_menu import EndGameMenu
 from src.game_core.menu.pause_menu import PauseMenu
 from src.game_core.managers.spell_manager import SpellManager
 from src.game_core.managers.tower_manager import TowerManager
-from src.assets.asset_manager import AssetManager
+from assets.asset_manager import AssetManager
 import src.game_core.game_stats as stats
 from src.enum.game_state import GameState
 

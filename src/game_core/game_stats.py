@@ -1,5 +1,5 @@
 import pygame
-from src.assets.asset_manager import AssetManager
+from assets.asset_manager import AssetManager
 from src.constants.colors import LIGHT_BROWN
 
 

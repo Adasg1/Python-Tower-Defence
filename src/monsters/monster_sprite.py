@@ -1,7 +1,7 @@
 import pygame
 import random
 
-from src.assets.asset_manager import AssetManager
+from assets.asset_manager import AssetManager
 from src.constants.colors import GREEN, RED
 
 

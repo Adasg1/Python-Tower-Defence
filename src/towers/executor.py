@@ -1,11 +1,9 @@
-import pygame.image
-
 from src.monsters.knight_boss import KnightBoss
 from src.monsters.yetti_boss import YettiBoss
 from src.projectiles.thunderbolt import ThunderBolt
 from src.towers.tower import Tower
 from src.enum.tower_type import TowerType
-from src.assets.asset_manager import AssetManager
+from assets.asset_manager import AssetManager
 
 
 class Executor(Tower):

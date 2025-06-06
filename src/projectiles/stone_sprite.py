@@ -1,8 +1,7 @@
-import pygame
 from math import dist
 from pygame import Vector2
 from src.projectiles.projectile import Projectile
-from src.assets.asset_manager import AssetManager
+from assets.asset_manager import AssetManager
 from math import floor
 
 class StoneSprite(Projectile):

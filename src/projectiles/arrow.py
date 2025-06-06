@@ -1,7 +1,7 @@
 import pygame
 
 from src.projectiles.projectile import Projectile
-from src.assets.asset_manager import AssetManager
+from assets.asset_manager import AssetManager
 
 class Arrow(Projectile):
     def __init__(self, x, y, monster, damage):

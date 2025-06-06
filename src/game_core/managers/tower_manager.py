@@ -2,13 +2,12 @@ import pygame
 
 from src.enum.tower_type import TowerType
 from src.towers.tower_spot import TowerSpot
-from src.towers.tower_sprite import TowerSprite
 from src.towers.archer import Archer
 from src.towers.ice import Ice
 from src.towers.stone import Stone
 from src.towers.bank import Bank
 from src.towers.executor import Executor
-from src.assets.asset_manager import AssetManager
+from assets.asset_manager import AssetManager
 
 
 class TowerManager:

@@ -1,10 +1,8 @@
-from tkinter import Menu
-
 import pygame
 
 from src.constants.colors import LIGHT_BROWN
 from src.enum.game_state import GameState
-from src.assets.asset_manager import AssetManager
+from assets.asset_manager import AssetManager
 
 class EndGameMenu():
     def __init__(self, game_context):
