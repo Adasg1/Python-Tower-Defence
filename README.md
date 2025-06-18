@@ -45,8 +45,14 @@ python main.py
 
 ## ⚠️ Note
 
-The folder `assets/images/` was removed due to potential copyright concerns. The project will not work correctly.
-If you want to play a game, you can download it here: 
+The folder `assets/images/` has been removed from this repository due to potential copyright concerns.
+Because of this, the game will not run correctly if launched from source.
+
+If you want to try the game without adding your own assets, you can download the executable version here:
+https://github.com/Adasg1/Python-Tower-Defence/releases/tag/v1.0.0
+
+Download the pre-built executable to play without setting up the environment.
+Alternatively, you can add your own compatible image assets to the `assets/images/` folder before running the game.
 
 
 ## 👤 Author
